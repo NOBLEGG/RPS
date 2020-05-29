@@ -1,17 +1,10 @@
+// 애플리케이션의 진입점으로, 리액트 최상위 컴포넌트를 DOM에 mounting
+
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import 'index.css';
-import BaseLayout from 'BaseLayout';
-import * as serviceWorker from 'serviceWorker';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <BaseLayout />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import Root from 'containers/Root';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(<Root />, document.getElementById('root'));
