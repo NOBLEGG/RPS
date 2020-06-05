@@ -5,13 +5,13 @@ import { Provider } from 'react-redux';
 
 import { Route, BrowserRouter } from 'react-router-dom';
 
-import Home from 'presentations/Home';
+import HomeContainer from 'containers/HomeContainer';
 
 const Root = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={HomeContainer} />
       </BrowserRouter>
     </Provider>
   );

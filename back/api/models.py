@@ -5,4 +5,5 @@ class Notice(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     content = models.TextField()
-    view = models.PositiveIntegerField()
+    view = models.PositiveIntegerField(default=0, editable=False)
+
