@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, Nav, NavDropdown, Table } from 'react-bootstrap';
 
 const Home = () => {
     return (
@@ -28,7 +28,19 @@ const Home = () => {
                 </Row>
                 <Row>
                     <Col></Col>
-                    <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}></Col>
+                    <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                        <Table striped bordered size="sm">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>날짜</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </Table>
+                    </Col>
                     <Col></Col>
                 </Row>
                 <Row>

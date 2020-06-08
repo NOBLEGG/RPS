@@ -45,7 +45,7 @@ code {
 }
 
 .container-true .row:nth-child(2) {
-  background-color: #F6B352;
+  /* background-color: #F6B352; */
   height: 100%;
 }
 
