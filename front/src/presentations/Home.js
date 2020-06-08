@@ -27,9 +27,9 @@ const Home = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>Left side</Col>
-                    <Col xs={8}></Col>
-                    <Col>Right side</Col>
+                    <Col></Col>
+                    <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}></Col>
+                    <Col></Col>
                 </Row>
                 <Row>
                     <Col>
