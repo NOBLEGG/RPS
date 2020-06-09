@@ -7,3 +7,5 @@ class Notice(models.Model):
     content = models.TextField()
     view = models.PositiveIntegerField(default=0, editable=False)
 
+    def __str__(self):
+        return self.title
