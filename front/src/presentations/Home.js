@@ -1,7 +1,12 @@
 import React from 'react';
 import { Container, Row, Col, Navbar, Nav, NavDropdown, Table } from 'react-bootstrap';
 
-const Home = () => {
+const Home = ({
+    list
+}) => {
+    const listItem = list.map(
+        (item) => <tr key={item.id}><th>{item.id}</th><th>{item.title}</th><th>{item.created_at}</th></tr>
+    );
     return (
         <div>
             <Container fluid="true">
@@ -38,6 +43,7 @@ const Home = () => {
                                 </tr>
                             </thead>
                             <tbody>
+                                {listItem}
                             </tbody>
                         </Table>
                     </Col>
@@ -45,7 +51,7 @@ const Home = () => {
                 </Row>
                 <Row>
                     <Col>
-                        <footer class="bg-dark">
+                        <footer className="bg-dark">
                             <p>footer</p>
                         </footer>
                     </Col>

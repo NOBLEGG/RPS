@@ -2,20 +2,22 @@
 
 import React from 'react';
 
-import store from 'store';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import combineReducers from 'modules/index';
+import combineReducers, { rootSaga } from 'modules/index';
+
+import createSagaMiddleware from 'redux-saga';
 
 import { Route, BrowserRouter } from 'react-router-dom';
 
 import HomeContainer from 'containers/HomeContainer';
 
-const store = createStore(combineReducers);
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(combineReducers, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(rootSaga);
 
 const Root = () => {
   return (
-    // 아래 컴포넌트에서 스토어를 사용할 수 있게 해 줌
     <Provider store={store}>
       <BrowserRouter>
         <Route exact path="/" component={HomeContainer} />
