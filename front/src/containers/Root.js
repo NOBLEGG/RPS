@@ -11,6 +11,7 @@ import createSagaMiddleware from 'redux-saga';
 import { Route, BrowserRouter } from 'react-router-dom';
 
 import HomeContainer from 'containers/HomeContainer';
+import HomeDetailContainer from 'containers/HomeDetailContainer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers, applyMiddleware(sagaMiddleware));
@@ -21,6 +22,7 @@ const Root = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Route exact path="/" component={HomeContainer} />
+        <Route path="/:id" component={HomeDetailContainer} />
       </BrowserRouter>
     </Provider>
   );
