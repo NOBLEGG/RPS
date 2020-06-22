@@ -2,7 +2,8 @@ import React from 'react';
 import { Container, Row, Col, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 const HomeDetail = ({
-    item
+    item,
+    query
 }) => {
     return (
         <div>
@@ -32,9 +33,9 @@ const HomeDetail = ({
                     <Col></Col>
                     <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
                         <article>
-                            <h2>{item.title}</h2>
+                            <h2>{query.title ? query.title : item.title}</h2>
                             <hr></hr>
-                            <p>{item.content}</p>
+                            <p>{query.title ? query.content : item.content}</p>
                         </article>
                     </Col>
                     <Col></Col>
@@ -48,7 +49,7 @@ const HomeDetail = ({
                 </Row>
             </Container>
         </div>
-    );
+    ); 
 };
 
 export default HomeDetail;

@@ -1,12 +1,23 @@
 import React from 'react';
 import { Container, Row, Col, Navbar, Nav, NavDropdown, Table } from 'react-bootstrap';
 
+import { Link } from 'react-router-dom';
+
 const Home = ({
     list
 }) => {
-    const listItem = list.map(
-        (item) => <tr key={item.id}><th>{item.id}</th><th>{item.title}</th><th>{item.created_at}</th></tr>
+    const dateFormatter = (data) => {
+        return data.substring(0, 10);
+    };
+
+    const listItem = list.map((item) =>
+        <tr key={item.id}>
+            <th style={{textAlign: "center"}}>{item.id}</th>
+            <th><Link to={{pathname: `/${item.id}`, search: `?title=${item.title}&content=${item.content}`}}>{item.title}</Link></th>
+            <th style={{textAlign: "center"}}>{dateFormatter(item.created_at)}</th>
+        </tr>
     );
+
     return (
         <div>
             <Container fluid="true">
@@ -37,9 +48,9 @@ const Home = ({
                         <Table striped bordered size="sm">
                             <thead>
                                 <tr>
-                                    <th>번호</th>
-                                    <th>제목</th>
-                                    <th>날짜</th>
+                                    <th style={{textAlign: "center"}}>번호</th>
+                                    <th style={{textAlign: "center"}}>제목</th>
+                                    <th style={{textAlign: "center"}}>날짜</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -11,7 +11,7 @@ const HomeContainer = () => {
 
     useEffect(() => {
         dispatch(homeActions.getList());
-    }, []);
+    }, [dispatch]);
 
     return (
         <Home
