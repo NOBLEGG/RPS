@@ -59,3 +59,7 @@ footer {
 #main-layout {
   background-color: #F68657;
 }
+
+thead tr {
+  text-align: center;
+}

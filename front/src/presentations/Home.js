@@ -1,22 +1,32 @@
 import React from 'react';
-import { Container, Row, Col, Navbar, Nav, NavDropdown, Table } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 const Home = ({
     list
 }) => {
-    const dateFormatter = (data) => {
-        return data.substring(0, 10);
-    };
-
-    const listItem = list.map((item) =>
-        <tr key={item.id}>
-            <th style={{textAlign: "center"}}>{item.id}</th>
-            <th><Link to={{pathname: `/${item.id}`, search: `?title=${item.title}&content=${item.content}`}}>{item.title}</Link></th>
-            <th style={{textAlign: "center"}}>{dateFormatter(item.created_at)}</th>
-        </tr>
-    );
+    const columns = [{
+        dataField: 'id',
+        text: '번호',
+        style: {textAlign: 'center'}
+    }, {
+        dataField: 'title',
+        text: '제목',
+        formatter: (row, cell) => {
+            return <Link to={{pathname: `/${cell.id}`, search: `?title=${cell.title}&content=${cell.content}`}}>{cell.title}</Link>;
+        }
+    }, {
+        dataField: 'created_at',
+        text: '등록일',
+        style: {textAlign: 'center'},
+        formatter: (cell) => {
+            const temp = cell.substring(0, 10);
+            return temp;
+        }
+    }];
 
     return (
         <div>
@@ -45,18 +55,7 @@ const Home = ({
                 <Row>
                     <Col></Col>
                     <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                        <Table striped bordered size="sm">
-                            <thead>
-                                <tr>
-                                    <th style={{textAlign: "center"}}>번호</th>
-                                    <th style={{textAlign: "center"}}>제목</th>
-                                    <th style={{textAlign: "center"}}>날짜</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {listItem}
-                            </tbody>
-                        </Table>
+                        <BootstrapTable keyField='id' data={list} columns={columns} pagination={paginationFactory()} />
                     </Col>
                     <Col></Col>
                 </Row>
