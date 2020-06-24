@@ -1,9 +1,8 @@
 import React from 'react';
-import { Container, Row, Col, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Container, Row, Col, Image } from 'react-bootstrap';
 
-const HomeDetail = ({
-    item,
-    query
+const Ironclad = ({
+
 }) => {
     return (
         <div>
@@ -11,11 +10,7 @@ const HomeDetail = ({
                 <Row>
                     <Col></Col>
                     <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                        <article>
-                            <h2>{query.title ? query.title : item.title}</h2>
-                            <hr></hr>
-                            <p>{query.title ? query.content : item.content}</p>
-                        </article>
+                        <Image id="character-img" src="ironclad.jpg" roundedCircle />
                     </Col>
                     <Col></Col>
                 </Row>
@@ -28,7 +23,7 @@ const HomeDetail = ({
                 </Row>
             </Container>
         </div>
-    ); 
+    );
 };
 
-export default HomeDetail;
+export default Ironclad;

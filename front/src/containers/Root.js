@@ -8,10 +8,12 @@ import combineReducers, { rootSaga } from 'modules/index';
 
 import createSagaMiddleware from 'redux-saga';
 
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
+import NavBar from 'presentations/NavBar';
 import HomeContainer from 'containers/HomeContainer';
 import HomeDetailContainer from 'containers/HomeDetailContainer';
+import IroncladContainer from 'containers/IroncladContainer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers, applyMiddleware(sagaMiddleware));
@@ -21,8 +23,13 @@ const Root = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Route exact path="/" component={HomeContainer} />
-        <Route path="/:id" component={HomeDetailContainer} />
+        <NavBar />
+        <Switch>
+          <Route exact path="/" component={HomeContainer} />
+          <Route exact path="/ironclad" component={IroncladContainer} />  
+
+          <Route exact path="/:id" component={HomeDetailContainer} />
+        </Switch>
       </BrowserRouter>
     </Provider>
   );
