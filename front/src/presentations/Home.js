@@ -26,6 +26,9 @@ const Home = ({
             const temp = cell.substring(0, 10);
             return temp;
         }
+    }, {
+        dataField: 'view',
+        text: '조회수'
     }];
 
     return (

@@ -19,7 +19,7 @@ const GET_DETAIL_SUCCESS = 'home/GET_DETAIL_SUCCESS';
 const GET_DETAIL_FAILURE = 'home/GET_DETAIL_FAILURE';
 
 export const getList = createAction(GET_LIST);
-export const getDetail = createAction(GET_DETAIL, id => id);
+export const getDetail = createAction(GET_DETAIL);
 
 function* getListSaga() {
     try {
