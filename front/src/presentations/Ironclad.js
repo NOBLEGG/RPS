@@ -11,6 +11,7 @@ const Ironclad = ({
                     <Col></Col>
                     <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
                         <Image id="character-img" src="ironclad.jpg" roundedCircle />
+                        
                     </Col>
                     <Col></Col>
                 </Row>
