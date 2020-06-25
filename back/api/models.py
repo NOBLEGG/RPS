@@ -12,6 +12,7 @@ class Notice(models.Model):
         return self.title
 
 class Opinion(models.Model):
+    subject = models.CharField(max_length=50)
     writer = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
