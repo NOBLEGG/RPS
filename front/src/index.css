@@ -54,7 +54,54 @@ thead tr {
   display: none;
 }
 
+
 #character-img {
   width: 25%;
   height: 25%;
 }
+
+/* StarRating Start */
+
+.hide {
+  display: none;
+}
+
+/*
+.clear {
+  float: none;
+  clear: both;
+}
+*/
+
+.rating {
+  text-align: center;
+
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
+
+.rating > label {
+  position: relative;
+
+  margin: 0;
+
+  cursor: pointer;
+}
+
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
+  color: transparent;
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating > input.radio-btn:checked ~ label:before,
+.rating > input.radio-btn:checked ~ label:before {
+  content: "\2605";
+  position: absolute;
+  left: 0;
+  color: #FFD700;
+}
+
+/* StarRating End */

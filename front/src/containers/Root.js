@@ -14,6 +14,7 @@ import NavBar from 'presentations/NavBar';
 import HomeContainer from 'containers/HomeContainer';
 import HomeDetailContainer from 'containers/HomeDetailContainer';
 import IroncladContainer from 'containers/IroncladContainer';
+import OpinionContainer from 'containers/OpinionContainer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers, applyMiddleware(sagaMiddleware));
@@ -26,7 +27,8 @@ const Root = () => {
         <NavBar />
         <Switch>
           <Route exact path="/" component={HomeContainer} />
-          <Route exact path="/ironclad" component={IroncladContainer} />  
+          <Route exact path="/ironclad" component={IroncladContainer} />
+          <Route exact path="/opinion/:subject" component={OpinionContainer} />
 
           <Route exact path="/:id" component={HomeDetailContainer} />
         </Switch>

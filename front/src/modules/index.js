@@ -3,12 +3,14 @@
 
 import { combineReducers } from 'redux';
 import home, { homeSaga } from 'modules/home';
+import character, { characterSaga } from 'modules/character';
 import { all } from 'redux-saga/effects';
 
 export function* rootSaga() {
-    yield all([homeSaga()]);
+    yield all([homeSaga(), characterSaga()]);
 }
 
 export default combineReducers({
-    home
+    home,
+    character
 });

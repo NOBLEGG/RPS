@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Notice
+from .models import Notice, Opinion
 
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,3 +12,18 @@ class NoticeSerializer(serializers.ModelSerializer):
             'view',
         )
         model = Notice
+
+class OpinionSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'subject',
+            'writer',
+            'created_at',
+            'content',
+            'score',
+            'pro',
+            'con',
+            'archetype',
+        )
+        model = Opinion

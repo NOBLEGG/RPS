@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
+
+import { Container, Row, Col } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
