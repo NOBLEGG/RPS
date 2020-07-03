@@ -23,7 +23,7 @@ export const getList = createAction(GET_LIST);
 
 function* postFormSaga(action) {
     try {
-        const response = yield call(postFormAPI, action.payload);
+        const response = yield call(postFormAPI, action.payload[1], action.payload[0]);
         yield put({ type: POST_FORM_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: POST_FORM_FAILURE, payload: e });
@@ -51,8 +51,9 @@ export function* characterSaga() {
 export default handleActions(
     {
         [POST_FORM_SUCCESS]: (state, action) => {
+            const temp = action.payload.data;
             return {
-                
+                list: temp
             };
         },
         [GET_LIST_SUCCESS]: (state, action) => {

@@ -7,7 +7,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import { useForm, Controller } from 'react-hook-form';
 
 const Opinion = ({
-    list,
+    data,
     postForm
 }) => {
     const { handleSubmit, control } = useForm();
@@ -50,18 +50,18 @@ const Opinion = ({
                                         <Controller
                                             as={
                                                 <div className="rating">
-                                                <input id="star5" name="star" type="radio" value="5" className="radio-btn hide" />
-                                                <label htmlFor="star5">☆</label>
-                                                <input id="star4" name="star" type="radio" value="4" className="radio-btn hide" />
-                                                <label htmlFor="star4">☆</label>
-                                                <input id="star3" name="star" type="radio" value="3" className="radio-btn hide" />
-                                                <label htmlFor="star3">☆</label>
-                                                <input id="star2" name="star" type="radio" value="2" className="radio-btn hide" />
-                                                <label htmlFor="star2">☆</label>
-                                                <input id="star1" name="star" type="radio" value="1" className="radio-btn hide" />
-                                                <label htmlFor="star1">☆</label>
-                                                <div className="clear"></div>
-                                            </div>
+                                                    <input id="star5" name="star" type="radio" value="5" className="radio-btn hide" />
+                                                    <label htmlFor="star5">☆</label>
+                                                    <input id="star4" name="star" type="radio" value="4" className="radio-btn hide" />
+                                                    <label htmlFor="star4">☆</label>
+                                                    <input id="star3" name="star" type="radio" value="3" className="radio-btn hide" />
+                                                    <label htmlFor="star3">☆</label>
+                                                    <input id="star2" name="star" type="radio" value="2" className="radio-btn hide" />
+                                                    <label htmlFor="star2">☆</label>
+                                                    <input id="star1" name="star" type="radio" value="1" className="radio-btn hide" />
+                                                    <label htmlFor="star1">☆</label>
+                                                    <div className="clear"></div>
+                                                </div>
                                             }
                                             control={control}
                                             name="score"
@@ -89,7 +89,7 @@ const Opinion = ({
                             </Form.Row>
                         </Form>
                         <hr />
-                        <BootstrapTable keyField='id' data={list} columns={columns} pagination={paginationFactory()} />
+                        <BootstrapTable keyField='id' data={data} columns={columns} pagination={paginationFactory()} />
                     </Col>
                     <Col></Col>
                 </Row>

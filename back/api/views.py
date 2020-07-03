@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
 
 from rest_framework import generics, serializers
 from rest_framework.views import APIView
@@ -28,23 +29,23 @@ class NoticeDetailView(generics.RetrieveAPIView):
 
 class OpinionView(APIView):
     def get(self, request, obj):
-        queryset = Opinion.objects.filter(subject=self.kwargs['obj'])
-        serializers_class = OpinionSerializer
+        queryset = Opinion.objects.all().filter(subject=obj)
+        serializer = OpinionSerializer(queryset, many=True)
 
-        return Response(queryset)
+        return Response(serializer.data)
 
-    def post(self, request):
-        opinion = OpinionForm()
+    def post(self, request, obj):
+        opinion = Opinion()
+        opinion.subject = obj
+        opinion.writer = request.data.get('writer')
+        opinion.content = request.data.get('content')
+        opinion.score = request.data.get('score')
 
-        logger.warn(opinion)
+        queryset = Opinion.objects.all().filter(subject=obj)
+        serializer = OpinionSerializer(queryset, many=True)
 
-        serializer = OpinionSerializer(opinion, data=request.data)
-
-        logger.warn(serializer)
-
-        if not serializer.is_valid():
-            return serializer.errors
-
-        serializer.save()
-
-        return redirect('OpinionView', request='GET')
+        try:
+            opinion.save()
+            return Response(serializer.data)
+        except:
+            return HttpResponse(status=404)

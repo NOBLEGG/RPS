@@ -9,26 +9,10 @@ import { useForm } from 'react-hook-form';
 // 렌더링에 필요한 데이터를 fetching
 const OpinionContainer = ({match}) => {
     const dispatch = useDispatch();
-    const list = useSelector(state => state.character.list);
-
-    /*
-    const { register, handleSubmit, control } = useForm();
-    const postForm = data => {
-        dispatch(characterActions.postForm(match.params.subject));
-    };
-    */
+    const data = useSelector(state => state.character.list);
 
     const postForm = (value) => {
-        console.log(value);
-        setTimeout(function() {
-            alert('TIME OUT');
-        }, 10000);
-        
-        /*
-        useEffect(() => {
-            dispatch(characterActions.postForm(match.params.subject));
-        }, [dispatch, match.params.subject]);
-        */
+        dispatch(characterActions.postForm([value, match.params.subject]));
     }
 
     useEffect(() => {
@@ -37,7 +21,7 @@ const OpinionContainer = ({match}) => {
 
     return (
         <Opinion 
-            list={list}
+            data={data}
             postForm={postForm}
         />
     );
