@@ -1,5 +1,4 @@
 from djongo import models
-from django import forms
 
 class Notice(models.Model):
     title = models.CharField(max_length=50)
@@ -19,4 +18,7 @@ class Opinion(models.Model):
     score = models.PositiveSmallIntegerField()
     pro = models.PositiveSmallIntegerField(default=0)
     con = models.PositiveSmallIntegerField(default=0)
-    archetype = models.TextField()
+    archetype = models.BooleanField(default=False)
+    title = models.CharField(max_length=50)
+    recommend_card = models.TextField()
+    recommend_relic = models.TextField()

@@ -6,11 +6,11 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 
 import { useForm, Controller } from 'react-hook-form';
 
-const Opinion = ({
+const Archetype = ({
     data,
     postForm
 }) => {
-    const { handleSubmit, control } = useForm();
+    const { handleSubmit, control, register } = useForm();
 
     const columns = [{
         dataField: 'writer',
@@ -33,7 +33,21 @@ const Opinion = ({
                     <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
                         <Form onSubmit={handleSubmit(postForm)}>
                             <Form.Row>
-                                <Col sm={10}>
+                                <Col>
+                                    <Form.Group>
+                                        <Controller
+                                            as={
+                                                <Form.Control placeholder="제목" />
+                                            }
+                                            name="title"
+                                            control={control}
+                                            rules={{ required: true }}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
                                     <Form.Group>
                                         <Controller
                                             as={
@@ -45,7 +59,48 @@ const Opinion = ({
                                         />
                                     </Form.Group>
                                 </Col>
-                                <Col sm={2}>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Controller
+                                            as={
+                                                <Form.Control as="textarea" placeholder="내용을 입력해 주세요" rows="2" />
+                                            }
+                                            name="content"
+                                            control={control}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Controller
+                                            as={
+                                                <Form.Control placeholder="권장 카드를 입력해 주세요" />
+                                            }
+                                            name="recommend_card"
+                                            control={control}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Controller
+                                            as={
+                                                <Form.Control placeholder="권장 유물을 입력해 주세요" />
+                                            }
+                                            name="recommend_relic"
+                                            control={control}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col sm={10}>
                                     <Form.Group>
                                         <Controller
                                             as={
@@ -68,19 +123,7 @@ const Opinion = ({
                                         />
                                     </Form.Group>
                                 </Col>
-                            </Form.Row>
-                            <Form.Row>
-                                <Col sm={10}>
-                                    <Form.Group>
-                                        <Controller
-                                            as={
-                                                <Form.Control as="textarea" placeholder="내용을 입력해 주세요" rows="2" />
-                                            }
-                                            name="content"
-                                            control={control}
-                                        />
-                                    </Form.Group>
-                                </Col>
+                                <input type="hidden" name="archetype" value="True" ref={register} />
                                 <Col sm={2}>
                                     <Button variant="primary" type="submit">
                                         등록
@@ -105,4 +148,4 @@ const Opinion = ({
     );
 };
 
-export default Opinion;
+export default Archetype;

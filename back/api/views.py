@@ -6,7 +6,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Notice, Opinion
-from .forms import OpinionForm
 from .serializers import NoticeSerializer, OpinionSerializer
 
 import logging
@@ -42,6 +41,33 @@ class OpinionView(APIView):
         opinion.score = request.data.get('score')
 
         queryset = Opinion.objects.all().filter(subject=obj)
+        serializer = OpinionSerializer(queryset, many=True)
+
+        try:
+            opinion.save()
+            return Response(serializer.data)
+        except:
+            return HttpResponse(status=404)
+
+class ArchetypeView(APIView):
+    def get(self, request, obj):
+        queryset = Opinion.objects.all().filter(subject=obj).filter(archetype=True)
+        serializer = OpinionSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+    def post(self, request, obj):
+        opinion = Opinion()
+        opinion.subject = obj
+        opinion.writer = request.data.get('writer')
+        opinion.content = request.data.get('content')
+        opinion.score = request.data.get('score')
+        opinion.archetype = request.data.get('archetype')
+        opinion.title = request.data.get('title')
+        opinion.recommend_card = request.data.get('recommend_card')
+        opinion.recommend_relic = request.data.get('recommend_relic')
+
+        queryset = Opinion.objects.all().filter(subject=obj).filter(archetype=True)
         serializer = OpinionSerializer(queryset, many=True)
 
         try:
