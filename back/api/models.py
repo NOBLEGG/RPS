@@ -22,3 +22,17 @@ class Opinion(models.Model):
     title = models.CharField(max_length=50)
     recommend_card = models.TextField()
     recommend_relic = models.TextField()
+
+class CardRelic(models.Model):
+    name = models.CharField(max_length=50)
+    eng_name = models.CharField(max_length=50)
+    opinion = models.ArrayField(model_container=Opinion)
+    img = models.ImageField()
+    effect = models.TextField()
+    keyword = models.TextField()
+    card = models.BooleanField(default=False)
+    rarity = models.TextField(max_length=20)
+    kind = models.TextField(max_length=20)
+    cost = models.PositiveSmallIntegerField()
+    relic = models.BooleanField(default=False)
+    flavor_text = models.TextField()
