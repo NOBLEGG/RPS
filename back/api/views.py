@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.http import HttpResponse
 
 from rest_framework import generics, serializers
 from rest_framework.views import APIView
@@ -26,9 +26,19 @@ class NoticeDetailView(generics.RetrieveAPIView):
 
         return Notice.objects.filter(id=self.kwargs['pk'])
 
+class CharacterView(APIView):
+    def get(self, request, obj):
+        opinion = Opinion.objects.all().filter(subject=obj).filter(archetype=False).order_by('-pro', '-con')[0:3]
+        archetype = Opinion.objects.all().filter(subject=obj).filter(archetype=True).order_by('-pro', '-con')[0:3]
+
+        opinion_serializer = OpinionSerializer(opinion, many=True)
+        archetype_serializer = OpinionSerializer(archetype, many=True)
+
+        return Response([opinion_serializer.data, archetype_serializer.data])
+
 class OpinionView(APIView):
     def get(self, request, obj):
-        queryset = Opinion.objects.all().filter(subject=obj)
+        queryset = Opinion.objects.all().filter(subject=obj).filter(archetype=False)
         serializer = OpinionSerializer(queryset, many=True)
 
         return Response(serializer.data)
@@ -40,7 +50,7 @@ class OpinionView(APIView):
         opinion.content = request.data.get('content')
         opinion.score = request.data.get('score')
 
-        queryset = Opinion.objects.all().filter(subject=obj)
+        queryset = Opinion.objects.all().filter(subject=obj).filter(archetype=False)
         serializer = OpinionSerializer(queryset, many=True)
 
         try:

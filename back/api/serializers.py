@@ -25,5 +25,8 @@ class OpinionSerializer(serializers.ModelSerializer):
             'pro',
             'con',
             'archetype',
+            'title',
+            'recommend_card',
+            'recommend_relic'
         )
         model = Opinion

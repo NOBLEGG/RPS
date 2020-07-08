@@ -28,7 +28,7 @@ const Root = () => {
         <NavBar />
         <Switch>
           <Route exact path="/" component={HomeContainer} />
-          <Route exact path="/ironclad" component={IroncladContainer} />
+          <Route exact path="/:subject" component={IroncladContainer} />
           <Route exact path="/opinion/:subject" component={OpinionContainer} />
           <Route exact path="/archetype/:subject" component={ArchetypeContainer} />
 

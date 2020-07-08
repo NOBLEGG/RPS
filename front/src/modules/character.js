@@ -2,6 +2,10 @@ import axios from 'axios';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
+function getCharacterAPI(subject) {
+    return axios.get('http://localhost:8000/' + subject + '/');
+}
+
 function postOpinionFormAPI(subject, data) {
     return axios.post('http://localhost:8000/opinion/' + subject + '/', data);
 }
@@ -17,6 +21,10 @@ function postArchetypeFormAPI(subject, data) {
 function getArchetypeListAPI(subject) {
     return axios.get('http://localhost:8000/archetype/' + subject + '/');
 }
+
+const GET_CHARACTER = 'character/GET_CHARACTER';
+const GET_CHARACTER_SUCCESS = 'character/GET_CHARACTER_SUCCESS';
+const GET_CHARACTER_FAILURE = 'character/GET_CHARACTER_FAILURE';
 
 const POST_OPINION_FORM = 'character/POST_OPINION_FORM';
 const POST_OPINION_FORM_SUCCESS = 'character/POST_OPINION_FORM_SUCCESS';
@@ -34,11 +42,22 @@ const GET_ARCHETYPE_LIST = 'character/GET_ARCHETYPE_LIST';
 const GET_ARCHETYPE_LIST_SUCCESS = 'character/GET_ARCHETYPE_LIST_SUCCESS';
 const GET_ARCHETYPE_LIST_FAILURE = 'character/GET_ARCHETYPE_LIST_FAILURE';
 
+export const getCharacter = createAction(GET_CHARACTER);
+
 export const postOpinionForm = createAction(POST_OPINION_FORM);
 export const getOpinionList = createAction(GET_OPINION_LIST);
 
 export const postArchetypeForm = createAction(POST_ARCHETYPE_FORM);
 export const getArchetypeList = createAction(GET_ARCHETYPE_LIST);
+
+function* getCharacterSaga(action) {
+    try {
+        const response = yield call(getCharacterAPI, action.payload);
+        yield put({ type: GET_CHARACTER_SUCCESS, payload: response });
+    } catch (e) {
+        yield put({ type: GET_CHARACTER_FAILURE, payload: e });
+    }
+}
 
 function* postOpinionFormSaga(action) {
     try {
@@ -81,6 +100,8 @@ const initialState = {
 };
 
 export function* characterSaga() {
+    yield takeEvery('character/GET_CHARACTER', getCharacterSaga);
+
     yield takeEvery('character/POST_OPINION_FORM', postOpinionFormSaga);
     yield takeEvery('character/GET_OPINION_LIST', getOpinionListSaga);
 
@@ -90,6 +111,12 @@ export function* characterSaga() {
 
 export default handleActions(
     {
+        [GET_CHARACTER_SUCCESS]: (state, action) => {
+            const temp = action.payload.data;
+            return {
+                list: temp
+            };
+        },
         [POST_OPINION_FORM_SUCCESS]: (state, action) => {
             const temp = action.payload.data;
             return {
