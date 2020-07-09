@@ -34,13 +34,13 @@ class CardRelic(models.Model):
     name = models.CharField(max_length=50)
     img = models.ImageField()
     effect = models.TextField()
-    keyword = models.ArrayField(model_container=EffectKeyword, null=True)
+    keyword = models.ArrayField(model_container=EffectKeyword, blank=True)
     card = models.BooleanField(default=False)
-    rarity = models.TextField(max_length=20)
-    kind = models.TextField(max_length=20)
+    rarity = models.CharField(max_length=20, blank=True)
+    kind = models.CharField(max_length=20, blank=True)
     cost = models.PositiveSmallIntegerField()
     relic = models.BooleanField(default=False)
-    flavor_text = models.TextField()
+    flavor_text = models.TextField(blank=True)
 
 class Potion(models.Model):
     eng_name = models.CharField(max_length=50, primary_key=True)
