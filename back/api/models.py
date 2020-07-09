@@ -10,6 +10,46 @@ class Notice(models.Model):
     def __str__(self):
         return self.title
 
+class EffectKeyword(models.Model):
+    exhaust = models.BooleanField(default=False)    # 소멸
+    innate = models.BooleanField(default=False)     # 선천성
+    ethereal = models.BooleanField(default=False)   # 휘발성
+    unplayable = models.BooleanField(default=False) # 사용불가
+    retain = models.BooleanField(default=False)     # 보존
+    scry = models.BooleanField(default=False)       # 예지
+    strength = models.BooleanField(default=False)   # 힘
+    dexterity = models.BooleanField(default=False)  # 민첩
+    block = models.BooleanField(default=False)      # 방어도
+    vulnerable = models.BooleanField(default=False) # 취약
+    weak = models.BooleanField(default=False)       # 약화
+    artifact = models.BooleanField(default=False)   # 인공물
+    intangible = models.BooleanField(default=False) # 불가침
+
+    class Meta:
+        abstract = True
+
+# 추후 카드와 유물 간 상관관계에 대해 다룰 필요가 생길 수도 있어서 합침
+class CardRelic(models.Model):
+    eng_name = models.CharField(max_length=50, primary_key=True)
+    name = models.CharField(max_length=50)
+    img = models.ImageField()
+    effect = models.TextField()
+    keyword = models.ArrayField(model_container=EffectKeyword, null=True)
+    card = models.BooleanField(default=False)
+    rarity = models.TextField(max_length=20)
+    kind = models.TextField(max_length=20)
+    cost = models.PositiveSmallIntegerField()
+    relic = models.BooleanField(default=False)
+    flavor_text = models.TextField()
+
+class Potion(models.Model):
+    eng_name = models.CharField(max_length=50, primary_key=True)
+    name = models.CharField(max_length=50)
+    img = models.ImageField()
+    effect = models.TextField()
+    keyword = models.TextField()
+    rarity = models.TextField(max_length=20)
+
 class Opinion(models.Model):
     subject = models.CharField(max_length=50)
     writer = models.CharField(max_length=20)
@@ -22,17 +62,4 @@ class Opinion(models.Model):
     title = models.CharField(max_length=50)
     recommend_card = models.TextField()
     recommend_relic = models.TextField()
-
-class CardRelic(models.Model):
-    name = models.CharField(max_length=50)
-    eng_name = models.CharField(max_length=50)
-    opinion = models.ArrayField(model_container=Opinion)
-    img = models.ImageField()
-    effect = models.TextField()
-    keyword = models.TextField()
-    card = models.BooleanField(default=False)
-    rarity = models.TextField(max_length=20)
-    kind = models.TextField(max_length=20)
-    cost = models.PositiveSmallIntegerField()
-    relic = models.BooleanField(default=False)
-    flavor_text = models.TextField()
+    card_relic = models.ForeignKey(CardRelic, on_delete=models.CASCADE, null=True)

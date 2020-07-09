@@ -13,7 +13,7 @@ const Ironclad = ({
                     <Row>
                         <Col></Col>
                         <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                            <Image id="character-img" src="ironclad.jpg" roundedCircle />
+                            <Image id="character-img" src="ironclad/ironclad.jpg" />
                             <ListGroup as="ul">
                                 <ListGroup.Item><Button><Link to="/opinion/ironclad">+</Link></Button></ListGroup.Item>
                                 {opinion.map((opinion) => <ListGroup.Item key={opinion.id}>{opinion.content}</ListGroup.Item>)}

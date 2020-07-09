@@ -43,6 +43,7 @@ footer {
 }
 
 #main-layout {
+  padding: 0;
   background-color: #F68657;
 }
 
@@ -54,10 +55,8 @@ thead tr {
   display: none;
 }
 
-
 #character-img {
-  width: 25%;
-  height: 25%;
+  width: 100%;
 }
 
 /* StarRating Start */
