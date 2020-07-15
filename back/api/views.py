@@ -5,7 +5,7 @@ from rest_framework import generics, serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Notice, Opinion
+from .models import Notice, Opinion, CardRelic
 from .serializers import NoticeSerializer, OpinionSerializer
 
 import logging

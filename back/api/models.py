@@ -32,6 +32,7 @@ class EffectKeyword(models.Model):
 class CardRelic(models.Model):
     eng_name = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=50)
+    subject = models.CharField(max_length=50)
     img = models.ImageField()
     effect = models.TextField()
     keyword = models.ArrayField(model_container=EffectKeyword, blank=True)
@@ -62,4 +63,4 @@ class Opinion(models.Model):
     title = models.CharField(max_length=50)
     recommend_card = models.TextField()
     recommend_relic = models.TextField()
-    card_relic = models.ForeignKey(CardRelic, on_delete=models.CASCADE, null=True)
+    

@@ -13,16 +13,29 @@ const Ironclad = ({
                     <Row>
                         <Col></Col>
                         <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                            <Image id="character-img" src="ironclad/ironclad.jpg" />
-                            <ListGroup as="ul">
-                                <ListGroup.Item><Button><Link to="/opinion/ironclad">+</Link></Button></ListGroup.Item>
-                                {opinion.map((opinion) => <ListGroup.Item key={opinion.id}>{opinion.content}</ListGroup.Item>)}
-                            </ListGroup>
-                            
-                            <ListGroup as="ul">
-                                <ListGroup.Item><Button><Link to="/archetype/ironclad">+</Link></Button></ListGroup.Item>
-                                {archetype.map((archetype) => <ListGroup.Item key={archetype.id}>{archetype.content}</ListGroup.Item>)}
-                            </ListGroup>
+                            <Row>
+                                <Image id="character-img" src="ironclad.jpg" />
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <ListGroup as="ul">
+                                        <ListGroup.Item><Button><Link to="/opinion/ironclad">+</Link></Button></ListGroup.Item>
+                                        {opinion.map((opinion) => <ListGroup.Item key={opinion.id}>{opinion.content}</ListGroup.Item>)}
+                                    </ListGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                </Col>
+                                <Col>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <ListGroup as="ul">
+                                    <ListGroup.Item><Button><Link to="/archetype/ironclad">+</Link></Button></ListGroup.Item>
+                                    {archetype.map((archetype) => <ListGroup.Item key={archetype.id}>{archetype.content}</ListGroup.Item>)}
+                                </ListGroup>
+                            </Row>
                         </Col>
                         <Col></Col>
                     </Row>
