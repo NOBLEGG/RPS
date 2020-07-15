@@ -4,9 +4,11 @@ import { Container, Row, Col, Image, ListGroup, Button, Spinner } from 'react-bo
 
 const Ironclad = ({
     opinion,
+    card,
     archetype
 }) => {
-    if (opinion !== undefined && archetype !== undefined) {
+    console.log(card);
+    if (opinion !== undefined && card !== undefined && archetype !== undefined) {
         return (
             <div>
                 <Container fluid="true">
@@ -28,6 +30,9 @@ const Ironclad = ({
                                 <Col>
                                 </Col>
                                 <Col>
+                                    <ListGroup as="ul">
+                                        {card.map((card) => <ListGroup.Item key={card.eng_name}>{card.name}</ListGroup.Item>)}
+                                    </ListGroup>
                                 </Col>
                             </Row>
                             <Row>

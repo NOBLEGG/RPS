@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Notice, Opinion, CardRelic
-from .serializers import NoticeSerializer, OpinionSerializer
+from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer
 
 import logging
 
@@ -29,12 +29,14 @@ class NoticeDetailView(generics.RetrieveAPIView):
 class CharacterView(APIView):
     def get(self, request, obj):
         opinion = Opinion.objects.all().filter(subject=obj).filter(archetype=False).order_by('-pro', '-con')[0:3]
+        card = CardRelic.objects.all().filter(subject=obj)
         archetype = Opinion.objects.all().filter(subject=obj).filter(archetype=True).order_by('-pro', '-con')[0:3]
 
         opinion_serializer = OpinionSerializer(opinion, many=True)
+        card_serializer = CardSerializer(card, many=True)
         archetype_serializer = OpinionSerializer(archetype, many=True)
 
-        return Response([opinion_serializer.data, archetype_serializer.data])
+        return Response([opinion_serializer.data, card_serializer.data, archetype_serializer.data])
 
 class OpinionView(APIView):
     def get(self, request, obj):

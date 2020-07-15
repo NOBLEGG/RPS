@@ -11,20 +11,20 @@ class Notice(models.Model):
         return self.title
 
 class EffectKeyword(models.Model):
+    artifact = models.BooleanField(default=False)   # 인공물
+    block = models.BooleanField(default=False)      # 방어도
+    dexterity = models.BooleanField(default=False)  # 민첩
+    ethereal = models.BooleanField(default=False)   # 휘발성
     exhaust = models.BooleanField(default=False)    # 소멸
     innate = models.BooleanField(default=False)     # 선천성
-    ethereal = models.BooleanField(default=False)   # 휘발성
-    unplayable = models.BooleanField(default=False) # 사용불가
+    intangible = models.BooleanField(default=False) # 불가침
     retain = models.BooleanField(default=False)     # 보존
     scry = models.BooleanField(default=False)       # 예지
     strength = models.BooleanField(default=False)   # 힘
-    dexterity = models.BooleanField(default=False)  # 민첩
-    block = models.BooleanField(default=False)      # 방어도
+    unplayable = models.BooleanField(default=False) # 사용불가
     vulnerable = models.BooleanField(default=False) # 취약
     weak = models.BooleanField(default=False)       # 약화
-    artifact = models.BooleanField(default=False)   # 인공물
-    intangible = models.BooleanField(default=False) # 불가침
-
+    
     class Meta:
         abstract = True
 
@@ -63,4 +63,3 @@ class Opinion(models.Model):
     title = models.CharField(max_length=50)
     recommend_card = models.TextField()
     recommend_relic = models.TextField()
-    

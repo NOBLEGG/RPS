@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Notice, Opinion
+from .models import Notice, Opinion, CardRelic
 
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,9 +9,25 @@ class NoticeSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'content',
-            'view',
+            'view'
         )
         model = Notice
+
+class CardSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'eng_name',
+            'name',
+            'subject',
+            'img',
+            'effect',
+            'keyword',
+            'card',
+            'rarity',
+            'kind',
+            'cost'
+        )
+        model = CardRelic
 
 class OpinionSerializer(serializers.ModelSerializer):
     class Meta:

@@ -9,7 +9,8 @@ const IroncladContainer = ({match}) => {
     const dispatch = useDispatch();
     const data = useSelector(state => state.character.list);
     const opinion = data[0];
-    const archetype = data[1];
+    const card = data[1];
+    const archetype = data[2];
 
     useEffect(() => {
         dispatch(characterActions.getCharacter(match.params.subject));
@@ -18,6 +19,7 @@ const IroncladContainer = ({match}) => {
     return (
         <Ironclad
             opinion={opinion}
+            card={card}
             archetype={archetype}
         />
     );
