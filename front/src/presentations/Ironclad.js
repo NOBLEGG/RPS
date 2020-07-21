@@ -5,9 +5,9 @@ import { Container, Row, Col, Image, ListGroup, Button, Spinner } from 'react-bo
 const Ironclad = ({
     opinion,
     card,
-    archetype
+    archetype,
+    changeKeyword
 }) => {
-    console.log(card);
     if (opinion !== undefined && card !== undefined && archetype !== undefined) {
         return (
             <div>
@@ -28,6 +28,36 @@ const Ironclad = ({
                             </Row>
                             <Row>
                                 <Col>
+                                    <p className="checkbox-label">등급</p>
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label className="checkbox-label">일반</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label className="checkbox-label">특별</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label className="checkbox-label">희귀</label>
+                                    </div>
+                                    <p className="checkbox-label">키워드</p>
+                                    <div>
+                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'dexterity')} />
+                                        <label className="checkbox-label">민첩</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label className="checkbox-label">방어도</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label className="checkbox-label">보존</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label className="checkbox-label">불가침</label>
+                                    </div>
                                 </Col>
                                 <Col>
                                     <ListGroup as="ul">

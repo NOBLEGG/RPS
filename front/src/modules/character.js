@@ -2,8 +2,20 @@ import axios from 'axios';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
-function getCharacterAPI(subject) {
-    return axios.get('http://localhost:8000/' + subject + '/');
+function getCharacterAPI(subject, keyword) {
+    return axios.get('http://localhost:8000/' + subject + '/', {
+        params: {
+            keyword: keyword
+        }
+    });
+}
+
+function changeKeywordAPI(subject, keyword) {
+    return axios.get('http://localhost:8000/' + subject + '/', {
+        params: {
+            keyword: keyword
+        }
+    });
 }
 
 function postOpinionFormAPI(subject, data) {
@@ -26,6 +38,10 @@ const GET_CHARACTER = 'character/GET_CHARACTER';
 const GET_CHARACTER_SUCCESS = 'character/GET_CHARACTER_SUCCESS';
 const GET_CHARACTER_FAILURE = 'character/GET_CHARACTER_FAILURE';
 
+const CHANGE_KEYWORD = 'character/CHANGE_KEYWORD';
+const CHANGE_KEYWORD_SUCCESS = 'character/CHANGE_KEYWORD_SUCCESS';
+const CHANGE_KEYWORD_FAILURE = 'character/CHANGE_KEYWORD_FAILURE';
+
 const POST_OPINION_FORM = 'character/POST_OPINION_FORM';
 const POST_OPINION_FORM_SUCCESS = 'character/POST_OPINION_FORM_SUCCESS';
 const POST_OPINION_FORM_FAILURE = 'character/POST_OPINION_FORM_FAILURE';
@@ -43,6 +59,7 @@ const GET_ARCHETYPE_LIST_SUCCESS = 'character/GET_ARCHETYPE_LIST_SUCCESS';
 const GET_ARCHETYPE_LIST_FAILURE = 'character/GET_ARCHETYPE_LIST_FAILURE';
 
 export const getCharacter = createAction(GET_CHARACTER);
+export const changeKeyword = createAction(CHANGE_KEYWORD);
 
 export const postOpinionForm = createAction(POST_OPINION_FORM);
 export const getOpinionList = createAction(GET_OPINION_LIST);
@@ -52,10 +69,19 @@ export const getArchetypeList = createAction(GET_ARCHETYPE_LIST);
 
 function* getCharacterSaga(action) {
     try {
-        const response = yield call(getCharacterAPI, action.payload);
+        const response = yield call(getCharacterAPI, action.payload.subject, action.payload.keyword);
         yield put({ type: GET_CHARACTER_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: GET_CHARACTER_FAILURE, payload: e });
+    }
+}
+
+function* changeKeywordSaga(action) {
+    try {
+        const response = yield call(changeKeywordAPI, action.payload.subject, action.payload.keyword);
+        yield put({ type: CHANGE_KEYWORD_SUCCESS, payload: response });
+    } catch (e) {
+        yield put({ type: CHANGE_KEYWORD_FAILURE, payload: e });
     }
 }
 
@@ -96,11 +122,29 @@ function* getArchetypeListSaga(action) {
 }
 
 const initialState = {
-    list: []
+    list: [],
+    keyword: {
+        'artifact': 'FALSE',
+        'block': 'FALSE',
+        'dexterity': 'FALSE',
+        'ethereal': 'FALSE',
+        'exhaust': 'FALSE',
+        'innate': 'FALSE',
+        'intangible': 'FALSE',
+        'retain': 'FALSE',
+        'scry': 'FALSE',
+        'strength': 'FALSE',
+        'unplayable': 'FALSE',
+        'vulnerable': 'FALSE',
+        'weak': 'FALSE',
+        'wound': 'FALSE'
+    }
 };
 
 export function* characterSaga() {
     yield takeEvery('character/GET_CHARACTER', getCharacterSaga);
+
+    yield takeEvery('character/CHANGE_KEYWORD', changeKeywordSaga);
 
     yield takeEvery('character/POST_OPINION_FORM', postOpinionFormSaga);
     yield takeEvery('character/GET_OPINION_LIST', getOpinionListSaga);
@@ -114,6 +158,20 @@ export default handleActions(
         [GET_CHARACTER_SUCCESS]: (state, action) => {
             const temp = action.payload.data;
             return {
+                list: temp,
+                keyword: state.keyword
+            };
+        },
+        [CHANGE_KEYWORD_SUCCESS]: (state, action) => {
+            const temp = action.payload.data;
+            return {
+                list: temp,
+                keyword: state.keyword
+            };
+        },
+        [GET_OPINION_LIST_SUCCESS]: (state, action) => {
+            const temp = action.payload.data;
+            return {
                 list: temp
             };
         },
@@ -123,19 +181,13 @@ export default handleActions(
                 list: temp
             };
         },
-        [GET_OPINION_LIST_SUCCESS]: (state, action) => {
+        [GET_ARCHETYPE_LIST_SUCCESS]: (state, action) => {
             const temp = action.payload.data;
             return {
                 list: temp
             };
         },
         [POST_ARCHETYPE_FORM_SUCCESS]: (state, action) => {
-            const temp = action.payload.data;
-            return {
-                list: temp
-            };
-        },
-        [GET_ARCHETYPE_LIST_SUCCESS]: (state, action) => {
             const temp = action.payload.data;
             return {
                 list: temp

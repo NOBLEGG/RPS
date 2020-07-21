@@ -8,19 +8,29 @@ import * as characterActions from 'modules/character';
 const IroncladContainer = ({match}) => {
     const dispatch = useDispatch();
     const data = useSelector(state => state.character.list);
+    const keyword = useSelector(state => state.character.keyword);
     const opinion = data[0];
     const card = data[1];
     const archetype = data[2];
 
-    useEffect(() => {
-        dispatch(characterActions.getCharacter(match.params.subject));
-    }, [dispatch, match.params.subject]);
+    const changeKeyword = (target) => {
+        if (keyword[target] === 'TRUE')
+            keyword[target] = 'FALSE';
+        else
+            keyword[target] = 'TRUE';
+        dispatch(characterActions.changeKeyword({ subject: match.params.subject, keyword: keyword }));
+    }
 
+    useEffect(() => {
+        dispatch(characterActions.getCharacter({ subject: match.params.subject, keyword: keyword }));
+    }, [dispatch, match.params.subject, keyword]);
+    
     return (
         <Ironclad
             opinion={opinion}
             card={card}
             archetype={archetype}
+            changeKeyword={changeKeyword}
         />
     );
 }
