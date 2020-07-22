@@ -124,20 +124,20 @@ function* getArchetypeListSaga(action) {
 const initialState = {
     list: [],
     keyword: {
-        'artifact': 'FALSE',
-        'block': 'FALSE',
-        'dexterity': 'FALSE',
-        'ethereal': 'FALSE',
-        'exhaust': 'FALSE',
-        'innate': 'FALSE',
-        'intangible': 'FALSE',
-        'retain': 'FALSE',
-        'scry': 'FALSE',
-        'strength': 'FALSE',
-        'unplayable': 'FALSE',
-        'vulnerable': 'FALSE',
-        'weak': 'FALSE',
-        'wound': 'FALSE'
+        "artifact": 0,
+        "block": 0,
+        "dexterity": 0,
+        "ethereal": 0,
+        "exhaust": 0,
+        "innate": 0,
+        "intangible": 0,
+        "retain": 0,
+        "scry": 0,
+        "strength": 0,
+        "unplayable": 0,
+        "vulnerable": 0,
+        "weak": 0,
+        "wound": 0
     }
 };
 

@@ -18,8 +18,6 @@ class NoticeSerializer(serializers.ModelSerializer):
         model = Notice
 
 class CardSerializer(serializers.ModelSerializer):
-    keyword = serializers.JSONField()
-
     class Meta:
         fields = (
             'eng_name',

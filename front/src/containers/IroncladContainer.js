@@ -14,10 +14,10 @@ const IroncladContainer = ({match}) => {
     const archetype = data[2];
 
     const changeKeyword = (target) => {
-        if (keyword[target] === 'TRUE')
-            keyword[target] = 'FALSE';
+        if (keyword[target] === 1)
+            keyword[target] = 0;
         else
-            keyword[target] = 'TRUE';
+            keyword[target] = 1;
         dispatch(characterActions.changeKeyword({ subject: match.params.subject, keyword: keyword }));
     }
 

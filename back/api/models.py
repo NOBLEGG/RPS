@@ -1,6 +1,4 @@
 from djongo import models
-# from django.db import models
-from jsonfield import JSONField
 
 class Notice(models.Model):
     title = models.CharField(max_length=50)
@@ -19,7 +17,7 @@ class CardRelic(models.Model):
     subject = models.CharField(max_length=50)
     img = models.ImageField()
     effect = models.TextField()
-    keyword = JSONField()
+    keyword = models.TextField()
     card = models.BooleanField(default=False)
     rarity = models.CharField(max_length=20, blank=True)
     kind = models.CharField(max_length=20, blank=True)
