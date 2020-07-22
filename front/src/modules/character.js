@@ -3,11 +3,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function getCharacterAPI(subject, keyword) {
-    return axios.get('http://localhost:8000/' + subject + '/', {
-        params: {
-            keyword: keyword
-        }
-    });
+    return axios.get('http://localhost:8000/' + subject + '/');
 }
 
 function changeKeywordAPI(subject, keyword) {
@@ -69,7 +65,7 @@ export const getArchetypeList = createAction(GET_ARCHETYPE_LIST);
 
 function* getCharacterSaga(action) {
     try {
-        const response = yield call(getCharacterAPI, action.payload.subject, action.payload.keyword);
+        const response = yield call(getCharacterAPI, action.payload.subject);
         yield put({ type: GET_CHARACTER_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: GET_CHARACTER_FAILURE, payload: e });

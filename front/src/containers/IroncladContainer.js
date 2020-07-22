@@ -18,12 +18,34 @@ const IroncladContainer = ({match}) => {
             keyword[target] = 0;
         else
             keyword[target] = 1;
-        dispatch(characterActions.changeKeyword({ subject: match.params.subject, keyword: keyword }));
+
+        let one_counter = 0;
+        const keyword_values = Object.values(keyword);
+        for (let i = 0; i < keyword_values.length; i++) {
+            if (keyword_values[i] === 1)
+                one_counter++;
+        }
+
+        if (one_counter > 0) {
+            let new_keyword = "";
+            const keyword_keys = Object.keys(keyword);
+            for (let i = 0; i < keyword_values.length; i++) {
+                if (keyword_values[i] === 1) {
+                    new_keyword += '"' + keyword_keys[i] + '":1';
+                    one_counter--;
+                    if (one_counter !== 0)
+                        new_keyword += ",";
+                }
+            }
+            dispatch(characterActions.changeKeyword({ subject: match.params.subject, keyword: new_keyword }));
+        } else {
+            dispatch(characterActions.getCharacter({ subject: match.params.subject }));
+        }
     }
 
     useEffect(() => {
-        dispatch(characterActions.getCharacter({ subject: match.params.subject, keyword: keyword }));
-    }, [dispatch, match.params.subject, keyword]);
+        dispatch(characterActions.getCharacter({ subject: match.params.subject }));
+    }, [dispatch, match.params.subject]);
     
     return (
         <Ironclad

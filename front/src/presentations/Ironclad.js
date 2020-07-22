@@ -43,20 +43,28 @@ const Ironclad = ({
                                     </div>
                                     <p className="checkbox-label">키워드</p>
                                     <div>
+                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'artifact')} />
+                                        <label className="checkbox-label">인공물</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'block')} />
+                                        <label className="checkbox-label">방어도</label>
+                                    </div>
+                                    <div>
                                         <input type="checkbox" onClick={changeKeyword.bind(this, 'dexterity')} />
                                         <label className="checkbox-label">민첩</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" />
-                                        <label className="checkbox-label">방어도</label>
+                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'ethereal')} />
+                                        <label className="checkbox-label">휘발성</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" />
-                                        <label className="checkbox-label">보존</label>
+                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'vulnerable')} />
+                                        <label className="checkbox-label">취약</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" />
-                                        <label className="checkbox-label">불가침</label>
+                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'weak')} />
+                                        <label className="checkbox-label">약화</label>
                                     </div>
                                 </Col>
                                 <Col>

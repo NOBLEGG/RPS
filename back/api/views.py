@@ -31,7 +31,28 @@ class CharacterView(APIView):
         opinion = Opinion.objects.all().filter(subject=obj).filter(archetype=False).order_by('-pro', '-con')[0:3]
         opinion_serializer = OpinionSerializer(opinion, many=True)
         
+        params = request.GET.get('keyword', '')
+        params_to_list = []
+
+        str_temp = ""
+        for i in range(len(params)):
+            if (params[i] == '1'):
+                str_temp += "1"
+                params_to_list.append(str_temp)
+                str_temp = ""
+            elif (params[i] == ','):
+                str_temp = ""
+            elif (params[i] == '}'):
+                str_temp = ""
+            else:
+                str_temp += params[i]
+
         card = CardRelic.objects.all().filter(subject=obj)
+
+        if len(params_to_list) > 0:
+            for i in params_to_list:
+                card = card.filter(keyword__contains=i)
+
         card_serializer = CardSerializer(card, many=True)
 
         archetype = Opinion.objects.all().filter(subject=obj).filter(archetype=True).order_by('-pro', '-con')[0:3]
