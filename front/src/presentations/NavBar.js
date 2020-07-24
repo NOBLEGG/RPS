@@ -13,7 +13,7 @@ const NavBar = () => {
                     <Nav.Link href="#link">Defect</Nav.Link>
                     <Nav.Link href="#link">Watcher</Nav.Link>
                     <NavDropdown title="General" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#action/3.1">Cards</NavDropdown.Item>
+                        <NavDropdown.Item href="/card">Cards</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">Relics</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.3">Archivements</NavDropdown.Item>
                     </NavDropdown>

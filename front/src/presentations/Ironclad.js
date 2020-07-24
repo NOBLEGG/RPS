@@ -69,7 +69,7 @@ const Ironclad = ({
                                 </Col>
                                 <Col>
                                     <ListGroup as="ul">
-                                        {card.map((card) => <ListGroup.Item key={card.eng_name}>{card.name}</ListGroup.Item>)}
+                                        {card.map((card) => <ListGroup.Item key={card.eng_name}><Link to={`/card/${card.eng_name}`}>{card.name}</Link></ListGroup.Item>)}
                                     </ListGroup>
                                 </Col>
                             </Row>

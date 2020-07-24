@@ -109,3 +109,14 @@ class ArchetypeView(APIView):
             return Response(serializer.data)
         except:
             return HttpResponse(status=404)
+
+class CardDetailView(APIView):
+    def get(self, request, obj):
+        logger.warn(obj)
+        card = CardRelic.objects.get(eng_name=obj)
+        card_serializer = CardSerializer(card)
+
+        opinion = Opinion.objects.all().filter(subject=obj).order_by('-pro', '-con')[0:3]
+        opinion_serializer = OpinionSerializer(opinion, many=True)
+
+        return Response([card_serializer.data, opinion_serializer.data])

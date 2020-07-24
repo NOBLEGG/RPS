@@ -17,7 +17,7 @@ const Home = ({
         dataField: 'title',
         text: '제목',
         formatter: (row, cell) => {
-            return <Link to={{pathname: `/${cell.id}`, search: `?title=${cell.title}&content=${cell.content}`}}>{cell.title}</Link>;
+            return <Link to={{pathname: `/notice/${cell.id}`, search: `?title=${cell.title}&content=${cell.content}`}}>{cell.title}</Link>;
         }
     }, {
         dataField: 'created_at',
