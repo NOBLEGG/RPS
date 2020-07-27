@@ -2,30 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Image, ListGroup, Button, Spinner } from 'react-bootstrap';
 
-const Ironclad = ({
-    opinion,
-    card,
-    archetype,
+const Card = ({
+    cards,
     changeKeyword
 }) => {
-    if (opinion !== undefined && card !== undefined && archetype !== undefined) {
+    if (cards !== undefined) {
         return (
             <div>
                 <Container fluid="true">
                     <Row>
                         <Col></Col>
                         <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                            <Row>
-                                <Image id="character-img" src="../ironclad/ironclad.jpg" />
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <ListGroup as="ul">
-                                        <ListGroup.Item><Button><Link to="/opinion/ironclad">+</Link></Button></ListGroup.Item>
-                                        {opinion.map((opinion) => <ListGroup.Item key={opinion.id}>{opinion.content}</ListGroup.Item>)}
-                                    </ListGroup>
-                                </Col>
-                            </Row>
                             <Row>
                                 <Col>
                                     <p className="checkbox-label">등급</p>
@@ -69,15 +56,9 @@ const Ironclad = ({
                                 </Col>
                                 <Col>
                                     <ListGroup as="ul">
-                                        {card.map((card) => <ListGroup.Item key={card.eng_name}><Link to={`/card/${card.eng_name}`}>{card.name}</Link></ListGroup.Item>)}
+                                        {cards.map((cards) => <ListGroup.Item key={cards.eng_name}><Link to={`/card/${cards.eng_name}`}>{cards.name}</Link></ListGroup.Item>)}
                                     </ListGroup>
                                 </Col>
-                            </Row>
-                            <Row>
-                                <ListGroup as="ul">
-                                    <ListGroup.Item><Button><Link to="/archetype/ironclad">+</Link></Button></ListGroup.Item>
-                                    {archetype.map((archetype) => <ListGroup.Item key={archetype.id}>{archetype.content}</ListGroup.Item>)}
-                                </ListGroup>
                             </Row>
                         </Col>
                         <Col></Col>
@@ -97,8 +78,9 @@ const Ironclad = ({
             <div>
                 <Spinner animation="border"></Spinner>
             </div>
-        );
+        )
     }
+    
 };
 
-export default Ironclad;
+export default Card;

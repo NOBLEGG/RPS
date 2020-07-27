@@ -110,6 +110,35 @@ class ArchetypeView(APIView):
         except:
             return HttpResponse(status=404)
 
+class CardView(APIView):
+    def get(self, request):
+        logger.warn("CardView")
+        params = request.GET.get('keyword', '')
+        params_to_list = []
+
+        str_temp = ""
+        for i in range(len(params)):
+            if (params[i] == '1'):
+                str_temp += "1"
+                params_to_list.append(str_temp)
+                str_temp = ""
+            elif (params[i] == ','):
+                str_temp = ""
+            elif (params[i] == '}'):
+                str_temp = ""
+            else:
+                str_temp += params[i]
+
+        card = CardRelic.objects.all()
+
+        if len(params_to_list) > 0:
+            for i in params_to_list:
+                card = card.filter(keyword__contains=i)
+
+        card_serializer = CardSerializer(card, many=True)
+
+        return Response(card_serializer.data)
+
 class CardDetailView(APIView):
     def get(self, request, obj):
         logger.warn(obj)

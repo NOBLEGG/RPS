@@ -2,12 +2,12 @@ import axios from 'axios';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
-function getCharacterAPI(subject, keyword) {
-    return axios.get('http://localhost:8000/' + subject + '/');
+function getCharacterAPI(subject) {
+    return axios.get('http://localhost:8000/character/' + subject + '/');
 }
 
 function changeKeywordAPI(subject, keyword) {
-    return axios.get('http://localhost:8000/' + subject + '/', {
+    return axios.get('http://localhost:8000/character/' + subject + '/', {
         params: {
             keyword: keyword
         }

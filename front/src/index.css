@@ -12,10 +12,33 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+nav {
+  background-color: #DDD3B0;
+}
+
+/*
+
+커서를 올리면 배경색이 아래에서부터 부드럽게 채워지는 효과
+.navbar-light .navbar-nav .nav-link:first-child  {
+  background-color: #682B3B;
+}
+
+.navbar-light .navbar-nav .nav-link:nth-child(2) {
+  color: #606C54;
+}
+
+#basic-nav-dropdown {
+  color: blue;
+}
+
+*/
+
 .container-true {
   position: absolute;
   width: 100%;
   height: 100%;
+
+  background-color: #DDD3B0;
 }
 
 .container-true > div:first-child {
@@ -33,26 +56,16 @@ body {
   padding-right: 0;
 }
 
-/* background-color: #F6B352; */
-
-footer {  
-  width: 100%;
-  height: 100%;
-
-  color: #fff;
-}
-
 #main-layout {
   padding: 0;
-  background-color: #F68657;
 }
 
-thead tr {
+.table {
+  background-color: white;
+  border-radius: 5px;
   text-align: center;
-}
 
-.react-bootstrap-table-pagination div:first-child  {
-  display: none;
+  color: #383018!important;
 }
 
 #character-img {
@@ -109,4 +122,12 @@ thead tr {
   margin: 0 5px;
 
   font-size: 0.8rem;
+}
+
+footer {  
+  width: 100%;
+  height: 100%;
+
+  color: #150603;
+  background-color: #DDD3B0;
 }

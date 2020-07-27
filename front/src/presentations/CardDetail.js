@@ -7,6 +7,7 @@ const CardDetail = ({
     opinion
 }) => {
     const temp = {card};
+    console.log(temp);
     
     if (JSON.stringify(temp.card) !== '{}' && Object.keys(temp.card).length !== 0) {
         let img_path = "../" + temp.card.subject + "/";
