@@ -32,7 +32,7 @@ const Home = ({
         text: '조회수'
     }];
 
-    if (list !== undefined ) {
+    if (list !== undefined) {
         return (
             <div>
                 <Container fluid="true">

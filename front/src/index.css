@@ -68,11 +68,25 @@ nav {
   color: #383018!important;
 }
 
-#character-img {
-  width: 100%;
+.table-bordered {
+  border: 0px!important;
 }
 
-/* StarRating Start */
+#character-img {
+  width: 100%;
+  
+  border-radius: 5px;
+}
+
+.list-group {
+  font-size: 0.8rem;
+}
+
+/* StarRating */
+
+label {
+  margin-bottom: 0!important;
+}
 
 .hide {
   display: none;
@@ -116,7 +130,7 @@ nav {
   color: #FFD700;
 }
 
-/* StarRating End */
+/* StarRating */
 
 .checkbox-label {
   margin: 0 5px;
