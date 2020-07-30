@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from rest_framework import generics, serializers
@@ -28,37 +28,56 @@ class NoticeDetailView(generics.RetrieveAPIView):
 
 class CharacterView(APIView):
     def get(self, request, obj):
-        opinion = Opinion.objects.all().filter(subject=obj).filter(archetype=False).order_by('-pro', '-con')[0:3]
-        opinion_serializer = OpinionSerializer(opinion, many=True)
-        
         params = request.GET.get('keyword', '')
-        params_to_list = []
 
-        str_temp = ""
-        for i in range(len(params)):
-            if (params[i] == '1'):
-                str_temp += "1"
-                params_to_list.append(str_temp)
-                str_temp = ""
-            elif (params[i] == ','):
-                str_temp = ""
-            elif (params[i] == '}'):
-                str_temp = ""
-            else:
-                str_temp += params[i]
+        if params == '':
+            opinion = Opinion.objects.all().filter(subject=obj).filter(archetype=False).order_by('-pro', '-con')[0:3]
+            opinion_serializer = OpinionSerializer(opinion, many=True)
 
-        card = CardRelic.objects.all().filter(subject=obj)
+            card = CardRelic.objects.all().filter(subject=obj)
+            card_serializer = CardSerializer(card, many=True)
 
-        if len(params_to_list) > 0:
-            for i in params_to_list:
-                card = card.filter(keyword__contains=i)
+            archetype = Opinion.objects.all().filter(subject=obj).filter(archetype=True).order_by('-pro', '-con')[0:3]
+            archetype_serializer = OpinionSerializer(archetype, many=True)
 
-        card_serializer = CardSerializer(card, many=True)
+            return Response([opinion_serializer.data, card_serializer.data, archetype_serializer.data])
+        else:
+            params_to_list = []
 
-        archetype = Opinion.objects.all().filter(subject=obj).filter(archetype=True).order_by('-pro', '-con')[0:3]
-        archetype_serializer = OpinionSerializer(archetype, many=True)
+            str_temp = ""
+            for i in range(len(params)):
+                if (params[i] == '1'):
+                    str_temp += "1"
+                    params_to_list.append(str_temp)
+                    str_temp = ""
+                elif (params[i] == ','):
+                    str_temp = ""
+                elif (params[i] == '}'):
+                    str_temp = ""
+                else:
+                    str_temp += params[i]
 
-        return Response([opinion_serializer.data, card_serializer.data, archetype_serializer.data])
+            card = CardRelic.objects.all().filter(subject=obj)
+
+            if len(params_to_list) > 0:
+                for i in params_to_list:
+                    card = card.filter(keyword__contains=i)
+                    logger.warn(card)
+
+            card_serializer = CardSerializer(card, many=True)
+
+            return Response(card_serializer.data)
+
+    def post(self, request, obj1, pk, obj2):
+        target = Opinion.objects.get(id=pk)
+
+        if obj2 == 'pro':
+            target.pro += 1
+        else:
+            target.con += 1
+        target.save()
+
+        return redirect('/character/' + obj1 + '/')
 
 class OpinionView(APIView):
     def get(self, request, obj):
@@ -112,7 +131,6 @@ class ArchetypeView(APIView):
 
 class CardView(APIView):
     def get(self, request):
-        logger.warn("CardView")
         params = request.GET.get('keyword', '')
         params_to_list = []
 

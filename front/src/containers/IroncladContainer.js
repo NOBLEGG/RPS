@@ -7,11 +7,18 @@ import * as characterActions from 'modules/character';
 // 렌더링에 필요한 데이터를 fetching
 const IroncladContainer = ({match}) => {
     const dispatch = useDispatch();
-    const data = useSelector(state => state.character.list);
+    const opinion = useSelector(state => state.character.opinion);
+    const card = useSelector(state => state.character.card);
     const keyword = useSelector(state => state.character.keyword);
-    const opinion = data[0];
-    const card = data[1];
-    const archetype = data[2];
+    const archetype = useSelector(state => state.character.archetype);
+
+    const opinionPro = (id) => {
+        dispatch(characterActions.postOpinionPro({ subject: match.params.subject, id: id }));
+    }
+
+    const opinionCon = (id) => {
+        dispatch(characterActions.postOpinionCon({ subject: match.params.subject, id: id }));
+    }
 
     const changeKeyword = (target) => {
         if (keyword[target] === 1)
@@ -50,6 +57,8 @@ const IroncladContainer = ({match}) => {
     return (
         <Ironclad
             opinion={opinion}
+            opinionPro={opinionPro}
+            opinionCon={opinionCon}
             card={card}
             archetype={archetype}
             changeKeyword={changeKeyword}

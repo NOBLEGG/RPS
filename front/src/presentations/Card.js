@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Image, ListGroup, Button, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
 
 const Card = ({
     cards,

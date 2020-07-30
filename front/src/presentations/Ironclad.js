@@ -6,6 +6,8 @@ import StarRatingComponent from 'react-star-rating-component';
 
 const Ironclad = ({
     opinion,
+    opinionPro,
+    opinionCon,
     card,
     archetype,
     changeKeyword
@@ -14,7 +16,7 @@ const Ironclad = ({
         return str.substring(0, 10);
     }
 
-    if (opinion !== undefined && card !== undefined && archetype !== undefined) {
+    if (opinion.length !== 0 && card.length !== 0 && archetype.length !== 0) {
         return (
             <div>
                 <Container fluid="true">
@@ -37,21 +39,21 @@ const Ironclad = ({
                                                 <span style={{ fontSize: '1rem' }}>{opinion.writer}</span>
                                                 <span style={{ float: 'right' }}>{dateFormatter(opinion.created_at)}</span>
                                                 <p>{opinion.content}</p>
-                                                <p style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
+                                                <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
                                                     <StarRatingComponent editing={false} starCount={5} value={opinion.score} />
-                                                </p>
+                                                </div>
                                                 <ButtonGroup style={{ float: 'right', height: '1rem' }}>
-                                                    <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }}>
-                                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                                            <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                                                    <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }} onClick={opinionPro.bind(this, opinion.id)}>
+                                                        <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                            <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                                                            <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
                                                         </svg>
                                                     </Button>
                                                     <span style={{ position: 'relative', bottom: '0px' }}>{opinion.pro}</span>
-                                                    <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }}>
-                                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                                            <path fill-rule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                                                    <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }} onClick={opinionCon.bind(this, opinion.id)}>
+                                                        <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                            <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                                                            <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
                                                         </svg>
                                                     </Button>
                                                     <span style={{ position: 'relative', bottom: '0px' }}>{opinion.con}</span>
