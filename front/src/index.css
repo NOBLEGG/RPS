@@ -82,7 +82,7 @@ nav {
   font-size: 0.8rem;
 }
 
-/* StarRating */
+/* StarRating Start */
 
 label {
   margin-bottom: 0!important;
@@ -130,7 +130,13 @@ label {
   color: #FFD700;
 }
 
-/* StarRating */
+/* StarRating End */
+
+.radio-label {
+  margin: 0 5px;
+
+  font-size: 0.8rem;
+}
 
 .checkbox-label {
   margin: 0 5px;

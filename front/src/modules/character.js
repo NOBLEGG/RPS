@@ -14,10 +14,10 @@ function postOpinionConAPI(subject, id) {
     return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/con/');
 }
 
-function changeKeywordAPI(subject, keyword) {
+function changeFilterAPI(subject, filter) {
     return axios.get('http://localhost:8000/character/' + subject + '/', {
         params: {
-            keyword: keyword
+            filter: filter
         }
     });
 }
@@ -50,9 +50,9 @@ const POST_OPINION_CON         = 'character/POST_OPINION_CON';
 const POST_OPINION_CON_SUCCESS = 'character/POST_OPINION_CON_SUCCESS';
 const POST_OPINION_CON_FAILURE = 'character/POST_OPINION_CON_FAILURE';
 
-const CHANGE_KEYWORD         = 'character/CHANGE_KEYWORD';
-const CHANGE_KEYWORD_SUCCESS = 'character/CHANGE_KEYWORD_SUCCESS';
-const CHANGE_KEYWORD_FAILURE = 'character/CHANGE_KEYWORD_FAILURE';
+const CHANGE_FILTER         = 'character/CHANGE_FILTER';
+const CHANGE_FILTER_SUCCESS = 'character/CHANGE_FILTER_SUCCESS';
+const CHANGE_FILTER_FAILURE = 'character/CHANGE_FILTER_FAILURE';
 
 const POST_OPINION_FORM         = 'character/POST_OPINION_FORM';
 const POST_OPINION_FORM_SUCCESS = 'character/POST_OPINION_FORM_SUCCESS';
@@ -73,7 +73,7 @@ const GET_ARCHETYPE_LIST_FAILURE = 'character/GET_ARCHETYPE_LIST_FAILURE';
 export const getCharacter = createAction(GET_CHARACTER);
 export const postOpinionPro = createAction(POST_OPINION_PRO);
 export const postOpinionCon = createAction(POST_OPINION_CON);
-export const changeKeyword = createAction(CHANGE_KEYWORD);
+export const changeFilter = createAction(CHANGE_FILTER);
 
 export const postOpinionForm = createAction(POST_OPINION_FORM);
 export const getOpinionList = createAction(GET_OPINION_LIST);
@@ -108,12 +108,12 @@ function* postOpinionConSaga(action) {
     }
 }
 
-function* changeKeywordSaga(action) {
+function* changeFilterSaga(action) {
     try {
-        const response = yield call(changeKeywordAPI, action.payload.subject, action.payload.keyword);
-        yield put({ type: CHANGE_KEYWORD_SUCCESS, payload: response });
+        const response = yield call(changeFilterAPI, action.payload.subject, action.payload.filter);
+        yield put({ type: CHANGE_FILTER_SUCCESS, payload: response });
     } catch (e) {
-        yield put({ type: CHANGE_KEYWORD_FAILURE, payload: e });
+        yield put({ type: CHANGE_FILTER_FAILURE, payload: e });
     }
 }
 
@@ -156,7 +156,20 @@ function* getArchetypeListSaga(action) {
 const initialState = {
     opinion: [],
     card: [],
-    keyword: {
+    filter: {
+        "common": 0,
+        "uncommon": 0,
+        "rare": 0,
+        "attack": 0,
+        "skill": 0,
+        "power": 0,
+        "X": 0,
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
         "artifact": 0,
         "block": 0,
         "dexterity": 0,
@@ -181,7 +194,7 @@ export function* characterSaga() {
     yield takeEvery('character/POST_OPINION_PRO', postOpinionProSaga);
     yield takeEvery('character/POST_OPINION_CON', postOpinionConSaga);
 
-    yield takeEvery('character/CHANGE_KEYWORD', changeKeywordSaga);
+    yield takeEvery('character/CHANGE_FILTER', changeFilterSaga);
 
     yield takeEvery('character/POST_OPINION_FORM', postOpinionFormSaga);
     yield takeEvery('character/GET_OPINION_LIST', getOpinionListSaga);
@@ -197,7 +210,7 @@ export default handleActions(
             return {
                 opinion: res[0],
                 card: res[1],
-                keyword: state.keyword,
+                filter: state.filter,
                 archetype: res[2]
             };
         },
@@ -206,7 +219,7 @@ export default handleActions(
             return {
                 opinion: res[0],
                 card: res[1],
-                keyword: state.keyword,
+                filter: state.filter,
                 archetype: res[2]
             };
         },
@@ -215,16 +228,16 @@ export default handleActions(
             return {
                 opinion: res[0],
                 card: res[1],
-                keyword: state.keyword,
+                filter: state.filter,
                 archetype: res[2]
             };
         },
-        [CHANGE_KEYWORD_SUCCESS]: (state, action) => {
+        [CHANGE_FILTER_SUCCESS]: (state, action) => {
             const res = action.payload.data;
             return {
                 opinion: state.opinion,
                 card: res,
-                keyword: state.keyword,
+                filter: state.filter,
                 archetype: state.archetype
             };
         },

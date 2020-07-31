@@ -10,13 +10,15 @@ const Ironclad = ({
     opinionCon,
     card,
     archetype,
-    changeKeyword
+    changeRadio,
+    changeCheckbox,
+    reset
 }) => {
     function dateFormatter(str) {
         return str.substring(0, 10);
     }
 
-    if (opinion.length !== 0 && card.length !== 0 && archetype.length !== 0) {
+    if (opinion.length !== 0 || card.length !== 0 || archetype.length !== 0) {
         return (
             <div>
                 <Container fluid="true">
@@ -66,44 +68,87 @@ const Ironclad = ({
                             <br />
                             <Row>
                                 <Col>
-                                    <p className="checkbox-label">등급</p>
+                                    <p className="radio-label">등급</p>
                                     <div>
-                                        <input type="checkbox" />
-                                        <label className="checkbox-label">일반</label>
+                                        <input type="radio" name="rarity" value="common" onClick={changeRadio.bind(this, 'rarity', 'common')} />
+                                        <label className="radio-label">일반</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" />
-                                        <label className="checkbox-label">특별</label>
+                                        <input type="radio" name="rarity" value="uncommon" onClick={changeRadio.bind(this, 'rarity', 'uncommon')} />
+                                        <label className="radio-label">특별</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" />
-                                        <label className="checkbox-label">희귀</label>
+                                        <input type="radio" name="rarity" value="rare" onClick={changeRadio.bind(this, 'rarity', 'rare')} />
+                                        <label className="radio-label">희귀</label>
+                                    </div>
+                                    <p className="radio-label">종류</p>
+                                    <div>
+                                        <input type="radio" name="kind" value="attack" onClick={changeRadio.bind(this, 'kind', 'attack')} />
+                                        <label className="radio-label">공격</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="kind" value="skill" onClick={changeRadio.bind(this, 'kind', 'skill')} />
+                                        <label className="radio-label">스킬</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="kind" value="power" onClick={changeRadio.bind(this, 'kind', 'power')} />
+                                        <label className="radio-label">파워</label>
+                                    </div>
+                                    <p className="radio-label">비용</p>
+                                    <div>
+                                        <input type="radio" name="cost" value="X" onClick={changeRadio.bind(this, 'cost', 'X')} />
+                                        <label className="radio-label">X</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="cost" value="0" onClick={changeRadio.bind(this, 'cost', '0')} />
+                                        <label className="radio-label">0</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="cost" value="1" onClick={changeRadio.bind(this, 'cost', '1')} />
+                                        <label className="radio-label">1</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="cost" value="2" onClick={changeRadio.bind(this, 'cost', '2')} />
+                                        <label className="radio-label">2</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="cost" value="3" onClick={changeRadio.bind(this, 'cost', '3')} />
+                                        <label className="radio-label">3</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="cost" value="4" onClick={changeRadio.bind(this, 'cost', '4')} />
+                                        <label className="radio-label">4</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="cost" value="5" onClick={changeRadio.bind(this, 'cost', '5')} />
+                                        <label className="radio-label">5</label>
                                     </div>
                                     <p className="checkbox-label">키워드</p>
                                     <div>
-                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'artifact')} />
+                                        <input type="checkbox" onClick={changeCheckbox.bind(this, 'artifact')} />
                                         <label className="checkbox-label">인공물</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'block')} />
+                                        <input type="checkbox" onClick={changeCheckbox.bind(this, 'block')} />
                                         <label className="checkbox-label">방어도</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'dexterity')} />
+                                        <input type="checkbox" onClick={changeCheckbox.bind(this, 'dexterity')} />
                                         <label className="checkbox-label">민첩</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'ethereal')} />
+                                        <input type="checkbox" onClick={changeCheckbox.bind(this, 'ethereal')} />
                                         <label className="checkbox-label">휘발성</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'vulnerable')} />
+                                        <input type="checkbox" onClick={changeCheckbox.bind(this, 'vulnerable')} />
                                         <label className="checkbox-label">취약</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" onClick={changeKeyword.bind(this, 'weak')} />
+                                        <input type="checkbox" onClick={changeCheckbox.bind(this, 'weak')} />
                                         <label className="checkbox-label">약화</label>
                                     </div>
+                                    <Button onClick={reset}>초기화</Button>
                                 </Col>
                                 <Col>
                                     <ListGroup as="ul">

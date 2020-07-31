@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from .models import Notice, Opinion, CardRelic
 from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer
 
-import logging
+import json, logging
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class NoticeDetailView(generics.RetrieveAPIView):
 
 class CharacterView(APIView):
     def get(self, request, obj):
-        params = request.GET.get('keyword', '')
+        params = request.GET.get('filter', '')
 
         if params == '':
             opinion = Opinion.objects.all().filter(subject=obj).filter(archetype=False).order_by('-pro', '-con')[0:3]
@@ -42,27 +42,69 @@ class CharacterView(APIView):
 
             return Response([opinion_serializer.data, card_serializer.data, archetype_serializer.data])
         else:
-            params_to_list = []
-
-            str_temp = ""
-            for i in range(len(params)):
-                if (params[i] == '1'):
-                    str_temp += "1"
-                    params_to_list.append(str_temp)
-                    str_temp = ""
-                elif (params[i] == ','):
-                    str_temp = ""
-                elif (params[i] == '}'):
-                    str_temp = ""
-                else:
-                    str_temp += params[i]
+            json_data = json.loads(params)
 
             card = CardRelic.objects.all().filter(subject=obj)
 
-            if len(params_to_list) > 0:
-                for i in params_to_list:
-                    card = card.filter(keyword__contains=i)
-                    logger.warn(card)
+            if (json_data['common'] == 1):
+                card = card.filter(rarity__contains='Common')
+            elif (json_data['uncommon'] == 1):
+                card = card.filter(rarity__contains='Uncommon')
+            elif (json_data['rare'] == 1):
+                card = card.filter(rarity__contains='Rare')
+
+            if (json_data['attack'] == 1):
+                card = card.filter(kind__contains='Attack')
+            elif (json_data['skill'] == 1):
+                card = card.filter(kind__contains='Skill')
+            elif (json_data['power'] == 1):
+                card = card.filter(kind__contains='Power')
+
+            if (json_data['X'] == 1):
+                card = card.filter(cost__startswith=X)
+            elif (json_data['0'] == 1):
+                card = card.filter(cost__startswith=0)
+            elif (json_data['1'] == 1):
+                card = card.filter(cost__startswith=1)
+            elif (json_data['2'] == 1):
+                card = card.filter(cost__startswith=2)
+            elif (json_data['3'] == 1):
+                card = card.filter(cost__startswith=3)
+            elif (json_data['4'] == 1):
+                card = card.filter(cost__startswith=4)
+            elif (json_data['5'] == 1):
+                card = card.filter(cost__startswith=5)
+
+            if (json_data['artifact'] == 1):
+                card = card.filter(keyword__contains='"artifact":1')
+            if (json_data['block'] == 1):
+                card = card.filter(keyword__contains='"block":1')
+            if (json_data['dexterity'] == 1):
+                card = card.filter(keyword__contains='"dexterity":1')
+            if (json_data['ethereal'] == 1):
+                card = card.filter(keyword__contains='"ethereal":1')
+            if (json_data['exhaust'] == 1):
+                card = card.filter(keyword__contains='"exhaust":1')
+            if (json_data['innate'] == 1):
+                card = card.filter(keyword__contains='"innate":1')
+            if (json_data['intangible'] == 1):
+                card = card.filter(keyword__contains='"intangible":1')
+            if (json_data['retain'] == 1):
+                card = card.filter(keyword__contains='"retain":1')
+            if (json_data['scry'] == 1):
+                card = card.filter(keyword__contains='"scry":1')
+            if (json_data['strength'] == 1):
+                card = card.filter(keyword__contains='"strength":1')
+            if (json_data['unplayable'] == 1):
+                card = card.filter(keyword__contains='"unplayable":1')
+            if (json_data['vulnerable'] == 1):
+                card = card.filter(keyword__contains='"vulnerable":1')
+            if (json_data['weak'] == 1):
+                card = card.filter(keyword__contains='"weak":1')
+            if (json_data['wound'] == 1):
+                card = card.filter(keyword__contains='"wound":1')
+
+            logger.warn(card)
 
             card_serializer = CardSerializer(card, many=True)
 

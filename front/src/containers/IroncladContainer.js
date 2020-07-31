@@ -9,7 +9,7 @@ const IroncladContainer = ({match}) => {
     const dispatch = useDispatch();
     const opinion = useSelector(state => state.character.opinion);
     const card = useSelector(state => state.character.card);
-    const keyword = useSelector(state => state.character.keyword);
+    const filter = useSelector(state => state.character.filter);
     const archetype = useSelector(state => state.character.archetype);
 
     const opinionPro = (id) => {
@@ -20,34 +20,40 @@ const IroncladContainer = ({match}) => {
         dispatch(characterActions.postOpinionCon({ subject: match.params.subject, id: id }));
     }
 
-    const changeKeyword = (target) => {
-        if (keyword[target] === 1)
-            keyword[target] = 0;
+    const changeRadio = (name, target) => {
+        const names = document.getElementsByName(name);
+        let len = document.getElementsByName(name).length;
+
+        let temp = "";
+        for (let i = 0; i < len; i++) {
+            temp = names[i].value;
+            filter[temp] = 0;
+        }
+
+        filter[target] = 1;
+
+        dispatch(characterActions.changeFilter({ subject: match.params.subject, filter: filter }));
+    }
+
+    const changeCheckbox = (target) => {
+        if (filter[target] === 1)
+            filter[target] = 0;
         else
-            keyword[target] = 1;
+            filter[target] = 1;
 
-        let one_counter = 0;
-        const keyword_values = Object.values(keyword);
-        for (let i = 0; i < keyword_values.length; i++) {
-            if (keyword_values[i] === 1)
-                one_counter++;
-        }
+        dispatch(characterActions.changeFilter({ subject: match.params.subject, filter: filter }));
+    }
 
-        if (one_counter > 0) {
-            let new_keyword = "";
-            const keyword_keys = Object.keys(keyword);
-            for (let i = 0; i < keyword_values.length; i++) {
-                if (keyword_values[i] === 1) {
-                    new_keyword += '"' + keyword_keys[i] + '":1';
-                    one_counter--;
-                    if (one_counter !== 0)
-                        new_keyword += ",";
-                }
-            }
-            dispatch(characterActions.changeKeyword({ subject: match.params.subject, keyword: new_keyword }));
-        } else {
-            dispatch(characterActions.getCharacter({ subject: match.params.subject }));
-        }
+    const reset = () => {
+        const inp = document.getElementsByTagName('input');
+        for (let i = 0; i < inp.length; i++)
+            inp[i].checked = false;
+
+        const filterKeys = Object.keys(filter);
+        for (let i = 0; i < filterKeys.length; i++)
+            filter[filterKeys[i]] = 0;
+
+        dispatch(characterActions.getCharacter({ subject: match.params.subject }));
     }
 
     useEffect(() => {
@@ -61,7 +67,9 @@ const IroncladContainer = ({match}) => {
             opinionCon={opinionCon}
             card={card}
             archetype={archetype}
-            changeKeyword={changeKeyword}
+            changeRadio={changeRadio}
+            changeCheckbox={changeCheckbox}
+            reset={reset}
         />
     );
 }
