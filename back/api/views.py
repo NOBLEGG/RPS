@@ -61,7 +61,7 @@ class CharacterView(APIView):
                 card = card.filter(kind__contains='Power')
 
             if (json_data['X'] == 1):
-                card = card.filter(cost__startswith=X)
+                card = card.filter(cost__startswith='X')
             elif (json_data['0'] == 1):
                 card = card.filter(cost__startswith=0)
             elif (json_data['1'] == 1):

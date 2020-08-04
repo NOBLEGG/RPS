@@ -12,12 +12,12 @@ const IroncladContainer = ({match}) => {
     const filter = useSelector(state => state.character.filter);
     const archetype = useSelector(state => state.character.archetype);
 
-    const opinionPro = (id) => {
-        dispatch(characterActions.postOpinionPro({ subject: match.params.subject, id: id }));
+    const reqPro = (id) => {
+        dispatch(characterActions.postProUp({ subject: match.params.subject, id: id }));
     }
 
-    const opinionCon = (id) => {
-        dispatch(characterActions.postOpinionCon({ subject: match.params.subject, id: id }));
+    const reqCon = (id) => {
+        dispatch(characterActions.postConUp({ subject: match.params.subject, id: id }));
     }
 
     const changeRadio = (name, target) => {
@@ -31,8 +31,6 @@ const IroncladContainer = ({match}) => {
         }
 
         filter[target] = 1;
-
-        dispatch(characterActions.changeFilter({ subject: match.params.subject, filter: filter }));
     }
 
     const changeCheckbox = (target) => {
@@ -40,7 +38,9 @@ const IroncladContainer = ({match}) => {
             filter[target] = 0;
         else
             filter[target] = 1;
+    }
 
+    const dispatcher = () => {
         dispatch(characterActions.changeFilter({ subject: match.params.subject, filter: filter }));
     }
 
@@ -52,8 +52,8 @@ const IroncladContainer = ({match}) => {
         const filterKeys = Object.keys(filter);
         for (let i = 0; i < filterKeys.length; i++)
             filter[filterKeys[i]] = 0;
-
-        dispatch(characterActions.getCharacter({ subject: match.params.subject }));
+        
+        dispatch(characterActions.changeFilter({ subject: match.params.subject, filter: filter }));
     }
 
     useEffect(() => {
@@ -63,12 +63,13 @@ const IroncladContainer = ({match}) => {
     return (
         <Ironclad
             opinion={opinion}
-            opinionPro={opinionPro}
-            opinionCon={opinionCon}
+            reqPro={reqPro}
+            reqCon={reqCon}
             card={card}
             archetype={archetype}
             changeRadio={changeRadio}
             changeCheckbox={changeCheckbox}
+            dispatcher={dispatcher}
             reset={reset}
         />
     );

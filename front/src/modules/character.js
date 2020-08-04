@@ -6,11 +6,11 @@ function getCharacterAPI(subject) {
     return axios.get('http://localhost:8000/character/' + subject + '/');
 }
 
-function postOpinionProAPI(subject, id) {
+function postProUpAPI(subject, id) {
     return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/pro/');
 }
 
-function postOpinionConAPI(subject, id) {
+function postConUpAPI(subject, id) {
     return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/con/');
 }
 
@@ -42,13 +42,13 @@ const GET_CHARACTER         = 'character/GET_CHARACTER';
 const GET_CHARACTER_SUCCESS = 'character/GET_CHARACTER_SUCCESS';
 const GET_CHARACTER_FAILURE = 'character/GET_CHARACTER_FAILURE';
 
-const POST_OPINION_PRO         = 'character/POST_OPINION_PRO';
-const POST_OPINION_PRO_SUCCESS = 'character/POST_OPINION_PRO_SUCCESS';
-const POST_OPINION_PRO_FAILURE = 'character/POST_OPINION_PRO_FAILURE';
+const POST_PRO_UP         = 'character/POST_PRO_UP';
+const POST_PRO_UP_SUCCESS = 'character/POST_PRO_UP_SUCCESS';
+const POST_PRO_UP_FAILURE = 'character/POST_PRO_UP_FAILURE';
 
-const POST_OPINION_CON         = 'character/POST_OPINION_CON';
-const POST_OPINION_CON_SUCCESS = 'character/POST_OPINION_CON_SUCCESS';
-const POST_OPINION_CON_FAILURE = 'character/POST_OPINION_CON_FAILURE';
+const POST_CON_UP         = 'character/POST_CON_UP';
+const POST_CON_UP_SUCCESS = 'character/POST_CON_UP_SUCCESS';
+const POST_CON_UP_FAILURE = 'character/POST_CON_UP_FAILURE';
 
 const CHANGE_FILTER         = 'character/CHANGE_FILTER';
 const CHANGE_FILTER_SUCCESS = 'character/CHANGE_FILTER_SUCCESS';
@@ -71,8 +71,8 @@ const GET_ARCHETYPE_LIST_SUCCESS = 'character/GET_ARCHETYPE_LIST_SUCCESS';
 const GET_ARCHETYPE_LIST_FAILURE = 'character/GET_ARCHETYPE_LIST_FAILURE';
 
 export const getCharacter = createAction(GET_CHARACTER);
-export const postOpinionPro = createAction(POST_OPINION_PRO);
-export const postOpinionCon = createAction(POST_OPINION_CON);
+export const postProUp = createAction(POST_PRO_UP);
+export const postConUp = createAction(POST_CON_UP);
 export const changeFilter = createAction(CHANGE_FILTER);
 
 export const postOpinionForm = createAction(POST_OPINION_FORM);
@@ -90,21 +90,21 @@ function* getCharacterSaga(action) {
     }
 }
 
-function* postOpinionProSaga(action) {
+function* postProUpSaga(action) {
     try {
-        const response = yield call(postOpinionProAPI, action.payload.subject, action.payload.id);
-        yield put({ type: POST_OPINION_PRO_SUCCESS, payload: response });
+        const response = yield call(postProUpAPI, action.payload.subject, action.payload.id);
+        yield put({ type: POST_PRO_UP_SUCCESS, payload: response });
     } catch (e) {
-        yield put({ type: POST_OPINION_PRO_FAILURE, payload: e });
+        yield put({ type: POST_PRO_UP_FAILURE, payload: e });
     }
 }
 
-function* postOpinionConSaga(action) {
+function* postConUpSaga(action) {
     try {
-        const response = yield call(postOpinionConAPI, action.payload.subject, action.payload.id);
-        yield put({ type: POST_OPINION_CON_SUCCESS, payload: response });
+        const response = yield call(postConUpAPI, action.payload.subject, action.payload.id);
+        yield put({ type: POST_CON_UP_SUCCESS, payload: response });
     } catch (e) {
-        yield put({ type: POST_OPINION_CON_FAILURE, payload: e });
+        yield put({ type: POST_CON_UP_FAILURE, payload: e });
     }
 }
 
@@ -191,8 +191,8 @@ const initialState = {
 export function* characterSaga() {
     yield takeEvery('character/GET_CHARACTER', getCharacterSaga);
 
-    yield takeEvery('character/POST_OPINION_PRO', postOpinionProSaga);
-    yield takeEvery('character/POST_OPINION_CON', postOpinionConSaga);
+    yield takeEvery('character/POST_PRO_UP', postProUpSaga);
+    yield takeEvery('character/POST_CON_UP', postConUpSaga);
 
     yield takeEvery('character/CHANGE_FILTER', changeFilterSaga);
 
@@ -214,7 +214,7 @@ export default handleActions(
                 archetype: res[2]
             };
         },
-        [POST_OPINION_PRO_SUCCESS]: (state, action) => {
+        [POST_PRO_UP_SUCCESS]: (state, action) => {
             const res = action.payload.data;
             return {
                 opinion: res[0],
@@ -223,7 +223,7 @@ export default handleActions(
                 archetype: res[2]
             };
         },
-        [POST_OPINION_CON_SUCCESS]: (state, action) => {
+        [POST_CON_UP_SUCCESS]: (state, action) => {
             const res = action.payload.data;
             return {
                 opinion: res[0],
