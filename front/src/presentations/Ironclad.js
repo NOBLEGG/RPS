@@ -42,6 +42,14 @@ const Ironclad = ({
     }, {
         dataField: 'cost',
         text: '비용'
+    }, {
+        dataField: 'score',
+        text: '점수',
+        formatter: (row, cell) => {
+            if (cell.score === 0)
+                cell.score = '-';
+            return cell.score;
+        }
     }];
 
     if (opinion.length !== 0 || card.length !== 0 || archetype.length !== 0) {

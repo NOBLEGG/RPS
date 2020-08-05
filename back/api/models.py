@@ -24,6 +24,7 @@ class CardRelic(models.Model):
     cost = models.CharField(max_length=10)
     relic = models.BooleanField(default=False)
     flavor_text = models.TextField(blank=True)
+    score = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return self.eng_name

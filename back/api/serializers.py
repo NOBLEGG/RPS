@@ -29,7 +29,8 @@ class CardSerializer(serializers.ModelSerializer):
             'card',
             'rarity',
             'kind',
-            'cost'
+            'cost',
+            'score'
         )
         model = CardRelic
 
