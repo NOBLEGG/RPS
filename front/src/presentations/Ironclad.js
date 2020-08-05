@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Image, ListGroup, Button, ButtonGroup, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Image, ListGroup, Button, ButtonGroup, OverlayTrigger, Spinner } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
@@ -26,7 +26,10 @@ const Ironclad = ({
         text: '카드명',
         style: {textAlign: 'center'},
         formatter: (row, cell) => {
-            return <Link to={{pathname: `/card/${cell.eng_name}`}}>{cell.name}</Link>;
+            const imgSrc = "../ironclad/";
+            let temp = cell.eng_name.toLowerCase();
+            temp = imgSrc + temp + ".jpg";
+            return <OverlayTrigger overlay={<Image src={temp} />}><Link to={{pathname: `/card/${cell.eng_name}`}}>{cell.name}</Link></OverlayTrigger>;
         }
     }, {
         dataField: 'rarity',
