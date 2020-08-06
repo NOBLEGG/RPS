@@ -46,6 +46,5 @@ class Opinion(models.Model):
     pro = models.PositiveSmallIntegerField(default=0)
     con = models.PositiveSmallIntegerField(default=0)
     archetype = models.BooleanField(default=False)
-    title = models.CharField(max_length=50)
     recommend_card = models.TextField()
     recommend_relic = models.TextField()
