@@ -7,7 +7,7 @@ import * as characterActions from 'modules/character';
 // 렌더링에 필요한 데이터를 fetching
 const ArchetypeContainer = ({match}) => {
     const dispatch = useDispatch();
-    const data = useSelector(state => state.character.list);
+    const data = useSelector(state => state.character.archetype);
 
     const postForm = (value) => {
         dispatch(characterActions.postArchetypeForm([value, match.params.subject]));

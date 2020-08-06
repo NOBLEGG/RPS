@@ -204,6 +204,8 @@ const Ironclad = ({
                                                 <span style={{ fontSize: '1rem' }}>{archetype.writer}</span>
                                                 <span style={{ float: 'right' }}>{dateFormatter(archetype.created_at)}</span>
                                                 <p>{archetype.content}</p>
+                                                <p>권장 카드 : {archetype.recommend_card}</p>
+                                                <p>권장 유물 : {archetype.recommend_relic}</p>
                                                 <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
                                                     <StarRatingComponent editing={false} starCount={5} value={archetype.score} />
                                                 </div>

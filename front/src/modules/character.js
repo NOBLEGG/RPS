@@ -254,9 +254,9 @@ export default handleActions(
             };
         },
         [GET_ARCHETYPE_LIST_SUCCESS]: (state, action) => {
-            const temp = action.payload.data;
+            const res = action.payload.data;
             return {
-                list: temp
+                archetype: res
             };
         },
         [POST_ARCHETYPE_FORM_SUCCESS]: (state, action) => {
