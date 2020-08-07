@@ -1,31 +1,50 @@
 import React from 'react';
-
-import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
-import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory from 'react-bootstrap-table2-paginator';
+import { Pagination, Container, Row, Col, Form, Button, ButtonGroup, ListGroup, Spinner } from 'react-bootstrap';
 
 import { useForm, Controller } from 'react-hook-form';
 
+import StarRatingComponent from 'react-star-rating-component';
+
 const Archetype = ({
-    data,
-    postForm
+    archetype,
+    postForm,
+    reqPro,
+    reqCon,
+    archetypePerPage,
+    currentPage,
+    handleClick
 }) => {
     const { handleSubmit, control, register } = useForm();
 
-    const columns = [{
-        dataField: 'writer',
-        text: '작성자',
-        style: {textAlign: 'center'}
-    }, {
-        dataField: 'content',
-        text: '내용'
-    }, {
-        dataField: 'created_at',
-        text: '등록일',
-        style: {textAlign: 'center'}
-    }];
+    const submitMessage = () => {
+        alert("등록이 완료되었습니다. 데이터베이스 상황에 따라 화면에 표시되기까지 시간이 걸릴 수 있습니다.");
+        window.location.reload();
+    }
 
-    if (data.length !== 0) {
+    function dateFormatter(str) {
+        return str.substring(0, 10);
+    }
+
+    if (archetype !== undefined) {
+        const indexOfLastArchetype = currentPage * archetypePerPage;
+        const indexOfFirstArchetype = indexOfLastArchetype - archetypePerPage;
+        const currentArchetype = archetype.slice(indexOfFirstArchetype, indexOfLastArchetype);
+
+        let items = [];
+        for (let number = 1; number <= Math.ceil(archetype.length / archetypePerPage); number++) {
+            items.push(
+                <Pagination.Item key={number} active={number === currentPage} onClick={handleClick.bind(this, number)}>
+                    {number}
+                </Pagination.Item>
+            );
+        }
+
+        const paginationBasic = (
+            <div>
+                <Pagination size="sm">{items}</Pagination>
+            </div>
+        );
+
         return (
             <div>
                 <Container fluid="true">
@@ -33,20 +52,6 @@ const Archetype = ({
                         <Col></Col>
                         <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
                             <Form onSubmit={handleSubmit(postForm)}>
-                                <Form.Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Controller
-                                                as={
-                                                    <Form.Control placeholder="제목" />
-                                                }
-                                                name="title"
-                                                control={control}
-                                                rules={{ required: true }}
-                                            />
-                                        </Form.Group>
-                                    </Col>
-                                </Form.Row>
                                 <Form.Row>
                                     <Col>
                                         <Form.Group>
@@ -152,14 +157,49 @@ const Archetype = ({
                                     </Col>
                                     <input type="hidden" name="archetype" value="True" ref={register} />
                                     <Col sm={2}>
-                                        <Button variant="primary" type="submit">
-                                            등록
-                                        </Button>
+                                        <Button variant="primary" type="submit" onClick={submitMessage}>등록</Button>
                                     </Col>
                                 </Form.Row>
                             </Form>
                             <hr />
-                            <BootstrapTable keyField='id' data={data} columns={columns} pagination={paginationFactory()} />
+                            <ListGroup as="ul">
+                                <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#682B3B' }}>
+                                    <span style={{ fontWeight: '600', color: '#EACCD4' }}>Archetypes</span>
+                                </ListGroup.Item>
+                                {currentArchetype.map((item) =>
+                                    <ListGroup.Item key={item.id} variant="secondary">
+                                        <span style={{ fontSize: '1rem' }}>{item.writer}</span>
+                                        <span style={{ float: 'right' }}>{dateFormatter(item.created_at)}</span>
+                                        <p>{item.content}</p>
+                                        <p>- 핵심 카드 : {item.key_card}</p>
+                                        <p>- 핵심 유물 : {item.key_relic}</p>
+                                        <p>- 권장 카드 : {item.recommend_card}</p>
+                                        <p>- 권장 유물 : {item.recommend_relic}</p>
+                                        <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
+                                            <StarRatingComponent editing={false} starCount={5} value={item.score} />
+                                        </div>
+                                        <ButtonGroup style={{ float: 'right', height: '1rem' }}>
+                                            <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }} onClick={reqPro.bind(this, item.id)}>
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                                                    <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                                                </svg>
+                                            </Button>
+                                            <span style={{ position: 'relative', bottom: '0px' }}>{item.pro}</span>
+                                            <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }} onClick={reqCon.bind(this, item.id)}>
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                                                    <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                                                </svg>
+                                            </Button>
+                                            <span style={{ position: 'relative', bottom: '0px' }}>{item.con}</span>
+                                        </ButtonGroup>
+                                    </ListGroup.Item>
+                                )}
+                                <br />
+                                {paginationBasic}
+                                <br />
+                            </ListGroup>
                         </Col>
                         <Col></Col>
                     </Row>

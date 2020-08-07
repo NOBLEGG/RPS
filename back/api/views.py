@@ -167,7 +167,7 @@ class ArchetypeView(APIView):
 
         try:
             opinion.save()
-            return Response(serializer.data)
+            return redirect('/archetype/' + obj + '/')
         except:
             return HttpResponse(status=404)
 

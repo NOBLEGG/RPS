@@ -21,6 +21,13 @@ const Ironclad = ({
         return str.substring(0, 10);
     }
 
+    function archetypeFormatter(str) {
+        if (str === "악마의 형상")
+            str = "Demon Form"
+        console.log(str);
+        return str;
+    }
+
     const columns = [{
         dataField: 'name',
         text: '카드명',
@@ -204,8 +211,10 @@ const Ironclad = ({
                                                 <span style={{ fontSize: '1rem' }}>{archetype.writer}</span>
                                                 <span style={{ float: 'right' }}>{dateFormatter(archetype.created_at)}</span>
                                                 <p>{archetype.content}</p>
-                                                <p>권장 카드 : {archetype.recommend_card}</p>
-                                                <p>권장 유물 : {archetype.recommend_relic}</p>
+                                                <p>- 핵심 카드 : {archetypeFormatter(archetype.key_card)}</p>
+                                                <p>- 핵심 유물 : {archetype.key_relic}</p>
+                                                <p>- 권장 카드 : {archetypeFormatter(archetype.recommend_card)}</p>
+                                                <p>- 권장 유물 : {archetype.recommend_relic}</p>
                                                 <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
                                                     <StarRatingComponent editing={false} starCount={5} value={archetype.score} />
                                                 </div>

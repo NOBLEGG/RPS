@@ -70,6 +70,8 @@ const GET_ARCHETYPE_LIST         = 'character/GET_ARCHETYPE_LIST';
 const GET_ARCHETYPE_LIST_SUCCESS = 'character/GET_ARCHETYPE_LIST_SUCCESS';
 const GET_ARCHETYPE_LIST_FAILURE = 'character/GET_ARCHETYPE_LIST_FAILURE';
 
+const PAGINATION_CLICK = 'character/PAGINATION_CLICK';
+
 export const getCharacter = createAction(GET_CHARACTER);
 export const postProUp = createAction(POST_PRO_UP);
 export const postConUp = createAction(POST_CON_UP);
@@ -80,6 +82,8 @@ export const getOpinionList = createAction(GET_OPINION_LIST);
 
 export const postArchetypeForm = createAction(POST_ARCHETYPE_FORM);
 export const getArchetypeList = createAction(GET_ARCHETYPE_LIST);
+
+export const paginationClick = createAction(PAGINATION_CLICK);
 
 function* getCharacterSaga(action) {
     try {
@@ -185,7 +189,9 @@ const initialState = {
         "weak": 0,
         "wound": 0
     },
-    archetype: []
+    archetype: [],
+    archetypePerPage: 10,
+    currentPage: 1
 };
 
 export function* characterSaga() {
@@ -242,28 +248,41 @@ export default handleActions(
             };
         },
         [GET_OPINION_LIST_SUCCESS]: (state, action) => {
-            const temp = action.payload.data;
+            const res = action.payload.data;
             return {
-                list: temp
+                opinion: res
             };
         },
         [POST_OPINION_FORM_SUCCESS]: (state, action) => {
-            const temp = action.payload.data;
+            const res = action.payload.data;
             return {
-                list: temp
+                opinion: res
             };
         },
         [GET_ARCHETYPE_LIST_SUCCESS]: (state, action) => {
             const res = action.payload.data;
             return {
-                archetype: res
+                archetype: res,
+                currentPage: state.currentPage,
+                archetypePerPage: state.archetypePerPage
             };
         },
         [POST_ARCHETYPE_FORM_SUCCESS]: (state, action) => {
-            const temp = action.payload.data;
+            const res = action.payload.data;
+            console.log(res);
             return {
-                list: temp
+                archetype: res,
+                currentPage: state.currentPage,
+                archetypePerPage: state.archetypePerPage
             };
+        },
+        [PAGINATION_CLICK]: (state, action) => {
+            const num = action.payload;
+            return {
+                archetype: state.archetype,
+                currentPage: num,
+                archetypePerPage: state.archetypePerPage
+            }
         }
     }, initialState
 );
