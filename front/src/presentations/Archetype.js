@@ -6,6 +6,8 @@ import { useForm, Controller } from 'react-hook-form';
 import StarRatingComponent from 'react-star-rating-component';
 
 const Archetype = ({
+    rating,
+    starClick,
     archetype,
     postForm,
     reqPro,
@@ -40,9 +42,7 @@ const Archetype = ({
         }
 
         const paginationBasic = (
-            <div>
-                <Pagination size="sm">{items}</Pagination>
-            </div>
+            <Pagination size="sm">{items}</Pagination>
         );
 
         return (
@@ -51,13 +51,14 @@ const Archetype = ({
                     <Row>
                         <Col></Col>
                         <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                            <Form onSubmit={handleSubmit(postForm)}>
-                                <Form.Row>
+                            <Form onSubmit={handleSubmit(postForm)} className="form-basis">
+                                <Form.Row style={{ paddingTop: '10px' }}>
                                     <Col>
                                         <Form.Group>
+                                            <Form.Label>작성자</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control placeholder="작성자" />
+                                                    <Form.Control placeholder="입력" />
                                                 }
                                                 name="writer"
                                                 control={control}
@@ -69,9 +70,10 @@ const Archetype = ({
                                 <Form.Row>
                                     <Col>
                                         <Form.Group>
+                                            <Form.Label>설명</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control as="textarea" placeholder="내용을 입력해 주세요" rows="2" />
+                                                    <Form.Control as="textarea" placeholder="입력" rows="2" />
                                                 }
                                                 name="content"
                                                 control={control}
@@ -82,9 +84,10 @@ const Archetype = ({
                                 <Form.Row>
                                     <Col>
                                         <Form.Group>
+                                            <Form.Label>핵심 카드</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control placeholder="핵심 카드를 입력해 주세요" />
+                                                    <Form.Control placeholder="입력" />
                                                 }
                                                 name="key_card"
                                                 control={control}
@@ -95,9 +98,10 @@ const Archetype = ({
                                 <Form.Row>
                                     <Col>
                                         <Form.Group>
+                                            <Form.Label>핵심 유물</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control placeholder="핵심 유물을 입력해 주세요" />
+                                                    <Form.Control placeholder="입력" />
                                                 }
                                                 name="key_relic"
                                                 control={control}
@@ -108,9 +112,10 @@ const Archetype = ({
                                 <Form.Row>
                                     <Col>
                                         <Form.Group>
+                                            <Form.Label>권장 카드</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control placeholder="권장 카드를 입력해 주세요" />
+                                                    <Form.Control placeholder="입력" />
                                                 }
                                                 name="recommend_card"
                                                 control={control}
@@ -121,9 +126,10 @@ const Archetype = ({
                                 <Form.Row>
                                     <Col>
                                         <Form.Group>
+                                            <Form.Label>권장 유물</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control placeholder="권장 유물을 입력해 주세요" />
+                                                    <Form.Control placeholder="입력" />
                                                 }
                                                 name="recommend_relic"
                                                 control={control}
@@ -131,24 +137,13 @@ const Archetype = ({
                                         </Form.Group>
                                     </Col>
                                 </Form.Row>
-                                <Form.Row>
+                                <Form.Row style={{ marginBottom: '10px' }}>
                                     <Col sm={10}>
                                         <Form.Group>
+                                            <Form.Label style={{ display: 'block' }}>점수</Form.Label>
                                             <Controller
                                                 as={
-                                                    <div className="rating">
-                                                        <input id="star5" name="star" type="radio" value="5" className="radio-btn hide" />
-                                                        <label htmlFor="star5">☆</label>
-                                                        <input id="star4" name="star" type="radio" value="4" className="radio-btn hide" />
-                                                        <label htmlFor="star4">☆</label>
-                                                        <input id="star3" name="star" type="radio" value="3" className="radio-btn hide" />
-                                                        <label htmlFor="star3">☆</label>
-                                                        <input id="star2" name="star" type="radio" value="2" className="radio-btn hide" />
-                                                        <label htmlFor="star2">☆</label>
-                                                        <input id="star1" name="star" type="radio" value="1" className="radio-btn hide" />
-                                                        <label htmlFor="star1">☆</label>
-                                                        <div className="clear"></div>
-                                                    </div>
+                                                    <StarRatingComponent starCount={5} value={rating} onStarClick={starClick.bind(this)} emptyStarColor={'#6D7F91'} style={{ fontSize: '1.8rem' }} />
                                                 }
                                                 control={control}
                                                 name="score"
@@ -156,8 +151,8 @@ const Archetype = ({
                                         </Form.Group>
                                     </Col>
                                     <input type="hidden" name="archetype" value="True" ref={register} />
-                                    <Col sm={2}>
-                                        <Button variant="primary" type="submit" onClick={submitMessage}>등록</Button>
+                                    <Col sm={2} >
+                                        <Button variant="primary" type="submit" onClick={submitMessage} style={{ position: 'absolute', right: '10%', bottom: '15%' }}>등록</Button>
                                     </Col>
                                 </Form.Row>
                             </Form>

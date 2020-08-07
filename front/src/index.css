@@ -85,55 +85,35 @@ nav {
   font-size: 0.8rem;
 }
 
-/* StarRating Start */
+.form-basis {
+  background-color: #CED4DA;
+  border-radius: 5px;
+  border: 1px solid rgba(0,0,0,.125);
+}
 
-.dv-star-rating label {
+.form-row {
+  margin-left:  20px!important;
+  margin-right: 20px!important;
+}
+
+.form-control {
+  font-size: 0.8rem!important;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.form-group .dv-star-rating label {
+  font-size: 1.6rem;
+  line-height: 1rem;
   margin-bottom: 0px!important;
 }
 
-.hide {
-  display: none;
+.pagination {
+  align-self: center;
 }
-
-/*
-.clear {
-  float: none;
-  clear: both;
-}
-*/
-
-.rating {
-  text-align: center;
-
-  direction: rtl;
-  unicode-bidi: bidi-override;
-}
-
-.rating > label {
-  position: relative;
-
-  margin: 0;
-
-  cursor: pointer;
-}
-
-.rating > label:hover,
-.rating > label:hover ~ label,
-.rating > input.radio-btn:checked ~ label {
-  color: transparent;
-}
-
-.rating > label:hover:before,
-.rating > label:hover ~ label:before,
-.rating > input.radio-btn:checked ~ label:before,
-.rating > input.radio-btn:checked ~ label:before {
-  content: "\2605";
-  position: absolute;
-  left: 0;
-  color: #FFD700;
-}
-
-/* StarRating End */
 
 .categorize {
   float: left;

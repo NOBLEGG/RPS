@@ -7,9 +7,14 @@ import * as characterActions from 'modules/character';
 // 렌더링에 필요한 데이터를 fetching
 const ArchetypeContainer = ({match}) => {
     const dispatch = useDispatch();
+    const rating = useSelector(state => state.character.rating);
     const archetype = useSelector(state => state.character.archetype);
     const archetypePerPage = useSelector(state => state.character.archetypePerPage);
     const currentPage = useSelector(state => state.character.currentPage);
+
+    const starClick = (nextValue) => {
+        dispatch(characterActions.starClick(nextValue));
+    }
 
     const reqPro = (id) => {
         dispatch(characterActions.postProUp({ subject: match.params.subject, id: id }));
@@ -20,6 +25,7 @@ const ArchetypeContainer = ({match}) => {
     }
 
     const postForm = (value) => {
+        value.score = rating;
         dispatch(characterActions.postArchetypeForm([value, match.params.subject]));
     }
 
@@ -33,6 +39,8 @@ const ArchetypeContainer = ({match}) => {
 
     return (
         <Archetype
+            rating={rating}
+            starClick={starClick}
             archetype={archetype}
             postForm={postForm}
             reqPro={reqPro}

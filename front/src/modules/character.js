@@ -62,6 +62,8 @@ const GET_OPINION_LIST         = 'character/GET_OPINION_LIST';
 const GET_OPINION_LIST_SUCCESS = 'character/GET_OPINION_LIST_SUCCESS';
 const GET_OPINION_LIST_FAILURE = 'character/GET_OPINION_LIST_FAILURE';
 
+const STAR_CLICK = 'character/STAR_CLICK';
+
 const POST_ARCHETYPE_FORM         = 'character/POST_ARCHETYPE_FORM';
 const POST_ARCHETYPE_FORM_SUCCESS = 'character/POST_ARCHETYPE_FORM_SUCCESS';
 const POST_ARCHETYPE_FORM_FAILURE = 'character/POST_ARCHETYPE_FORM_FAILURE';
@@ -80,6 +82,7 @@ export const changeFilter = createAction(CHANGE_FILTER);
 export const postOpinionForm = createAction(POST_OPINION_FORM);
 export const getOpinionList = createAction(GET_OPINION_LIST);
 
+export const starClick = createAction(STAR_CLICK);
 export const postArchetypeForm = createAction(POST_ARCHETYPE_FORM);
 export const getArchetypeList = createAction(GET_ARCHETYPE_LIST);
 
@@ -190,6 +193,7 @@ const initialState = {
         "wound": 0
     },
     archetype: [],
+    rating: 0,
     archetypePerPage: 10,
     currentPage: 1
 };
@@ -259,9 +263,19 @@ export default handleActions(
                 opinion: res
             };
         },
+        [STAR_CLICK]: (state, action) => {
+            const nextValue = action.payload;
+            return {
+                rating: nextValue,
+                archetype: state.archetype,
+                currentPage: state.currentPage,
+                archetypePerPage: state.archetypePerPage
+            }
+        },
         [GET_ARCHETYPE_LIST_SUCCESS]: (state, action) => {
             const res = action.payload.data;
             return {
+                rating: state.rating,
                 archetype: res,
                 currentPage: state.currentPage,
                 archetypePerPage: state.archetypePerPage
@@ -271,6 +285,7 @@ export default handleActions(
             const res = action.payload.data;
             console.log(res);
             return {
+                rating: state.rating,
                 archetype: res,
                 currentPage: state.currentPage,
                 archetypePerPage: state.archetypePerPage
@@ -279,6 +294,7 @@ export default handleActions(
         [PAGINATION_CLICK]: (state, action) => {
             const num = action.payload;
             return {
+                rating: state.rating,
                 archetype: state.archetype,
                 currentPage: num,
                 archetypePerPage: state.archetypePerPage
