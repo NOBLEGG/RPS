@@ -1,26 +1,24 @@
 import React from 'react';
-import { Pagination, Container, Row, Col, Form, Button, ButtonGroup, ListGroup, Spinner } from 'react-bootstrap';
-
 import { useForm, Controller } from 'react-hook-form';
+import { Pagination, Container, Row, Col, Form, Button, ButtonGroup, ListGroup, Spinner } from 'react-bootstrap';
 
 import StarRatingComponent from 'react-star-rating-component';
 
 const Archetype = ({
     rating,
-    starClick,
+    archetypeStarClick,
     archetype,
     postForm,
     reqPro,
     reqCon,
-    archetypePerPage,
+    perPage,
     currentPage,
     handleClick
 }) => {
-    const { handleSubmit, control, register } = useForm();
+    const { handleSubmit, control, errors, register } = useForm();
 
     const submitMessage = () => {
-        alert("등록이 완료되었습니다. 데이터베이스 상황에 따라 화면에 표시되기까지 시간이 걸릴 수 있습니다.");
-        window.location.reload();
+        alert("등록 요청을 확인했습니다. 양식에 맞게 제출했을 경우 내용이 화면에 반영되기까지 시간이 걸릴 수 있습니다.");
     }
 
     function dateFormatter(str) {
@@ -28,12 +26,12 @@ const Archetype = ({
     }
 
     if (archetype !== undefined) {
-        const indexOfLastArchetype = currentPage * archetypePerPage;
-        const indexOfFirstArchetype = indexOfLastArchetype - archetypePerPage;
+        const indexOfLastArchetype = currentPage * perPage;
+        const indexOfFirstArchetype = indexOfLastArchetype - perPage;
         const currentArchetype = archetype.slice(indexOfFirstArchetype, indexOfLastArchetype);
 
         let items = [];
-        for (let number = 1; number <= Math.ceil(archetype.length / archetypePerPage); number++) {
+        for (let number = 1; number <= Math.ceil(archetype.length / perPage); number++) {
             items.push(
                 <Pagination.Item key={number} active={number === currentPage} onClick={handleClick.bind(this, number)}>
                     {number}
@@ -64,6 +62,7 @@ const Archetype = ({
                                                 control={control}
                                                 rules={{ required: true }}
                                             />
+                                            {errors.writer && <p className="error-message">작성자명을 입력해 주세요!</p>}
                                         </Form.Group>
                                     </Col>
                                 </Form.Row>
@@ -77,7 +76,9 @@ const Archetype = ({
                                                 }
                                                 name="content"
                                                 control={control}
+                                                rules={{ required: true }}
                                             />
+                                            {errors.content && <p className="error-message">내용을 입력해 주세요!</p>}
                                         </Form.Group>
                                     </Col>
                                 </Form.Row>
@@ -143,7 +144,7 @@ const Archetype = ({
                                             <Form.Label style={{ display: 'block' }}>점수</Form.Label>
                                             <Controller
                                                 as={
-                                                    <StarRatingComponent starCount={5} value={rating} onStarClick={starClick.bind(this)} emptyStarColor={'#6D7F91'} style={{ fontSize: '1.8rem' }} />
+                                                    <StarRatingComponent starCount={5} value={rating} onStarClick={archetypeStarClick.bind(this)} emptyStarColor={'#6D7F91'} style={{ fontSize: '1.8rem' }} />
                                                 }
                                                 control={control}
                                                 name="score"
@@ -151,7 +152,7 @@ const Archetype = ({
                                         </Form.Group>
                                     </Col>
                                     <input type="hidden" name="archetype" value="True" ref={register} />
-                                    <Col sm={2} >
+                                    <Col sm={2}>
                                         <Button variant="primary" type="submit" onClick={submitMessage} style={{ position: 'absolute', right: '10%', bottom: '15%' }}>등록</Button>
                                     </Col>
                                 </Form.Row>

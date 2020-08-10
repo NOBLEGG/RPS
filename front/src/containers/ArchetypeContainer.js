@@ -9,11 +9,11 @@ const ArchetypeContainer = ({match}) => {
     const dispatch = useDispatch();
     const rating = useSelector(state => state.character.rating);
     const archetype = useSelector(state => state.character.archetype);
-    const archetypePerPage = useSelector(state => state.character.archetypePerPage);
+    const perPage = useSelector(state => state.character.perPage);
     const currentPage = useSelector(state => state.character.currentPage);
 
-    const starClick = (nextValue) => {
-        dispatch(characterActions.starClick(nextValue));
+    const archetypeStarClick = (nextValue) => {
+        dispatch(characterActions.archetypeStarClick(nextValue));
     }
 
     const reqPro = (id) => {
@@ -30,7 +30,7 @@ const ArchetypeContainer = ({match}) => {
     }
 
     const handleClick = (num) => {
-        dispatch(characterActions.paginationClick(num));
+        dispatch(characterActions.archetypePaginationClick(num));
     }
 
     useEffect(() => {
@@ -40,12 +40,12 @@ const ArchetypeContainer = ({match}) => {
     return (
         <Archetype
             rating={rating}
-            starClick={starClick}
+            archetypeStarClick={archetypeStarClick}
             archetype={archetype}
             postForm={postForm}
             reqPro={reqPro}
             reqCon={reqCon}
-            archetypePerPage={archetypePerPage}
+            perPage={perPage}
             currentPage={currentPage}
             handleClick={handleClick}
         />

@@ -54,39 +54,38 @@ const CHANGE_FILTER         = 'character/CHANGE_FILTER';
 const CHANGE_FILTER_SUCCESS = 'character/CHANGE_FILTER_SUCCESS';
 const CHANGE_FILTER_FAILURE = 'character/CHANGE_FILTER_FAILURE';
 
+const OPINION_STAR_CLICK        = 'character/OPINION_STAR_CLICK';
 const POST_OPINION_FORM         = 'character/POST_OPINION_FORM';
 const POST_OPINION_FORM_SUCCESS = 'character/POST_OPINION_FORM_SUCCESS';
 const POST_OPINION_FORM_FAILURE = 'character/POST_OPINION_FORM_FAILURE';
+const GET_OPINION_LIST          = 'character/GET_OPINION_LIST';
+const GET_OPINION_LIST_SUCCESS  = 'character/GET_OPINION_LIST_SUCCESS';
+const GET_OPINION_LIST_FAILURE  = 'character/GET_OPINION_LIST_FAILURE';
+const OPINION_PAGINATION_CLICK  = 'character/OPINION_PAGINATION_CLICK';
 
-const GET_OPINION_LIST         = 'character/GET_OPINION_LIST';
-const GET_OPINION_LIST_SUCCESS = 'character/GET_OPINION_LIST_SUCCESS';
-const GET_OPINION_LIST_FAILURE = 'character/GET_OPINION_LIST_FAILURE';
-
-const STAR_CLICK = 'character/STAR_CLICK';
-
+const ARCHETYPE_STAR_CLICK        = 'character/ARCHETYPE_STAR_CLICK';
 const POST_ARCHETYPE_FORM         = 'character/POST_ARCHETYPE_FORM';
 const POST_ARCHETYPE_FORM_SUCCESS = 'character/POST_ARCHETYPE_FORM_SUCCESS';
 const POST_ARCHETYPE_FORM_FAILURE = 'character/POST_ARCHETYPE_FORM_FAILURE';
-
-const GET_ARCHETYPE_LIST         = 'character/GET_ARCHETYPE_LIST';
-const GET_ARCHETYPE_LIST_SUCCESS = 'character/GET_ARCHETYPE_LIST_SUCCESS';
-const GET_ARCHETYPE_LIST_FAILURE = 'character/GET_ARCHETYPE_LIST_FAILURE';
-
-const PAGINATION_CLICK = 'character/PAGINATION_CLICK';
+const GET_ARCHETYPE_LIST          = 'character/GET_ARCHETYPE_LIST';
+const GET_ARCHETYPE_LIST_SUCCESS  = 'character/GET_ARCHETYPE_LIST_SUCCESS';
+const GET_ARCHETYPE_LIST_FAILURE  = 'character/GET_ARCHETYPE_LIST_FAILURE';
+const ARCHETYPE_PAGINATION_CLICK  = 'character/ARCHETYPE_PAGINATION_CLICK';
 
 export const getCharacter = createAction(GET_CHARACTER);
 export const postProUp = createAction(POST_PRO_UP);
 export const postConUp = createAction(POST_CON_UP);
 export const changeFilter = createAction(CHANGE_FILTER);
 
+export const opinionStarClick = createAction(OPINION_STAR_CLICK);
 export const postOpinionForm = createAction(POST_OPINION_FORM);
 export const getOpinionList = createAction(GET_OPINION_LIST);
+export const opinionPaginationClick = createAction(OPINION_PAGINATION_CLICK);
 
-export const starClick = createAction(STAR_CLICK);
+export const archetypeStarClick = createAction(ARCHETYPE_STAR_CLICK);
 export const postArchetypeForm = createAction(POST_ARCHETYPE_FORM);
 export const getArchetypeList = createAction(GET_ARCHETYPE_LIST);
-
-export const paginationClick = createAction(PAGINATION_CLICK);
+export const archetypePaginationClick = createAction(ARCHETYPE_PAGINATION_CLICK);
 
 function* getCharacterSaga(action) {
     try {
@@ -194,7 +193,7 @@ const initialState = {
     },
     archetype: [],
     rating: 0,
-    archetypePerPage: 10,
+    perPage: 10,
     currentPage: 1
 };
 
@@ -251,25 +250,49 @@ export default handleActions(
                 archetype: state.archetype
             };
         },
+        [OPINION_STAR_CLICK]: (state, action) => {
+            const nextValue = action.payload;
+            return {
+                rating: nextValue,
+                opinion: state.opinion,
+                currentPage: state.currentPage,
+                perPage: state.perPage
+            }
+        },
         [GET_OPINION_LIST_SUCCESS]: (state, action) => {
             const res = action.payload.data;
             return {
-                opinion: res
+                rating: state.rating,
+                opinion: res,
+                currentPage: 1,
+                perPage: 10
             };
         },
         [POST_OPINION_FORM_SUCCESS]: (state, action) => {
             const res = action.payload.data;
             return {
-                opinion: res
+                rating: state.rating,
+                opinion: res,
+                currentPage: state.currentPage,
+                perPage: state.perPage
             };
         },
-        [STAR_CLICK]: (state, action) => {
+        [OPINION_PAGINATION_CLICK]: (state, action) => {
+            const num = action.payload;
+            return {
+                rating: state.rating,
+                opinion: state.opinion,
+                currentPage: num,
+                perPage: state.perPage
+            }
+        },
+        [ARCHETYPE_STAR_CLICK]: (state, action) => {
             const nextValue = action.payload;
             return {
                 rating: nextValue,
                 archetype: state.archetype,
                 currentPage: state.currentPage,
-                archetypePerPage: state.archetypePerPage
+                perPage: state.perPage
             }
         },
         [GET_ARCHETYPE_LIST_SUCCESS]: (state, action) => {
@@ -277,27 +300,26 @@ export default handleActions(
             return {
                 rating: state.rating,
                 archetype: res,
-                currentPage: state.currentPage,
-                archetypePerPage: state.archetypePerPage
+                currentPage: 1,
+                perPage: 10
             };
         },
         [POST_ARCHETYPE_FORM_SUCCESS]: (state, action) => {
             const res = action.payload.data;
-            console.log(res);
             return {
                 rating: state.rating,
                 archetype: res,
                 currentPage: state.currentPage,
-                archetypePerPage: state.archetypePerPage
+                perPage: state.perPage
             };
         },
-        [PAGINATION_CLICK]: (state, action) => {
+        [ARCHETYPE_PAGINATION_CLICK]: (state, action) => {
             const num = action.payload;
             return {
                 rating: state.rating,
                 archetype: state.archetype,
                 currentPage: num,
-                archetypePerPage: state.archetypePerPage
+                perPage: state.perPage
             }
         }
     }, initialState
