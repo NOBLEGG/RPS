@@ -1,6 +1,7 @@
 from djongo import models
 
 class Notice(models.Model):
+    objects = models.Manager()
     title = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -12,6 +13,7 @@ class Notice(models.Model):
 
 # 추후 카드와 유물 간 상관관계에 대해 다룰 필요가 생길 수도 있어서 합침
 class CardRelic(models.Model):
+    objects = models.Manager()
     eng_name = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=50)
     subject = models.CharField(max_length=50)
@@ -30,6 +32,7 @@ class CardRelic(models.Model):
         return self.eng_name
 
 class Potion(models.Model):
+    objects = models.Manager()
     eng_name = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=50)
     img = models.ImageField()
@@ -38,6 +41,7 @@ class Potion(models.Model):
     rarity = models.TextField(max_length=20)
 
 class Opinion(models.Model):
+    objects = models.Manager()
     subject = models.CharField(max_length=50)
     writer = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)

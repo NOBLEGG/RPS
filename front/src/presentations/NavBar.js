@@ -18,8 +18,9 @@ const NavBar = () => {
                         <NavDropdown.Item href="#action/3.3">Archivements</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
+                <Nav.Link href="/rest-auth" inline="true">Login</Nav.Link>
             </Navbar.Collapse>
-        </Navbar>  
+        </Navbar>
     );
 }
 

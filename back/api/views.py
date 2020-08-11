@@ -8,9 +8,19 @@ from rest_framework.response import Response
 from .models import Notice, Opinion, CardRelic
 from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer
 
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView
+
 import json, logging
 
 logger = logging.getLogger(__name__)
+
+class FacebookLoginView(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+
+class GoogleLoginView(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
 
 class NoticeListView(generics.ListAPIView):
     queryset = Notice.objects.all()
@@ -161,9 +171,6 @@ class ArchetypeView(APIView):
         opinion.title = request.data.get('title')
         opinion.recommend_card = request.data.get('recommend_card')
         opinion.recommend_relic = request.data.get('recommend_relic')
-
-        queryset = Opinion.objects.all().filter(subject=obj).filter(archetype=True)
-        serializer = OpinionSerializer(queryset, many=True)
 
         try:
             opinion.save()

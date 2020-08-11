@@ -11,6 +11,7 @@ import createSagaMiddleware from 'redux-saga';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 import NavBar from 'presentations/NavBar';
+import LoginContainer from 'containers/LoginContainer';
 import HomeContainer from 'containers/HomeContainer';
 import HomeDetailContainer from 'containers/HomeDetailContainer';
 import IroncladContainer from 'containers/IroncladContainer';
@@ -30,6 +31,9 @@ const Root = () => {
         <NavBar />
         <Switch>
           <Route exact path="/" component={HomeContainer} />
+
+          <Route exact path="/rest-auth" component={LoginContainer} />
+
           <Route exact path="/notice/:id" component={HomeDetailContainer} />
           <Route exact path="/character/:subject" component={IroncladContainer} />
           <Route exact path="/opinion/:subject" component={OpinionContainer} />

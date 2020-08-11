@@ -5,14 +5,16 @@ import { combineReducers } from 'redux';
 import home, { homeSaga } from 'modules/home';
 import character, { characterSaga } from 'modules/character';
 import card, { cardSaga } from 'modules/card';
+import login, { loginSaga } from 'modules/login';
 import { all } from 'redux-saga/effects';
 
 export function* rootSaga() {
-    yield all([homeSaga(), characterSaga(), cardSaga()]);
+    yield all([homeSaga(), characterSaga(), cardSaga(), loginSaga()]);
 }
 
 export default combineReducers({
     home,
     character,
-    card
+    card,
+    login
 });
