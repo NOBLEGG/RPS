@@ -14,7 +14,7 @@ class Notice(models.Model):
 # 추후 카드와 유물 간 상관관계에 대해 다룰 필요가 생길 수도 있어서 합침
 class CardRelic(models.Model):
     objects = models.Manager()
-    eng_name = models.CharField(max_length=50, primary_key=True)
+    eng_name = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     subject = models.CharField(max_length=50)
     img = models.ImageField()
@@ -30,6 +30,11 @@ class CardRelic(models.Model):
 
     def __str__(self):
         return self.eng_name
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['eng_name', 'subject', 'card'], name='unique_card')
+        ]
 
 class Potion(models.Model):
     objects = models.Manager()

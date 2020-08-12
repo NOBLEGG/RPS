@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Ironclad from 'presentations/Ironclad';
+import Silent from 'presentations/Silent';
 import * as characterActions from 'modules/character';
 
 // 렌더링에 필요한 데이터를 fetching
-const IroncladContainer = () => {
+const SilentContainer = () => {
     const dispatch = useDispatch();
     const opinion = useSelector(state => state.character.opinion);
     const card = useSelector(state => state.character.card);
@@ -13,11 +13,11 @@ const IroncladContainer = () => {
     const archetype = useSelector(state => state.character.archetype);
 
     const reqPro = (id) => {
-        dispatch(characterActions.postProUp({ subject: 'ironclad', id: id }));
+        dispatch(characterActions.postProUp({ subject: 'silent', id: id }));
     }
 
     const reqCon = (id) => {
-        dispatch(characterActions.postConUp({ subject: 'ironclad', id: id }));
+        dispatch(characterActions.postConUp({ subject: 'silent', id: id }));
     }
 
     const changeRadio = (name, target) => {
@@ -41,7 +41,7 @@ const IroncladContainer = () => {
     }
 
     const dispatcher = () => {
-        dispatch(characterActions.changeFilter({ subject: 'ironclad', filter: filter }));
+        dispatch(characterActions.changeFilter({ subject: 'silent', filter: filter }));
     }
 
     const reset = () => {
@@ -53,15 +53,15 @@ const IroncladContainer = () => {
         for (let i = 0; i < filterKeys.length; i++)
             filter[filterKeys[i]] = 0;
         
-        dispatch(characterActions.changeFilter({ subject: 'ironclad', filter: filter }));
+        dispatch(characterActions.changeFilter({ subject: 'silent', filter: filter }));
     }
 
     useEffect(() => {
-        dispatch(characterActions.getCharacter({ subject: 'ironclad' }));
+        dispatch(characterActions.getCharacter({ subject: 'silent' }));
     }, [dispatch]);
     
     return (
-        <Ironclad
+        <Silent
             opinion={opinion}
             reqPro={reqPro}
             reqCon={reqCon}
@@ -75,4 +75,4 @@ const IroncladContainer = () => {
     );
 }
 
-export default IroncladContainer;
+export default SilentContainer;

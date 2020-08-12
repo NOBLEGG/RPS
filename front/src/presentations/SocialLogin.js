@@ -1,21 +1,19 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-// import GoogleLogin from 'react-google-login';
+import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 
-const Login = ({
+const SocialLogin = ({
     fbLogin
 }) => {
     const fbResponse = (response) => {
         fbLogin(response);
     }
 
-    /*
     const googleResponse = (response) => {
         console.log(response);
     }
-    */
 
     return (
         <div>
@@ -31,14 +29,12 @@ const Login = ({
                                     callback={fbResponse}
                                 />
                             </div>
-                            {/*
                             <GoogleLogin
                                 clientId="project-rps-286107"
                                 buttonText="LOGIN WITH GOOGLE"
                                 onSuccess={googleResponse}
                                 onFailure={googleResponse}
                             />
-                            */}
                         </Col>
                         <Col></Col>
                     </Row>
@@ -54,4 +50,4 @@ const Login = ({
     );
 }
 
-export default Login;
+export default SocialLogin;

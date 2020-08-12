@@ -2,43 +2,45 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Opinion from 'presentations/Opinion';
-import * as characterActions from 'modules/character';
+import * as opinionActions from 'modules/opinion';
 
 // 렌더링에 필요한 데이터를 fetching
 const OpinionContainer = ({match}) => {
     const dispatch = useDispatch();
-    const rating = useSelector(state => state.character.rating);
-    const opinion = useSelector(state => state.character.opinion);
-    const perPage = useSelector(state => state.character.perPage);
-    const currentPage = useSelector(state => state.character.currentPage);
+    const subject = match.params.subject;
+    const rating = useSelector(state => state.opinion.rating);
+    const opinion = useSelector(state => state.opinion.opinion);
+    const perPage = useSelector(state => state.opinion.perPage);
+    const currentPage = useSelector(state => state.opinion.currentPage);
 
     const opinionStarClick = (nextValue) => {
-        dispatch(characterActions.opinionStarClick(nextValue));
+        dispatch(opinionActions.opinionStarClick(nextValue));
     }
 
     const reqPro = (id) => {
-        dispatch(characterActions.postProUp({ subject: match.params.subject, id: id }));
+        dispatch(opinionActions.postProUp({ subject: subject, id: id }));
     }
 
     const reqCon = (id) => {
-        dispatch(characterActions.postConUp({ subject: match.params.subject, id: id }));
+        dispatch(opinionActions.postConUp({ subject: subject, id: id }));
     }
 
     const postForm = (value) => {
         value.score = rating;
-        dispatch(characterActions.postOpinionForm([value, match.params.subject]));
+        dispatch(opinionActions.postOpinionForm([value, subject]));
     }
 
     const handleClick = (num) => {
-        dispatch(characterActions.opinionPaginationClick(num));
+        dispatch(opinionActions.opinionPaginationClick(num));
     }
 
     useEffect(() => {
-        dispatch(characterActions.getOpinionList(match.params.subject));
-    }, [dispatch, match.params.subject]);
+        dispatch(opinionActions.getOpinionList(subject));
+    }, [dispatch, subject]);
 
     return (
-        <Opinion 
+        <Opinion
+            subject={subject}
             rating={rating}
             opinionStarClick={opinionStarClick}
             opinion={opinion}

@@ -4,7 +4,7 @@ import { createAction, handleActions } from 'redux-actions';
 
 function fbLoginAPI(access_token) {
     return axios.post(
-        'http://localhost:8000/rest-auth/facebook/',
+        'https://localhost:8000/rest-auth/facebook/',
         {
             access_token: access_token
         }
@@ -13,7 +13,7 @@ function fbLoginAPI(access_token) {
 
 function googleLoginAPI(access_token) {
     return axios.post(
-        'http://localhost:8000/rest-auth/google/',
+        'https://localhost:8000/rest-auth/google/',
         {
             access_token: access_token
         }

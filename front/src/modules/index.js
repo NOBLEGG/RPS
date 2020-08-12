@@ -6,15 +6,19 @@ import home, { homeSaga } from 'modules/home';
 import character, { characterSaga } from 'modules/character';
 import card, { cardSaga } from 'modules/card';
 import login, { loginSaga } from 'modules/login';
+import opinion, { opinionSaga } from 'modules/opinion';
+import archetype, { archetypeSaga } from 'modules/archetype';
 import { all } from 'redux-saga/effects';
 
 export function* rootSaga() {
-    yield all([homeSaga(), characterSaga(), cardSaga(), loginSaga()]);
+    yield all([homeSaga(), characterSaga(), cardSaga(), loginSaga(), opinionSaga(), archetypeSaga()]);
 }
 
 export default combineReducers({
     home,
     character,
     card,
-    login
+    login,
+    opinion,
+    archetype
 });

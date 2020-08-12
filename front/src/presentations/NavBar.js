@@ -9,7 +9,7 @@ const NavBar = () => {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Link href="/character/ironclad">Ironclad</Nav.Link>
-                    <Nav.Link href="#link">Slient</Nav.Link>
+                    <Nav.Link href="/character/silent">Silent</Nav.Link>
                     <Nav.Link href="#link">Defect</Nav.Link>
                     <Nav.Link href="#link">Watcher</Nav.Link>
                     <NavDropdown title="General" id="basic-nav-dropdown">
@@ -18,7 +18,7 @@ const NavBar = () => {
                         <NavDropdown.Item href="#action/3.3">Archivements</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
-                <Nav.Link href="/rest-auth" inline="true">Login</Nav.Link>
+                {/* <Nav.Link href="/rest-auth" inline="true">Login</Nav.Link> */}
             </Navbar.Collapse>
         </Navbar>
     );

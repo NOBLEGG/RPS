@@ -8,19 +8,19 @@ from rest_framework.response import Response
 from .models import Notice, Opinion, CardRelic
 from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer
 
-from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from rest_auth.registration.views import SocialLoginView
+# from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+# from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+# from rest_auth.registration.views import SocialLoginView
 
 import json, logging
 
 logger = logging.getLogger(__name__)
 
-class FacebookLoginView(SocialLoginView):
-    adapter_class = FacebookOAuth2Adapter
-
-class GoogleLoginView(SocialLoginView):
-    adapter_class = GoogleOAuth2Adapter
+# class FacebookLoginView(SocialLoginView):
+#     adapter_class = FacebookOAuth2Adapter
+#
+# class GoogleLoginView(SocialLoginView):
+#     adapter_class = GoogleOAuth2Adapter
 
 class NoticeListView(generics.ListAPIView):
     queryset = Notice.objects.all()
@@ -99,6 +99,8 @@ class CharacterView(APIView):
                 card = card.filter(keyword__contains='"innate":1')
             if (json_data['intangible'] == 1):
                 card = card.filter(keyword__contains='"intangible":1')
+            if (json_data['poison'] == 1):
+                card = card.filter(keyword__contains='"poison":1')
             if (json_data['retain'] == 1):
                 card = card.filter(keyword__contains='"retain":1')
             if (json_data['scry'] == 1):
@@ -113,8 +115,6 @@ class CharacterView(APIView):
                 card = card.filter(keyword__contains='"weak":1')
             if (json_data['wound'] == 1):
                 card = card.filter(keyword__contains='"wound":1')
-
-            logger.warn(card)
 
             card_serializer = CardSerializer(card, many=True)
 

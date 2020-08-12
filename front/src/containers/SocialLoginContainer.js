@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import Login from 'presentations/Login';
+// import Login from 'presentations/Login';
 import * as loginActions from 'modules/login';
 
 // 렌더링에 필요한 데이터를 fetching
-const LoginContainer = () => {
+const SocialLoginContainer = () => {
     const dispatch = useDispatch();
 
     const fbLogin = (response) => {
@@ -24,4 +24,4 @@ const LoginContainer = () => {
     );
 }
 
-export default LoginContainer;
+export default SocialLoginContainer;

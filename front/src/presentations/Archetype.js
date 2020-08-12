@@ -5,6 +5,7 @@ import { Pagination, Container, Row, Col, Form, Button, ButtonGroup, ListGroup, 
 import StarRatingComponent from 'react-star-rating-component';
 
 const Archetype = ({
+    subject,
     rating,
     archetypeStarClick,
     archetype,
@@ -16,6 +17,17 @@ const Archetype = ({
     handleClick
 }) => {
     const { handleSubmit, control, errors, register } = useForm();
+
+    let bgColor = "";
+    let textColor = "";
+
+    if (subject === "ironclad") {
+        bgColor = "#682B3B";
+        textColor = "#EACCD4";
+    } else if (subject === "silent") {
+        bgColor = "#606C54";
+        textColor = "#DFE3DB";
+    }
 
     const submitMessage = () => {
         alert("등록 요청을 확인했습니다. 양식에 맞게 제출했을 경우 내용이 화면에 반영되기까지 시간이 걸릴 수 있습니다.");
@@ -159,8 +171,8 @@ const Archetype = ({
                             </Form>
                             <hr />
                             <ListGroup as="ul">
-                                <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#682B3B' }}>
-                                    <span style={{ fontWeight: '600', color: '#EACCD4' }}>Archetypes</span>
+                                <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: bgColor }}>
+                                    <span style={{ fontWeight: '600', color: textColor }}>Archetypes</span>
                                 </ListGroup.Item>
                                 {currentArchetype.map((item) =>
                                     <ListGroup.Item key={item.id} variant="secondary">

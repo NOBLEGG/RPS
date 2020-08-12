@@ -22,22 +22,6 @@ function changeFilterAPI(subject, filter) {
     });
 }
 
-function postOpinionFormAPI(subject, data) {
-    return axios.post('http://localhost:8000/opinion/' + subject + '/', data);
-}
-
-function getOpinionListAPI(subject) {
-    return axios.get('http://localhost:8000/opinion/' + subject + '/');
-}
-
-function postArchetypeFormAPI(subject, data) {
-    return axios.post('http://localhost:8000/archetype/' + subject + '/', data);
-}
-
-function getArchetypeListAPI(subject) {
-    return axios.get('http://localhost:8000/archetype/' + subject + '/');
-}
-
 const GET_CHARACTER         = 'character/GET_CHARACTER';
 const GET_CHARACTER_SUCCESS = 'character/GET_CHARACTER_SUCCESS';
 const GET_CHARACTER_FAILURE = 'character/GET_CHARACTER_FAILURE';
@@ -54,38 +38,10 @@ const CHANGE_FILTER         = 'character/CHANGE_FILTER';
 const CHANGE_FILTER_SUCCESS = 'character/CHANGE_FILTER_SUCCESS';
 const CHANGE_FILTER_FAILURE = 'character/CHANGE_FILTER_FAILURE';
 
-const OPINION_STAR_CLICK        = 'character/OPINION_STAR_CLICK';
-const POST_OPINION_FORM         = 'character/POST_OPINION_FORM';
-const POST_OPINION_FORM_SUCCESS = 'character/POST_OPINION_FORM_SUCCESS';
-const POST_OPINION_FORM_FAILURE = 'character/POST_OPINION_FORM_FAILURE';
-const GET_OPINION_LIST          = 'character/GET_OPINION_LIST';
-const GET_OPINION_LIST_SUCCESS  = 'character/GET_OPINION_LIST_SUCCESS';
-const GET_OPINION_LIST_FAILURE  = 'character/GET_OPINION_LIST_FAILURE';
-const OPINION_PAGINATION_CLICK  = 'character/OPINION_PAGINATION_CLICK';
-
-const ARCHETYPE_STAR_CLICK        = 'character/ARCHETYPE_STAR_CLICK';
-const POST_ARCHETYPE_FORM         = 'character/POST_ARCHETYPE_FORM';
-const POST_ARCHETYPE_FORM_SUCCESS = 'character/POST_ARCHETYPE_FORM_SUCCESS';
-const POST_ARCHETYPE_FORM_FAILURE = 'character/POST_ARCHETYPE_FORM_FAILURE';
-const GET_ARCHETYPE_LIST          = 'character/GET_ARCHETYPE_LIST';
-const GET_ARCHETYPE_LIST_SUCCESS  = 'character/GET_ARCHETYPE_LIST_SUCCESS';
-const GET_ARCHETYPE_LIST_FAILURE  = 'character/GET_ARCHETYPE_LIST_FAILURE';
-const ARCHETYPE_PAGINATION_CLICK  = 'character/ARCHETYPE_PAGINATION_CLICK';
-
 export const getCharacter = createAction(GET_CHARACTER);
 export const postProUp = createAction(POST_PRO_UP);
 export const postConUp = createAction(POST_CON_UP);
 export const changeFilter = createAction(CHANGE_FILTER);
-
-export const opinionStarClick = createAction(OPINION_STAR_CLICK);
-export const postOpinionForm = createAction(POST_OPINION_FORM);
-export const getOpinionList = createAction(GET_OPINION_LIST);
-export const opinionPaginationClick = createAction(OPINION_PAGINATION_CLICK);
-
-export const archetypeStarClick = createAction(ARCHETYPE_STAR_CLICK);
-export const postArchetypeForm = createAction(POST_ARCHETYPE_FORM);
-export const getArchetypeList = createAction(GET_ARCHETYPE_LIST);
-export const archetypePaginationClick = createAction(ARCHETYPE_PAGINATION_CLICK);
 
 function* getCharacterSaga(action) {
     try {
@@ -123,42 +79,6 @@ function* changeFilterSaga(action) {
     }
 }
 
-function* postOpinionFormSaga(action) {
-    try {
-        const response = yield call(postOpinionFormAPI, action.payload[1], action.payload[0]);
-        yield put({ type: POST_OPINION_FORM_SUCCESS, payload: response });
-    } catch (e) {
-        yield put({ type: POST_OPINION_FORM_FAILURE, payload: e });
-    }
-}
-
-function* getOpinionListSaga(action) {
-    try {
-        const response = yield call(getOpinionListAPI, action.payload);
-        yield put({ type: GET_OPINION_LIST_SUCCESS, payload: response });
-    } catch (e) {
-        yield put({ type: GET_OPINION_LIST_FAILURE, payload: e });
-    }
-}
-
-function* postArchetypeFormSaga(action) {
-    try {
-        const response = yield call(postArchetypeFormAPI, action.payload[1], action.payload[0]);
-        yield put({ type: POST_ARCHETYPE_FORM_SUCCESS, payload: response });
-    } catch (e) {
-        yield put({ type: POST_ARCHETYPE_FORM_FAILURE, payload: e });
-    }
-}
-
-function* getArchetypeListSaga(action) {
-    try {
-        const response = yield call(getArchetypeListAPI, action.payload);
-        yield put({ type: GET_ARCHETYPE_LIST_SUCCESS, payload: response });
-    } catch (e) {
-        yield put({ type: GET_ARCHETYPE_LIST_FAILURE, payload: e });
-    }
-}
-
 const initialState = {
     opinion: [],
     card: [],
@@ -183,6 +103,7 @@ const initialState = {
         "exhaust": 0,
         "innate": 0,
         "intangible": 0,
+        "poison": 0,
         "retain": 0,
         "scry": 0,
         "strength": 0,
@@ -191,10 +112,7 @@ const initialState = {
         "weak": 0,
         "wound": 0
     },
-    archetype: [],
-    rating: 0,
-    perPage: 10,
-    currentPage: 1
+    archetype: []
 };
 
 export function* characterSaga() {
@@ -204,12 +122,6 @@ export function* characterSaga() {
     yield takeEvery('character/POST_CON_UP', postConUpSaga);
 
     yield takeEvery('character/CHANGE_FILTER', changeFilterSaga);
-
-    yield takeEvery('character/POST_OPINION_FORM', postOpinionFormSaga);
-    yield takeEvery('character/GET_OPINION_LIST', getOpinionListSaga);
-
-    yield takeEvery('character/POST_ARCHETYPE_FORM', postArchetypeFormSaga);
-    yield takeEvery('character/GET_ARCHETYPE_LIST', getArchetypeListSaga);
 }
 
 export default handleActions(
@@ -249,78 +161,6 @@ export default handleActions(
                 filter: state.filter,
                 archetype: state.archetype
             };
-        },
-        [OPINION_STAR_CLICK]: (state, action) => {
-            const nextValue = action.payload;
-            return {
-                rating: nextValue,
-                opinion: state.opinion,
-                currentPage: state.currentPage,
-                perPage: state.perPage
-            }
-        },
-        [GET_OPINION_LIST_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
-            return {
-                rating: state.rating,
-                opinion: res,
-                currentPage: 1,
-                perPage: 10
-            };
-        },
-        [POST_OPINION_FORM_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
-            return {
-                rating: state.rating,
-                opinion: res,
-                currentPage: state.currentPage,
-                perPage: state.perPage
-            };
-        },
-        [OPINION_PAGINATION_CLICK]: (state, action) => {
-            const num = action.payload;
-            return {
-                rating: state.rating,
-                opinion: state.opinion,
-                currentPage: num,
-                perPage: state.perPage
-            }
-        },
-        [ARCHETYPE_STAR_CLICK]: (state, action) => {
-            const nextValue = action.payload;
-            return {
-                rating: nextValue,
-                archetype: state.archetype,
-                currentPage: state.currentPage,
-                perPage: state.perPage
-            }
-        },
-        [GET_ARCHETYPE_LIST_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
-            return {
-                rating: state.rating,
-                archetype: res,
-                currentPage: 1,
-                perPage: 10
-            };
-        },
-        [POST_ARCHETYPE_FORM_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
-            return {
-                rating: state.rating,
-                archetype: res,
-                currentPage: state.currentPage,
-                perPage: state.perPage
-            };
-        },
-        [ARCHETYPE_PAGINATION_CLICK]: (state, action) => {
-            const num = action.payload;
-            return {
-                rating: state.rating,
-                archetype: state.archetype,
-                currentPage: num,
-                perPage: state.perPage
-            }
         }
     }, initialState
 );
