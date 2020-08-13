@@ -16,6 +16,7 @@ import HomeContainer from 'containers/HomeContainer';
 import HomeDetailContainer from 'containers/HomeDetailContainer';
 import IroncladContainer from 'containers/IroncladContainer';
 import SilentContainer from 'containers/SilentContainer';
+import DefectContainer from 'containers/DefectContainer';
 import OpinionContainer from 'containers/OpinionContainer';
 import ArchetypeContainer from 'containers/ArchetypeContainer';
 import CardContainer from 'containers/CardContainer';
@@ -38,6 +39,7 @@ const Root = () => {
           <Route exact path="/notice/:id" component={HomeDetailContainer} />
           <Route exact path="/character/ironclad" component={IroncladContainer} />
           <Route exact path="/character/silent" component={SilentContainer} />
+          <Route exact path="/character/defect" component={DefectContainer} />
           
           <Route exact path="/opinion/:subject" component={OpinionContainer} />
           <Route exact path="/archetype/:subject" component={ArchetypeContainer} />

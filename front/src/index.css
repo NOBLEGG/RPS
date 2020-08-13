@@ -154,3 +154,11 @@ footer {
   color: #150603;
   background-color: #DDD3B0;
 }
+
+.spin {
+  background-color: #DDD3B0;
+
+  height: 100vh;
+
+  text-align: center;
+}

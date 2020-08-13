@@ -75,8 +75,8 @@ const Card = ({
         );
     } else {
         return (
-            <div>
-                <Spinner animation="border"></Spinner>
+            <div className="spin">
+                <Spinner animation="border" style={{ position: 'relative', top: '40%' }}></Spinner>
             </div>
         )
     }

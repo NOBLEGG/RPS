@@ -6,7 +6,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 
 import StarRatingComponent from 'react-star-rating-component';
 
-const Silent = ({
+const Defect = ({
     opinion,
     reqPro,
     reqCon,
@@ -26,7 +26,7 @@ const Silent = ({
         text: '카드명',
         style: {textAlign: 'center'},
         formatter: (row, cell) => {
-            const imgSrc = "../silent/";
+            const imgSrc = "../defect/";
             let temp = cell.eng_name.toLowerCase();
             temp = imgSrc + temp + ".jpg";
             return <OverlayTrigger overlay={<Image src={temp} />}><Link to={{pathname: `/card/${cell.eng_name}`}}>{cell.name}</Link></OverlayTrigger>;
@@ -61,15 +61,15 @@ const Silent = ({
                             <Col></Col>
                             <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
                                 <Row>
-                                    <Image id="character-img" src="../silent/silent.jpg" />
+                                    <Image id="character-img" src="../defect/defect.jpg" />
                                 </Row>
                                 <br />
                                 <Row>
                                     <Col>
                                         <ListGroup as="ul">
-                                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#606C54' }}>
-                                                <span style={{ fontWeight: '600', color: '#DFE3DB' }}>팁</span>
-                                                <Link to="/opinion/silent"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
+                                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#586983' }}>
+                                                <span style={{ fontWeight: '600', color: '#DCE1E8' }}>팁</span>
+                                                <Link to="/opinion/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
                                             </ListGroup.Item>
                                             {opinion.map((opinion) =>
                                                 <ListGroup.Item key={opinion.id} variant="secondary">
@@ -105,7 +105,7 @@ const Silent = ({
                                     <ListGroup style={{ width: '100%' }}>
                                         <ListGroup.Item as="div" variant="secondary" style={{ padding: '0', height: '80%' }}>
                                             <div className="categorize" style={{
-                                                backgroundColor: '#606C54', fontWeight: '600', color: '#DFE3DB', borderTopLeftRadius: '5px'
+                                                backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8', borderTopLeftRadius: '5px'
                                             }}>등급</div>
                                             <div style={{ display: 'flex', height: '100%', alignItems: 'center' }}>
                                                 <input type="radio" name="rarity" value="common" onClick={changeRadio.bind(this, 'rarity', 'common')} />
@@ -118,7 +118,7 @@ const Silent = ({
                                         </ListGroup.Item>
                                         <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
                                             <div className="categorize" style={{
-                                                backgroundColor: '#606C54', fontWeight: '600', color: '#DFE3DB'
+                                                backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8'
                                             }}>종류</div>
                                             <div style={{ display: 'flex', height: '100%', alignItems: 'center' }}>
                                                 <input type="radio" name="kind" value="attack" onClick={changeRadio.bind(this, 'kind', 'attack')} />
@@ -131,7 +131,7 @@ const Silent = ({
                                         </ListGroup.Item>
                                         <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
                                             <div className="categorize" style={{
-                                                backgroundColor: '#606C54', fontWeight: '600', color: '#DFE3DB'
+                                                backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8'
                                             }}>비용</div>
                                             <div style={{ display: 'flex', height: '100%', alignItems: 'center' }}>
                                                 <input type="radio" name="cost" value="X" onClick={changeRadio.bind(this, 'cost', 'X')} />
@@ -152,7 +152,7 @@ const Silent = ({
                                         </ListGroup.Item>
                                         <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
                                             <div className="categorize" style={{
-                                                backgroundColor: '#606C54', fontWeight: '600', color: '#DFE3DB', borderBottomLeftRadius: '5px'
+                                                backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8', borderBottomLeftRadius: '5px'
                                             }}>키워드</div>
                                             <div style={{ display: 'flex', height: '100%', alignItems: 'center', whiteSpace: 'nowrap',  overflowX: 'scroll', overflowY: 'hidden' }}>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'artifact')} />
@@ -198,9 +198,9 @@ const Silent = ({
                                 <Row>
                                     <Col>
                                         <ListGroup as="ul">
-                                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#606C54' }}>
-                                                <span style={{ fontWeight: '600', color: '#DFE3DB' }}>Archetypes</span>
-                                                <Link to="/archetype/silent"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
+                                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#586983' }}>
+                                                <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Archetypes</span>
+                                                <Link to="/archetype/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
                                             </ListGroup.Item>
                                             {archetype.map((archetype) =>
                                                 <ListGroup.Item key={archetype.id} variant="secondary">
@@ -265,4 +265,4 @@ const Silent = ({
     }
 };
 
-export default Silent;
+export default Defect;

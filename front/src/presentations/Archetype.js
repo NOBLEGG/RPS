@@ -27,6 +27,9 @@ const Archetype = ({
     } else if (subject === "silent") {
         bgColor = "#606C54";
         textColor = "#DFE3DB";
+    } else if (subject === "defect") {
+        bgColor = "#586983";
+        textColor = "#DCE1E8";
     }
 
     const submitMessage = () => {
@@ -223,8 +226,8 @@ const Archetype = ({
         );
     } else {
         return (
-            <div>
-                <Spinner animation="border"></Spinner>
+            <div className="spin">
+                <Spinner animation="border" style={{ position: 'relative', top: '40%' }}></Spinner>
             </div>
         );
     }

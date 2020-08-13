@@ -10,7 +10,7 @@ const NavBar = () => {
                 <Nav className="mr-auto">
                     <Nav.Link href="/character/ironclad">Ironclad</Nav.Link>
                     <Nav.Link href="/character/silent">Silent</Nav.Link>
-                    <Nav.Link href="#link">Defect</Nav.Link>
+                    <Nav.Link href="/character/defect">Defect</Nav.Link>
                     <Nav.Link href="#link">Watcher</Nav.Link>
                     <NavDropdown title="General" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/card">Cards</NavDropdown.Item>
