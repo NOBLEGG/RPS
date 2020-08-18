@@ -11,11 +11,10 @@ const NavBar = () => {
                     <Nav.Link href="/character/ironclad">Ironclad</Nav.Link>
                     <Nav.Link href="/character/silent">Silent</Nav.Link>
                     <Nav.Link href="/character/defect">Defect</Nav.Link>
-                    <Nav.Link href="#link">Watcher</Nav.Link>
+                    <Nav.Link href="/character/watcher">Watcher</Nav.Link>
                     <NavDropdown title="General" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/card">Cards</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Relics</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Archivements</NavDropdown.Item>
+                        <NavDropdown.Item href="/relic">Relics</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 {/* <Nav.Link href="/rest-auth" inline="true">Login</Nav.Link> */}

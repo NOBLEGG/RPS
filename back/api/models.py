@@ -20,14 +20,14 @@ class CardRelic(models.Model):
     img = models.ImageField()
     effect = models.TextField()
     keyword = models.TextField()
+    rarity = models.CharField(max_length=40, blank=True)
+    score = models.PositiveSmallIntegerField()
+    opinion_count = models.PositiveSmallIntegerField()
     card = models.BooleanField(default=False)
-    rarity = models.CharField(max_length=20, blank=True)
     kind = models.CharField(max_length=20, blank=True)
     cost = models.CharField(max_length=10)
     relic = models.BooleanField(default=False)
     flavor_text = models.TextField(blank=True)
-    score = models.PositiveSmallIntegerField()
-    opinion_count = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return self.eng_name
