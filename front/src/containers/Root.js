@@ -41,11 +41,12 @@ const Root = () => {
           <Route exact path="/character/silent" component={SilentContainer} />
           <Route exact path="/character/defect" component={DefectContainer} />
           
-          <Route exact path="/opinion/:subject" component={OpinionContainer} />
+          <Route exact path="/opinion/:character" component={OpinionContainer} />
+          <Route exact path="/opinion/:character/:card" component={OpinionContainer} />
           <Route exact path="/archetype/:subject" component={ArchetypeContainer} />
 
           <Route exact path="/card" component={CardContainer} />
-          <Route exact path="/card/:subject" component={CardDetailContainer} />
+          <Route exact path="/card/:character/:card" component={CardDetailContainer} />
         </Switch>
       </BrowserRouter>
     </Provider>

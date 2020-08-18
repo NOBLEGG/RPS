@@ -5,7 +5,7 @@ import { Pagination, Container, Row, Col, Form, Button, ButtonGroup, ListGroup, 
 import StarRatingComponent from 'react-star-rating-component';
 
 const Opinion = ({
-    subject,
+    character,
     rating,
     opinionStarClick,
     opinion,
@@ -21,13 +21,13 @@ const Opinion = ({
     let bgColor = "";
     let textColor = "";
 
-    if (subject === "ironclad") {
+    if (character === "ironclad") {
         bgColor = "#682B3B";
         textColor = "#EACCD4";
-    } else if (subject === "silent") {
+    } else if (character === "silent") {
         bgColor = "#606C54";
         textColor = "#DFE3DB";
-    } else if (subject === "defect") {
+    } else if (character === "defect") {
         bgColor = "#586983";
         textColor = "#DCE1E8";
     }

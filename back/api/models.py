@@ -27,6 +27,7 @@ class CardRelic(models.Model):
     relic = models.BooleanField(default=False)
     flavor_text = models.TextField(blank=True)
     score = models.PositiveSmallIntegerField()
+    opinion_count = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return self.eng_name
@@ -59,3 +60,4 @@ class Opinion(models.Model):
     key_relic = models.TextField()
     recommend_card = models.TextField()
     recommend_relic = models.TextField()
+    card_character = models.CharField(max_length=50)

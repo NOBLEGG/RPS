@@ -130,6 +130,17 @@ nav {
   margin: 0 10px 0 5px;
 }
 
+/*
+.card-opinion {
+  text-align: -webkit-center;
+
+  @media (min-width: 768px) {
+    text-align: -webkit-center;
+  }
+
+}
+*/
+
 input[type=radio] {
   margin-left: 10px;
 }

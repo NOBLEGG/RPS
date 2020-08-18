@@ -2,20 +2,32 @@ import axios from 'axios';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
-function postOpinionFormAPI(subject, data) {
-    return axios.post('http://localhost:8000/opinion/' + subject + '/', data);
+function postOpinionFormAPI(character, card, data) {
+    if (card === undefined)
+        return axios.post('http://localhost:8000/opinion/' + character + '/', data);
+    else
+        return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/', data);
 }
 
-function getOpinionListAPI(subject) {
-    return axios.get('http://localhost:8000/opinion/' + subject + '/');
+function getOpinionListAPI(character, card) {
+    if (card === undefined)
+        return axios.get('http://localhost:8000/opinion/' + character + '/');
+    else
+        return axios.get('http://localhost:8000/opinion/' + character + '/' + card + '/');
 }
 
-function postProUpAPI(subject, id) {
-    return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/pro/');
+function postProUpAPI(character, card, id) {
+    if (card === undefined)
+        return axios.post('http://localhost:8000/character/' + character + '/' + id + '/pro/');
+    else
+        return axios.post('http://localhost:8000/card/' + character + '/' + card + '/' + id + '/pro/');
 }
 
-function postConUpAPI(subject, id) {
-    return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/con/');
+function postConUpAPI(character, card, id) {
+    if (card === undefined)
+        return axios.post('http://localhost:8000/character/' + character + '/' + id + '/con/');
+    else
+        return axios.post('http://localhost:8000/card/' + character + '/' + card + '/' + id + '/con/');
 }
 
 const OPINION_STAR_CLICK        = 'opinion/OPINION_STAR_CLICK';
@@ -47,7 +59,7 @@ export const opinionPaginationClick = createAction(OPINION_PAGINATION_CLICK);
 
 function* postOpinionFormSaga(action) {
     try {
-        const response = yield call(postOpinionFormAPI, action.payload[1], action.payload[0]);
+        const response = yield call(postOpinionFormAPI, action.payload[0], action.payload[1], action.payload[2]);
         yield put({ type: POST_OPINION_FORM_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: POST_OPINION_FORM_FAILURE, payload: e });
@@ -56,7 +68,7 @@ function* postOpinionFormSaga(action) {
 
 function* getOpinionListSaga(action) {
     try {
-        const response = yield call(getOpinionListAPI, action.payload);
+        const response = yield call(getOpinionListAPI, action.payload[0], action.payload[1]);
         yield put({ type: GET_OPINION_LIST_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: GET_OPINION_LIST_FAILURE, payload: e });
@@ -65,7 +77,7 @@ function* getOpinionListSaga(action) {
 
 function* postProUpSaga(action) {
     try {
-        const response = yield call(postProUpAPI, action.payload.subject, action.payload.id);
+        const response = yield call(postProUpAPI, action.payload[0], action.payload[1], action.payload[2]);
         yield put({ type: POST_PRO_UP_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: POST_PRO_UP_FAILURE, payload: e });
@@ -74,7 +86,7 @@ function* postProUpSaga(action) {
 
 function* postConUpSaga(action) {
     try {
-        const response = yield call(postConUpAPI, action.payload.subject, action.payload.id);
+        const response = yield call(postConUpAPI, action.payload[0], action.payload[1], action.payload[2]);
         yield put({ type: POST_CON_UP_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: POST_CON_UP_FAILURE, payload: e });
@@ -125,19 +137,33 @@ export default handleActions(
             };
         },
         [POST_PRO_UP_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
+            let res = action.payload.data;
+
+            // 길이가 3인 경우 CharacterView, 2인 경우 CardDetailView
+            if (res.length === 3)
+                res = res[0];
+            else
+                res = res[1];
+
             return {
                 rating: state.rating,
-                opinion: res[0],
+                opinion: res,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             };
         },
         [POST_CON_UP_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
+            let res = action.payload.data;
+
+            // 길이가 3인 경우 CharacterView, 2인 경우 CardDetailView
+            if (res.length === 3)
+                res = res[0];
+            else
+                res = res[1];
+
             return {
                 rating: state.rating,
-                opinion: res[0],
+                opinion: res,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             };

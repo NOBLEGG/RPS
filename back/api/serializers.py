@@ -20,6 +20,7 @@ class NoticeSerializer(serializers.ModelSerializer):
 class CardSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
+            'id',
             'eng_name',
             'name',
             'subject',
@@ -30,7 +31,8 @@ class CardSerializer(serializers.ModelSerializer):
             'rarity',
             'kind',
             'cost',
-            'score'
+            'score',
+            'opinion_count'
         )
         model = CardRelic
 
@@ -49,6 +51,7 @@ class OpinionSerializer(serializers.ModelSerializer):
             'key_card',
             'key_relic',
             'recommend_card',
-            'recommend_relic'
+            'recommend_relic',
+            'card_character'
         )
         model = Opinion

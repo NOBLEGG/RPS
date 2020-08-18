@@ -29,7 +29,7 @@ const Silent = ({
             const imgSrc = "../silent/";
             let temp = cell.eng_name.toLowerCase();
             temp = imgSrc + temp + ".jpg";
-            return <OverlayTrigger overlay={<Image src={temp} />}><Link to={{pathname: `/card/${cell.eng_name}`}}>{cell.name}</Link></OverlayTrigger>;
+            return <OverlayTrigger overlay={<Image src={temp} />}><Link to={{pathname: `/card/${cell.subject}/${cell.eng_name}`}}>{cell.name}</Link></OverlayTrigger>;
         }
     }, {
         dataField: 'rarity',
@@ -48,6 +48,8 @@ const Silent = ({
         formatter: (row, cell) => {
             if (cell.score === 0)
                 cell.score = '-';
+            else
+                cell.score = cell.score / cell.opinion_count;
             return cell.score;
         }
     }];
@@ -68,7 +70,7 @@ const Silent = ({
                                     <Col>
                                         <ListGroup as="ul">
                                             <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#606C54' }}>
-                                                <span style={{ fontWeight: '600', color: '#DFE3DB' }}>팁</span>
+                                                <span style={{ fontWeight: '600', color: '#DFE3DB' }}>Opinions</span>
                                                 <Link to="/opinion/silent"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
                                             </ListGroup.Item>
                                             {opinion.map((opinion) =>

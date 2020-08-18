@@ -7,37 +7,43 @@ import * as cardActions from 'modules/card';
 // 렌더링에 필요한 데이터를 fetching
 const CardContainer = () => {
     const dispatch = useDispatch();
-    const cards = useSelector(state => state.card.cards);
-    const keyword = useSelector(state => state.card.keyword);
+    const card = useSelector(state => state.card.card);
+    const filter = useSelector(state => state.card.filter);
 
-    const changeKeyword = (target) => {
-        if (keyword[target] === 1)
-            keyword[target] = 0;
+    const changeRadio = (name, target) => {
+        const names = document.getElementsByName(name);
+        let len = document.getElementsByName(name).length;
+
+        let temp = "";
+        for (let i = 0; i < len; i++) {
+            temp = names[i].value;
+            filter[temp] = 0;
+        }
+
+        filter[target] = 1;
+    }
+
+    const changeCheckbox = (target) => {
+        if (filter[target] === 1)
+            filter[target] = 0;
         else
-            keyword[target] = 1;
+            filter[target] = 1;
+    }
 
-        let one_counter = 0;
-        const keyword_values = Object.values(keyword);
-        for (let i = 0; i < keyword_values.length; i++) {
-            if (keyword_values[i] === 1)
-                one_counter++;
-        }
+    const dispatcher = () => {
+        dispatch(cardActions.changeFilter({ filter: filter }));
+    }
 
-        if (one_counter > 0) {
-            let new_keyword = "";
-            const keyword_keys = Object.keys(keyword);
-            for (let i = 0; i < keyword_values.length; i++) {
-                if (keyword_values[i] === 1) {
-                    new_keyword += '"' + keyword_keys[i] + '":1';
-                    one_counter--;
-                    if (one_counter !== 0)
-                        new_keyword += ",";
-                }
-            }
-            dispatch(cardActions.changeKeyword({ keyword: new_keyword }));
-        } else {
-            dispatch(cardActions.getList());
-        }
+    const reset = () => {
+        const inp = document.getElementsByTagName('input');
+        for (let i = 0; i < inp.length; i++)
+            inp[i].checked = false;
+
+        const filterKeys = Object.keys(filter);
+        for (let i = 0; i < filterKeys.length; i++)
+            filter[filterKeys[i]] = 0;
+        
+        dispatch(cardActions.changeFilter({ filter: filter }));
     }
 
     useEffect(() => {
@@ -46,8 +52,11 @@ const CardContainer = () => {
     
     return (
         <Card
-            cards={cards}
-            changeKeyword={changeKeyword}
+            card={card}
+            changeRadio={changeRadio}
+            changeCheckbox={changeCheckbox}
+            dispatcher={dispatcher}
+            reset={reset}
         />
     );
 }

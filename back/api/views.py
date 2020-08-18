@@ -120,20 +120,19 @@ class CharacterView(APIView):
 
             return Response(card_serializer.data)
 
-    def post(self, request, obj1, pk, obj2):
+class CharacterProConView(APIView):
+    def post(self, request, character, pk, obj):
         target = Opinion.objects.get(id=pk)
-
-        if obj2 == 'pro':
+        if obj == 'pro':
             target.pro += 1
         else:
             target.con += 1
         target.save()
+        return redirect('/character/' + character + '/')
 
-        return redirect('/character/' + obj1 + '/')
-
-class OpinionView(APIView):
-    def get(self, request, obj):
-        queryset = Opinion.objects.all().filter(subject=obj).filter(archetype=False)
+class CharacterOpinionView(APIView):
+    def get(self, request, character):
+        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=False)
         serializer = OpinionSerializer(queryset, many=True)
 
         return Response(serializer.data)
@@ -180,39 +179,134 @@ class ArchetypeView(APIView):
 
 class CardView(APIView):
     def get(self, request):
-        params = request.GET.get('keyword', '')
-        params_to_list = []
+        params = request.GET.get('filter', '')
 
-        str_temp = ""
-        for i in range(len(params)):
-            if (params[i] == '1'):
-                str_temp += "1"
-                params_to_list.append(str_temp)
-                str_temp = ""
-            elif (params[i] == ','):
-                str_temp = ""
-            elif (params[i] == '}'):
-                str_temp = ""
-            else:
-                str_temp += params[i]
+        if params == '':
+            card = CardRelic.objects.all()
+            card_serializer = CardSerializer(card, many=True)
 
-        card = CardRelic.objects.all()
+            return Response(card_serializer.data)
+        else:
+            json_data = json.loads(params)
 
-        if len(params_to_list) > 0:
-            for i in params_to_list:
-                card = card.filter(keyword__contains=i)
+            card = CardRelic.objects.all()
 
-        card_serializer = CardSerializer(card, many=True)
+            if (json_data['ironclad'] == 1):
+                card = card.filter(subject__contains='ironclad')
+            elif (json_data['silent'] == 1):
+                card = card.filter(subject__contains='silent')
+            elif (json_data['defect'] == 1):
+                card = card.filter(subject__contains='defect')
 
-        return Response(card_serializer.data)
+            if (json_data['common'] == 1):
+                card = card.filter(rarity__contains='Common')
+            elif (json_data['uncommon'] == 1):
+                card = card.filter(rarity__contains='Uncommon')
+            elif (json_data['rare'] == 1):
+                card = card.filter(rarity__contains='Rare')
+
+            if (json_data['attack'] == 1):
+                card = card.filter(kind__contains='Attack')
+            elif (json_data['skill'] == 1):
+                card = card.filter(kind__contains='Skill')
+            elif (json_data['power'] == 1):
+                card = card.filter(kind__contains='Power')
+
+            if (json_data['X'] == 1):
+                card = card.filter(cost__startswith='X')
+            elif (json_data['0'] == 1):
+                card = card.filter(cost__startswith=0)
+            elif (json_data['1'] == 1):
+                card = card.filter(cost__startswith=1)
+            elif (json_data['2'] == 1):
+                card = card.filter(cost__startswith=2)
+            elif (json_data['3'] == 1):
+                card = card.filter(cost__startswith=3)
+            elif (json_data['4'] == 1):
+                card = card.filter(cost__startswith=4)
+            elif (json_data['5'] == 1):
+                card = card.filter(cost__startswith=5)
+
+            if (json_data['artifact'] == 1):
+                card = card.filter(keyword__contains='"artifact":1')
+            if (json_data['block'] == 1):
+                card = card.filter(keyword__contains='"block":1')
+            if (json_data['dexterity'] == 1):
+                card = card.filter(keyword__contains='"dexterity":1')
+            if (json_data['ethereal'] == 1):
+                card = card.filter(keyword__contains='"ethereal":1')
+            if (json_data['exhaust'] == 1):
+                card = card.filter(keyword__contains='"exhaust":1')
+            if (json_data['innate'] == 1):
+                card = card.filter(keyword__contains='"innate":1')
+            if (json_data['intangible'] == 1):
+                card = card.filter(keyword__contains='"intangible":1')
+            if (json_data['poison'] == 1):
+                card = card.filter(keyword__contains='"poison":1')
+            if (json_data['retain'] == 1):
+                card = card.filter(keyword__contains='"retain":1')
+            if (json_data['scry'] == 1):
+                card = card.filter(keyword__contains='"scry":1')
+            if (json_data['strength'] == 1):
+                card = card.filter(keyword__contains='"strength":1')
+            if (json_data['unplayable'] == 1):
+                card = card.filter(keyword__contains='"unplayable":1')
+            if (json_data['vulnerable'] == 1):
+                card = card.filter(keyword__contains='"vulnerable":1')
+            if (json_data['weak'] == 1):
+                card = card.filter(keyword__contains='"weak":1')
+            if (json_data['wound'] == 1):
+                card = card.filter(keyword__contains='"wound":1')
+
+            card_serializer = CardSerializer(card, many=True)
+
+            return Response(card_serializer.data)
 
 class CardDetailView(APIView):
-    def get(self, request, obj):
-        logger.warn(obj)
-        card = CardRelic.objects.get(eng_name=obj)
+    def get(self, request, character, card):
+        card = CardRelic.objects.all().filter(subject=character).get(eng_name=card)
         card_serializer = CardSerializer(card)
 
-        opinion = Opinion.objects.all().filter(subject=obj).order_by('-pro', '-con')[0:3]
+        opinion = Opinion.objects.all().filter(card_character=character).filter(subject=card).order_by('-pro', '-con')[0:3]
         opinion_serializer = OpinionSerializer(opinion, many=True)
 
         return Response([card_serializer.data, opinion_serializer.data])
+
+class CardProConView(APIView):
+    def post(self, request, character, card, pk, obj):
+        target = Opinion.objects.get(id=pk)
+        if obj == 'pro':
+            target.pro += 1
+        else:
+            target.con += 1
+        target.save()
+        return redirect('/card/' + character + '/' + card + '/')
+
+class CardOpinionView(APIView):
+    def get(self, request, character, card):
+        queryset = Opinion.objects.all().filter(card_character=character).filter(subject=card)
+        serializer = OpinionSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+    def post(self, request, character, card):
+        opinion = Opinion()
+        opinion.subject = card
+        opinion.writer = request.data.get('writer')
+        opinion.content = request.data.get('content')
+        opinion.score = request.data.get('score')
+        opinion.card_character = request.data.get('card_character')
+
+        target = CardRelic.objects.get(eng_name=card, subject=character)
+        target.score += opinion.score
+        target.opinion_count += 1
+
+        queryset = Opinion.objects.all().filter(card_character=character).filter(subject=card)
+        serializer = OpinionSerializer(queryset, many=True)
+
+        try:
+            opinion.save()
+            target.save()
+            return Response(serializer.data)
+        except:
+            return HttpResponse(status=404)
