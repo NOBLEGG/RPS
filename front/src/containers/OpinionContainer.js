@@ -9,6 +9,7 @@ const OpinionContainer = ({match}) => {
     const dispatch = useDispatch();
     const character = match.params.character;
     const card = match.params.card;
+    const relic = match.params.relic;
     const rating = useSelector(state => state.opinion.rating);
     const opinion = useSelector(state => state.opinion.opinion);
     const perPage = useSelector(state => state.opinion.perPage);
@@ -19,21 +20,29 @@ const OpinionContainer = ({match}) => {
     }
 
     const reqPro = (id) => {
-        dispatch(opinionActions.postProUp([character, card, id]));
+        dispatch(opinionActions.postProUp([character, card, relic, id]));
     }
 
     const reqCon = (id) => {
-        dispatch(opinionActions.postConUp([character, card, id]));
+        dispatch(opinionActions.postConUp([character, card, relic, id]));
     }
 
     const postForm = (value) => {
         value.score = rating;
-
-        if (card === undefined)
-            dispatch(opinionActions.postOpinionForm([character, card, value]));
-        else {
-            value.card_character = character;
-            dispatch(opinionActions.postOpinionForm([character, card, value]));
+        if (relic === undefined) {
+            if (card === undefined) {
+                // 캐릭터에 대한 의견 제출
+                dispatch(opinionActions.postOpinionForm([character, undefined, undefined, value]));
+            }
+            else {
+                // 카드에 대한 의견 제출
+                value.card_character = character;
+                dispatch(opinionActions.postOpinionForm([character,      card, undefined, value]));
+            }
+        } else {
+                // 유물에 대한 의견 제출
+                value.relic = true;
+                dispatch(opinionActions.postOpinionForm([undefined, undefined,     relic, value]));
         }
     }
 
@@ -42,8 +51,8 @@ const OpinionContainer = ({match}) => {
     }
 
     useEffect(() => {
-        dispatch(opinionActions.getOpinionList([character, card]));
-    }, [dispatch, character, card]);
+        dispatch(opinionActions.getOpinionList([character, card, relic]));
+    }, [dispatch, character, card, relic]);
 
     return (
         <Opinion

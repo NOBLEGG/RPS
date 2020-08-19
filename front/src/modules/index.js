@@ -9,10 +9,12 @@ import cardDetail, { cardDetailSaga } from 'modules/cardDetail';
 import login, { loginSaga } from 'modules/login';
 import opinion, { opinionSaga } from 'modules/opinion';
 import archetype, { archetypeSaga } from 'modules/archetype';
+import relic, { relicSaga } from 'modules/relic';
+import relicDetail, { relicDetailSaga } from 'modules/relicDetail';
 import { all } from 'redux-saga/effects';
 
 export function* rootSaga() {
-    yield all([homeSaga(), characterSaga(), cardSaga(), cardDetailSaga(), loginSaga(), opinionSaga(), archetypeSaga()]);
+    yield all([homeSaga(), characterSaga(), cardSaga(), cardDetailSaga(), loginSaga(), opinionSaga(), archetypeSaga(), relicSaga(), relicDetailSaga()]);
 }
 
 export default combineReducers({
@@ -22,5 +24,7 @@ export default combineReducers({
     cardDetail,
     login,
     opinion,
-    archetype
+    archetype,
+    relic,
+    relicDetail
 });

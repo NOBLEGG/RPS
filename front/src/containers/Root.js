@@ -21,6 +21,8 @@ import OpinionContainer from 'containers/OpinionContainer';
 import ArchetypeContainer from 'containers/ArchetypeContainer';
 import CardContainer from 'containers/CardContainer';
 import CardDetailContainer from 'containers/CardDetailContainer';
+import RelicContainer from 'containers/RelicContainer';
+import RelicDetailContainer from 'containers/RelicDetailContainer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers, applyMiddleware(sagaMiddleware));
@@ -41,12 +43,16 @@ const Root = () => {
           <Route exact path="/character/silent" component={SilentContainer} />
           <Route exact path="/character/defect" component={DefectContainer} />
           
-          <Route exact path="/opinion/:character" component={OpinionContainer} />
-          <Route exact path="/opinion/:character/:card" component={OpinionContainer} />
+          <Route exact path="/opinion/character/:character" component={OpinionContainer} />
           <Route exact path="/archetype/:subject" component={ArchetypeContainer} />
 
           <Route exact path="/card" component={CardContainer} />
           <Route exact path="/card/:character/:card" component={CardDetailContainer} />
+          <Route exact path="/opinion/card/:character/:card" component={OpinionContainer} />
+
+          <Route exact path="/relic" component={RelicContainer} />
+          <Route exact path="/relic/:relic" component={RelicDetailContainer} />
+          <Route exact path="/opinion/relic/:relic" component={OpinionContainer} />
         </Switch>
       </BrowserRouter>
     </Provider>

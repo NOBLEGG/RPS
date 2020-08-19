@@ -71,7 +71,7 @@ const Defect = ({
                                         <ListGroup as="ul">
                                             <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#586983' }}>
                                                 <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Opinions</span>
-                                                <Link to="/opinion/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
+                                                <Link to="/opinion/character/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
                                             </ListGroup.Item>
                                             {opinion.map((opinion) =>
                                                 <ListGroup.Item key={opinion.id} variant="secondary">
@@ -82,20 +82,20 @@ const Defect = ({
                                                         <StarRatingComponent editing={false} starCount={5} value={opinion.score} />
                                                     </div>
                                                     <ButtonGroup style={{ float: 'right', height: '1rem' }}>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }} onClick={reqPro.bind(this, opinion.id)}>
-                                                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, opinion.id)}>
+                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                                 <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
                                                                 <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
                                                             </svg>
                                                         </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px' }}>{opinion.pro}</span>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }} onClick={reqCon.bind(this, opinion.id)}>
-                                                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.pro}</span>
+                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, opinion.id)}>
+                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                                 <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
                                                                 <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
                                                             </svg>
                                                         </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px' }}>{opinion.con}</span>
+                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.con}</span>
                                                     </ButtonGroup>
                                                 </ListGroup.Item>
                                             )}
@@ -217,20 +217,20 @@ const Defect = ({
                                                         <StarRatingComponent editing={false} starCount={5} value={archetype.score} />
                                                     </div>
                                                     <ButtonGroup style={{ float: 'right', height: '1rem' }}>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }} onClick={reqPro.bind(this, archetype.id)}>
-                                                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, archetype.id)}>
+                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                                 <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
                                                                 <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
                                                             </svg>
                                                         </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px' }}>{archetype.pro}</span>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '5px', padding: '0 .75rem' }} onClick={reqCon.bind(this, archetype.id)}>
-                                                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.pro}</span>
+                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, archetype.id)}>
+                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                                 <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
                                                                 <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
                                                             </svg>
                                                         </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px' }}>{archetype.con}</span>
+                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.con}</span>
                                                     </ButtonGroup>
                                                 </ListGroup.Item>
                                             )}

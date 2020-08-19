@@ -2,32 +2,39 @@ import axios from 'axios';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
-function postOpinionFormAPI(character, card, data) {
-    if (card === undefined)
-        return axios.post('http://localhost:8000/opinion/' + character + '/', data);
-    else
-        return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/', data);
+function postOpinionFormAPI(character, card, relic, data) {
+    if (relic === undefined) {
+        if (card === undefined) {
+            // 캐릭터에 대한 의견 제출
+            return axios.post('http://localhost:8000/opinion/character/' + character + '/', data);
+        }
+        else {
+            // 카드에 대한 의견 제출
+            return axios.post('http://localhost:8000/opinion/card/'  + character + '/' + card + '/', data);
+        }
+    } else {
+            console.log(data);
+            // 유물에 대한 의견 제출
+            return axios.post('http://localhost:8000/opinion/relic/' + relic + '/', data);
+    }
 }
 
-function getOpinionListAPI(character, card) {
-    if (card === undefined)
-        return axios.get('http://localhost:8000/opinion/' + character + '/');
-    else
-        return axios.get('http://localhost:8000/opinion/' + character + '/' + card + '/');
+function getOpinionListAPI(character, card, relic) {
+    if (relic === undefined) {
+        if (card === undefined)
+            return axios.get('http://localhost:8000/opinion/character/' + character + '/');
+        else
+            return axios.get('http://localhost:8000/opinion/card/'  + character + '/' + card + '/');
+    } else
+            return axios.get('http://localhost:8000/opinion/relic/' + relic + '/');
 }
 
-function postProUpAPI(character, card, id) {
-    if (card === undefined)
-        return axios.post('http://localhost:8000/character/' + character + '/' + id + '/pro/');
-    else
-        return axios.post('http://localhost:8000/card/' + character + '/' + card + '/' + id + '/pro/');
+function postProUpAPI(character, card, relic, id) {
+    return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/pro/');
 }
 
-function postConUpAPI(character, card, id) {
-    if (card === undefined)
-        return axios.post('http://localhost:8000/character/' + character + '/' + id + '/con/');
-    else
-        return axios.post('http://localhost:8000/card/' + character + '/' + card + '/' + id + '/con/');
+function postConUpAPI(character, card, relic, id) {
+    return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/con/');
 }
 
 const OPINION_STAR_CLICK        = 'opinion/OPINION_STAR_CLICK';
@@ -59,7 +66,7 @@ export const opinionPaginationClick = createAction(OPINION_PAGINATION_CLICK);
 
 function* postOpinionFormSaga(action) {
     try {
-        const response = yield call(postOpinionFormAPI, action.payload[0], action.payload[1], action.payload[2]);
+        const response = yield call(postOpinionFormAPI, action.payload[0], action.payload[1], action.payload[2], action.payload[3]);
         yield put({ type: POST_OPINION_FORM_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: POST_OPINION_FORM_FAILURE, payload: e });
@@ -68,7 +75,7 @@ function* postOpinionFormSaga(action) {
 
 function* getOpinionListSaga(action) {
     try {
-        const response = yield call(getOpinionListAPI, action.payload[0], action.payload[1]);
+        const response = yield call(getOpinionListAPI, action.payload[0], action.payload[1], action.payload[2]);
         yield put({ type: GET_OPINION_LIST_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: GET_OPINION_LIST_FAILURE, payload: e });
@@ -77,7 +84,7 @@ function* getOpinionListSaga(action) {
 
 function* postProUpSaga(action) {
     try {
-        const response = yield call(postProUpAPI, action.payload[0], action.payload[1], action.payload[2]);
+        const response = yield call(postProUpAPI, action.payload[0], action.payload[1], action.payload[2], action.payload[3]);
         yield put({ type: POST_PRO_UP_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: POST_PRO_UP_FAILURE, payload: e });
@@ -86,7 +93,7 @@ function* postProUpSaga(action) {
 
 function* postConUpSaga(action) {
     try {
-        const response = yield call(postConUpAPI, action.payload[0], action.payload[1], action.payload[2]);
+        const response = yield call(postConUpAPI, action.payload[0], action.payload[1], action.payload[2], action.payload[3]);
         yield put({ type: POST_CON_UP_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: POST_CON_UP_FAILURE, payload: e });
@@ -137,14 +144,7 @@ export default handleActions(
             };
         },
         [POST_PRO_UP_SUCCESS]: (state, action) => {
-            let res = action.payload.data;
-
-            // 길이가 3인 경우 CharacterView, 2인 경우 CardDetailView
-            if (res.length === 3)
-                res = res[0];
-            else
-                res = res[1];
-
+            const res = action.payload.data;
             return {
                 rating: state.rating,
                 opinion: res,
@@ -153,14 +153,7 @@ export default handleActions(
             };
         },
         [POST_CON_UP_SUCCESS]: (state, action) => {
-            let res = action.payload.data;
-
-            // 길이가 3인 경우 CharacterView, 2인 경우 CardDetailView
-            if (res.length === 3)
-                res = res[0];
-            else
-                res = res[1];
-
+            const res = action.payload.data;
             return {
                 rating: state.rating,
                 opinion: res,

@@ -25,7 +25,7 @@ class CardRelic(models.Model):
     opinion_count = models.PositiveSmallIntegerField()
     card = models.BooleanField(default=False)
     kind = models.CharField(max_length=20, blank=True)
-    cost = models.CharField(max_length=10)
+    cost = models.CharField(max_length=10, blank=True)
     relic = models.BooleanField(default=False)
     flavor_text = models.TextField(blank=True)
 
@@ -61,3 +61,4 @@ class Opinion(models.Model):
     recommend_card = models.TextField()
     recommend_relic = models.TextField()
     card_character = models.CharField(max_length=50)
+    relic = models.BooleanField(default=False)

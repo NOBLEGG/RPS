@@ -52,6 +52,25 @@ class OpinionSerializer(serializers.ModelSerializer):
             'key_relic',
             'recommend_card',
             'recommend_relic',
-            'card_character'
+            'card_character',
+            'relic'
         )
         model = Opinion
+
+class RelicSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'eng_name',
+            'name',
+            'subject',
+            'img',
+            'effect',
+            'keyword',
+            'rarity',
+            'score',
+            'opinion_count',
+            'relic',
+            'flavor_text'
+        )
+        model = CardRelic

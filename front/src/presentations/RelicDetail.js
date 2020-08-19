@@ -4,40 +4,26 @@ import { Container, Row, Col, Image, Button, ButtonGroup, ListGroup, Spinner } f
 
 import StarRatingComponent from 'react-star-rating-component';
 
-const CardDetail = ({
-    card,
+const RelicDetail = ({
+    relic,
     opinion,
     reqPro,
     reqCon
 }) => {
     let score = 0;
 
-    if (card.score !== 0)
-        score = card.score / card.opinion_count;
-
+    if (relic.score !== 0)
+        score = relic.score / relic.opinion_count;
+    
     function dateFormatter(str) {
         return str.substring(0, 10);
     }
 
-    let bgColor = "";
-    let textColor = "";
-
-    if (card.subject === "ironclad") {
-        bgColor = "#682B3B";
-        textColor = "#EACCD4";
-    } else if (card.subject === "silent") {
-        bgColor = "#606C54";
-        textColor = "#DFE3DB";
-    } else if (card.subject === "defect") {
-        bgColor = "#586983";
-        textColor = "#DCE1E8";
-    }
-
-    if (JSON.stringify(card) !== '{}' && Object.keys(card).length !== 0) {
-        let img_path = "../../" + card.subject + "/";
-        img_path += card.eng_name.toLowerCase();
+    if (JSON.stringify(relic) !== '{}' && Object.keys(relic).length !== 0) {
+        let img_path = "../../relic/";
+        img_path += relic.eng_name.toLowerCase();
         img_path += ".jpg";
-    
+
         return (
             <div>
                 <Container fluid="true">
@@ -51,23 +37,21 @@ const CardDetail = ({
                             <Row>
                                 <Col>
                                     <ListGroup horizontal style={{ textAlign: 'center' }}>
-                                        <ListGroup.Item style={{ width: '20%', backgroundColor: bgColor, color: textColor, fontWeight: '600', borderBottomLeftRadius: '0px' }}>이름</ListGroup.Item>
-                                        <ListGroup.Item style={{ width: '30%' }} variant="secondary">{card.name}</ListGroup.Item>
-                                        <ListGroup.Item style={{ width: '20%', backgroundColor: bgColor, color: textColor, fontWeight: '600' }}>비용</ListGroup.Item>
-                                        <ListGroup.Item style={{ width: '30%', borderBottomRightRadius: '0px' }} variant="secondary">{card.cost}</ListGroup.Item>
-                                    </ListGroup>
-                                    <ListGroup horizontal style={{ textAlign: 'center' }}>
-                                        <ListGroup.Item style={{ width: '20%', backgroundColor: bgColor, color: textColor, fontWeight: '600', borderRadius: '0px' }}>타입</ListGroup.Item>
-                                        <ListGroup.Item style={{ width: '30%' }} variant="secondary">{card.kind}</ListGroup.Item>
-                                        <ListGroup.Item style={{ width: '20%', backgroundColor: bgColor, color: textColor, fontWeight: '600' }}>등급</ListGroup.Item>
-                                        <ListGroup.Item style={{ width: '30%', borderRadius: '0px' }} variant="secondary">{card.rarity}</ListGroup.Item>
+                                        <ListGroup.Item style={{ width: '20%', backgroundColor: '#383018', color: '#E5DDC3', fontWeight: '600', borderBottomLeftRadius: '0px' }}>이름</ListGroup.Item>
+                                        <ListGroup.Item style={{ width: '30%' }} variant="secondary">{relic.name}</ListGroup.Item>
+                                        <ListGroup.Item style={{ width: '20%', backgroundColor: '#383018', color: '#E5DDC3', fontWeight: '600' }}>등급</ListGroup.Item>
+                                        <ListGroup.Item style={{ width: '30%', borderRadius: '0px' }} variant="secondary">{relic.rarity}</ListGroup.Item>
                                     </ListGroup>
                                     <ListGroup horizontal>
-                                        <ListGroup.Item style={{ width: '20%', backgroundColor: bgColor, color: textColor, fontWeight: '600', borderRadius: '0px', textAlign: 'center' }}>효과</ListGroup.Item>
-                                        <ListGroup.Item style={{ width: '80%', borderRadius: '0px' }} variant="secondary">{card.effect}</ListGroup.Item>
+                                        <ListGroup.Item style={{ width: '20%', backgroundColor: '#383018', color: '#E5DDC3', fontWeight: '600', borderRadius: '0px', textAlign: 'center' }}>효과</ListGroup.Item>
+                                        <ListGroup.Item style={{ width: '80%', borderRadius: '0px' }} variant="secondary">{relic.effect}</ListGroup.Item>
+                                    </ListGroup>
+                                    <ListGroup horizontal>
+                                        <ListGroup.Item style={{ width: '20%', backgroundColor: '#383018', color: '#E5DDC3', fontWeight: '600', borderRadius: '0px', textAlign: 'center' }}>Flavor Text</ListGroup.Item>
+                                        <ListGroup.Item style={{ width: '80%', borderRadius: '0px' }} variant="secondary">{relic.flavor_text}</ListGroup.Item>
                                     </ListGroup>
                                     <ListGroup horizontal style={{ height: '44.91px', textAlign: 'center' }}>
-                                        <ListGroup.Item style={{ width: '20%', backgroundColor: bgColor, color: textColor, fontWeight: '600', borderTopLeftRadius: '0px' }}>점수</ListGroup.Item>
+                                        <ListGroup.Item style={{ width: '20%', backgroundColor: '#383018', color: '#E5DDC3', fontWeight: '600', borderTopLeftRadius: '0px' }}>점수</ListGroup.Item>
                                         <ListGroup.Item style={{ width: '80%', borderTopRightRadius: '0px', padding: '0 1.25rem' }} variant="secondary">
                                             <div style={{ marginTop: '0.25rem', fontSize: '1.2rem' }}>
                                                 <StarRatingComponent 
@@ -85,9 +69,9 @@ const CardDetail = ({
                             <Row>
                                 <Col>
                                     <ListGroup as="ul">
-                                        <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: bgColor }}>
-                                            <span style={{ fontWeight: '600', color: textColor }}>Opinions</span>
-                                            <Link to={{pathname: `/opinion/card/${card.subject}/${card.eng_name}`}}><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
+                                        <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#383018' }}>
+                                            <span style={{ color: '#E5DDC3', fontWeight: '600' }}>Opinions</span>
+                                            <Link to={{pathname: `/opinion/relic/${relic.eng_name}`}}><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
                                         </ListGroup.Item>
                                         {opinion.map((opinion) =>
                                             <ListGroup.Item key={opinion.id} variant="secondary">
@@ -141,4 +125,4 @@ const CardDetail = ({
     }
 };
 
-export default CardDetail;
+export default RelicDetail;

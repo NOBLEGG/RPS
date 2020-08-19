@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Notice, Opinion, CardRelic
-from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer
+from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer, RelicSerializer
 
 # from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -137,14 +137,14 @@ class CharacterOpinionView(APIView):
 
         return Response(serializer.data)
 
-    def post(self, request, obj):
+    def post(self, request, character):
         opinion = Opinion()
-        opinion.subject = obj
+        opinion.subject = character
         opinion.writer = request.data.get('writer')
         opinion.content = request.data.get('content')
         opinion.score = request.data.get('score')
 
-        queryset = Opinion.objects.all().filter(subject=obj).filter(archetype=False)
+        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=False)
         serializer = OpinionSerializer(queryset, many=True)
 
         try:
@@ -182,14 +182,14 @@ class CardView(APIView):
         params = request.GET.get('filter', '')
 
         if params == '':
-            card = CardRelic.objects.all()
+            card = CardRelic.objects.all().filter(card=True)
             card_serializer = CardSerializer(card, many=True)
 
             return Response(card_serializer.data)
         else:
             json_data = json.loads(params)
 
-            card = CardRelic.objects.all()
+            card = CardRelic.objects.all().filter(relic=True)
 
             if (json_data['ironclad'] == 1):
                 card = card.filter(subject__contains='ironclad')
@@ -310,3 +310,136 @@ class CardOpinionView(APIView):
             return Response(serializer.data)
         except:
             return HttpResponse(status=404)
+
+class RelicView(APIView):
+    def get(self, request):
+        params = request.GET.get('filter', '')
+
+        if params == '':
+            relic = CardRelic.objects.all().filter(relic=True)
+            relic_serializer = RelicSerializer(relic, many=True)
+
+            return Response(relic_serializer.data)
+        else:
+            json_data = json.loads(params)
+
+            relic = CardRelic.objects.all().filter(relic=True)
+
+            if (json_data['ironclad'] == 1):
+                relic = relic.filter(rarity__contains='Ironclad')
+            elif (json_data['silent'] == 1):
+                relic = relic.filter(rarity__contains='Silent')
+            elif (json_data['defect'] == 1):
+                relic = relic.filter(rarity__contains='Defect')
+
+            if (json_data['starter'] == 1):
+                relic = relic.filter(rarity__contains='Starter')
+            elif (json_data['common'] == 1):
+                relic = relic.filter(rarity__contains='Common')
+            elif (json_data['uncommon'] == 1):
+                relic = relic.filter(rarity__contains='Uncommon')
+            elif (json_data['rare'] == 1):
+                relic = relic.filter(rarity__contains='Rare')
+            elif (json_data['boss'] == 1):
+                relic = relic.filter(rarity__contains='Boss')
+
+            if (json_data['artifact'] == 1):
+                relic = relic.filter(keyword__contains='"artifact":1')
+            if (json_data['block'] == 1):
+                relic = relic.filter(keyword__contains='"block":1')
+            if (json_data['dexterity'] == 1):
+                relic = relic.filter(keyword__contains='"dexterity":1')
+            if (json_data['ethereal'] == 1):
+                relic = relic.filter(keyword__contains='"ethereal":1')
+            if (json_data['exhaust'] == 1):
+                relic = relic.filter(keyword__contains='"exhaust":1')
+            if (json_data['innate'] == 1):
+                relic = relic.filter(keyword__contains='"innate":1')
+            if (json_data['intangible'] == 1):
+                relic = relic.filter(keyword__contains='"intangible":1')
+            if (json_data['poison'] == 1):
+                relic = relic.filter(keyword__contains='"poison":1')
+            if (json_data['retain'] == 1):
+                relic = relic.filter(keyword__contains='"retain":1')
+            if (json_data['scry'] == 1):
+                relic = relic.filter(keyword__contains='"scry":1')
+            if (json_data['strength'] == 1):
+                relic = relic.filter(keyword__contains='"strength":1')
+            if (json_data['unplayable'] == 1):
+                relic = relic.filter(keyword__contains='"unplayable":1')
+            if (json_data['vulnerable'] == 1):
+                relic = relic.filter(keyword__contains='"vulnerable":1')
+            if (json_data['weak'] == 1):
+                relic = relic.filter(keyword__contains='"weak":1')
+            if (json_data['wound'] == 1):
+                relic = relic.filter(keyword__contains='"wound":1')
+
+            relic_serializer = RelicSerializer(relic, many=True)
+
+            return Response(relic_serializer.data)
+
+class RelicDetailView(APIView):
+    def get(self, request, relic):
+        relic = CardRelic.objects.filter(relic=True).get(eng_name=relic)
+        relic_serializer = RelicSerializer(relic)
+
+        opinion = Opinion.objects.all().filter(relic=True).filter(subject=relic).order_by('-pro', '-con')[0:3]
+        opinion_serializer = OpinionSerializer(opinion, many=True)
+
+        return Response([relic_serializer.data, opinion_serializer.data])
+
+class RelicProConView(APIView):
+    def post(self, request, relic, pk, obj):
+        target = Opinion.objects.get(id=pk)
+        if obj == 'pro':
+            target.pro += 1
+        else:
+            target.con += 1
+        target.save()
+        return redirect('/relic/' + relic + '/')
+
+class RelicOpinionView(APIView):
+    def get(self, request, relic):
+        queryset = Opinion.objects.all().filter(subject=relic).filter(relic=True)
+        serializer = OpinionSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+    def post(self, request, relic):
+        opinion = Opinion()
+        opinion.subject = relic
+        opinion.writer = request.data.get('writer')
+        opinion.content = request.data.get('content')
+        opinion.score = request.data.get('score')
+        opinion.relic = request.data.get('relic')
+
+        target = CardRelic.objects.get(eng_name=relic, relic=True)
+        target.score += opinion.score
+        target.opinion_count += 1
+
+        queryset = Opinion.objects.all().filter(subject=relic).filter(relic=True)
+        serializer = OpinionSerializer(queryset, many=True)
+
+        try:
+            opinion.save()
+            target.save()
+            return Response(serializer.data)
+        except:
+            return HttpResponse(status=404)
+
+class OpinionProConView(APIView):
+    def post(self, request, character, card, relic, pk, obj):
+        target = Opinion.objects.get(id=pk)
+        if obj == 'pro':
+            target.pro += 1
+        else:
+            target.con += 1
+        target.save()
+
+        if (relic == "undefined"):
+            if (card == "undefined"):
+                return redirect('/opinion/character/' + character + '/')
+            else:
+                return redirect('/opinion/card/' + character + '/' + card + '/')
+        else:
+            return redirect('/opinion/relic/' + relic + '/')
