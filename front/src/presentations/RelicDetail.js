@@ -108,8 +108,8 @@ const RelicDetail = ({
                     <br />
                     <Row>
                         <Col>
-                            <footer className="bg-dark">
-                                <p>footer</p>
+                            <footer>
+                                <p></p>
                             </footer>
                         </Col>
                     </Row>
