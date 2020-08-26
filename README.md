@@ -1,1 +1,1 @@
-Slay the Spire »ç¿ëÀÚµéÀÇ Æò°¡¸¦ ¼öÁýÇÏ°í º¸¿© ÁÖ´Â À¥ »çÀÌÆ®ÀÔ´Ï´Ù.
+PuTTYì—ì„œ í•œê¸€ í…ŒìŠ¤íŠ¸ ì¤‘ìž…ë‹ˆë‹¤
