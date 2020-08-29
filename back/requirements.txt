@@ -1,0 +1,7 @@
+django==2.2.8
+djangorestframework
+django-cors-headers
+django-admin-honeypot
+dnspython
+Pillow
+djongo
