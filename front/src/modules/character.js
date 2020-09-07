@@ -128,7 +128,6 @@ export default handleActions(
     {
         [GET_CHARACTER_SUCCESS]: (state, action) => {
             const res = action.payload.data;
-            console.log(res);
             return {
                 opinion: res[0],
                 card: res[1],

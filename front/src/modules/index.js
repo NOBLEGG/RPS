@@ -3,10 +3,11 @@
 
 import { combineReducers } from 'redux';
 import home, { homeSaga } from 'modules/home';
+import login, { loginSaga } from 'modules/login';
+import signUp, { signUpSaga } from 'modules/signUp';
 import character, { characterSaga } from 'modules/character';
 import card, { cardSaga } from 'modules/card';
 import cardDetail, { cardDetailSaga } from 'modules/cardDetail';
-import login, { loginSaga } from 'modules/login';
 import opinion, { opinionSaga } from 'modules/opinion';
 import archetype, { archetypeSaga } from 'modules/archetype';
 import relic, { relicSaga } from 'modules/relic';
@@ -14,15 +15,16 @@ import relicDetail, { relicDetailSaga } from 'modules/relicDetail';
 import { all } from 'redux-saga/effects';
 
 export function* rootSaga() {
-    yield all([homeSaga(), characterSaga(), cardSaga(), cardDetailSaga(), loginSaga(), opinionSaga(), archetypeSaga(), relicSaga(), relicDetailSaga()]);
+    yield all([homeSaga(), loginSaga(), signUpSaga(), characterSaga(), cardSaga(), cardDetailSaga(), opinionSaga(), archetypeSaga(), relicSaga(), relicDetailSaga()]);
 }
 
 export default combineReducers({
     home,
+    login,
+    signUp,
     character,
     card,
     cardDetail,
-    login,
     opinion,
     archetype,
     relic,

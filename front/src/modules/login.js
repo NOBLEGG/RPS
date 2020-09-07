@@ -2,6 +2,10 @@ import axios from 'axios';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
+function postFormAPI(data) {
+    return axios.post('https://rpspire.gg:8000/api-auth/', data);
+}
+
 function fbLoginAPI(access_token) {
     return axios.post(
         'https://localhost:8000/rest-auth/facebook/',
@@ -20,6 +24,10 @@ function googleLoginAPI(access_token) {
     );
 }
 
+const POST_FORM         = 'login/POST_FORM';
+const POST_FORM_SUCCESS = 'login/POST_FORM_SUCCESS';
+const POST_FORM_FAILURE = 'login/POST_FORM_FAILURE';
+
 const FB_LOGIN         = 'login/FB_LOGIN';
 const FB_LOGIN_SUCCESS = 'login/FB_LOGIN_SUCCESS';
 const FB_LOGIN_FAILURE = 'login/FB_LOGIN_FAILURE';
@@ -28,8 +36,18 @@ const GOOGLE_LOGIN         = 'login/GOOGLE_LOGIN';
 const GOOGLE_LOGIN_SUCCESS = 'login/GOOGLE_LOGIN_SUCCESS';
 const GOOGLE_LOGIN_FAILURE = 'login/GOOGLE_LOGIN_FAILURE';
 
+export const postForm = createAction(POST_FORM);
 export const fbLogin = createAction(FB_LOGIN);
 export const googleLogin = createAction(GOOGLE_LOGIN);
+
+function* postFormSaga(action) {
+    try {
+        const response = yield call(postFormAPI, action.payload);
+        yield put({ type: POST_FORM_SUCCESS, payload: response });
+    } catch (e) {
+        yield put({ type: POST_FORM_FAILURE, payload: e });
+    }
+}
 
 function* fbLoginSaga(access_token) {
     try {
