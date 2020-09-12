@@ -123,16 +123,14 @@ class LoginView(APIView):
         user = authenticate(email=email, password=password)
 
         if user is None:
-            return JsonResponse({'message': 'FAIL'}, status=200)
+            return JsonResponse({'message': 'NOT_VALID'}, status=200)
 
         try:
             payload = JWT_PAYLOAD_HANDLER(user)
             jwt_token = JWT_ENCODE_HANDLER(payload)
             update_last_login(None, user)
         except User.DoesNotExist:
-            raise serializers.ValidationError(
-                'User with given email and password does not exists'
-            )
+            return JsonResponse({'message': 'JWT_VALIDATION_ERROR'}, status=400)
 
         return JsonResponse({'success': 'True', 'token': jwt_token}, status=200)
 

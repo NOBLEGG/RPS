@@ -7,6 +7,7 @@ import * as loginActions from 'modules/login';
 // 렌더링에 필요한 데이터를 fetching
 const LoginContainer = () => {
     const dispatch = useDispatch();
+    const errorMessage = useSelector(state => state.login.errorMessage);
 
     const postForm = (value) => {
         dispatch(loginActions.postForm(value));
@@ -25,6 +26,7 @@ const LoginContainer = () => {
     return (
         <Login
             postForm={postForm}
+            errorMessage={errorMessage}
         />
     );
 }

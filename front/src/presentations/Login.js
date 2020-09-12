@@ -8,9 +8,15 @@ import FacebookLogin from 'react-facebook-login';
 
 const Login = ({
     postForm,
+    errorMessage,
     fbLogin
 }) => {
     const { handleSubmit, control, errors } = useForm();
+
+    if (errorMessage === "NOT_VALID")
+        alert("로그인에 실패했습니다. 이메일 주소 또는 비밀번호를 확인해 주세요.");
+    else if (errorMessage === "JWT_VALIDATION_ERROR")
+        alert("토큰이 유효하지 않습니다.");
 
     const fbResponse = (response) => {
         fbLogin(response);

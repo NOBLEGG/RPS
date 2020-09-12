@@ -3,7 +3,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function postFormAPI(data) {
-    return axios.post('https://rpspire.gg:8000/api-auth/', data);
+    return axios.post('https://rpspire.gg:8000/login/', data);
 }
 
 function fbLoginAPI(access_token) {
@@ -68,27 +68,23 @@ function* googleLoginSaga(access_token) {
 }
 
 const initialState = {
-
+    errorMessage: ""
 };
 
 export function* loginSaga() {
-    // 1st arg : action, 2nd arg : func
-    // Monitor action, if it occurs, perform the func
+    yield takeEvery('login/POST_FORM', postFormSaga);
     yield takeEvery('login/FB_LOGIN', fbLoginSaga);
     yield takeEvery('login/GOOGLE_LOGIN', googleLoginSaga);
 }
 
-// Reducer들은 2가지 매개변수(state, action)을 가지므로 아래 reducer들도 똑같이 해 줄 것
 export default handleActions(
     {
-        [FB_LOGIN_SUCCESS]: (state, action) => {
-            return {
-                
-            };
+        [POST_FORM_SUCCESS]: (state, action) => {
+            console.log(action);
         },
-        [GOOGLE_LOGIN_SUCCESS]: (state, action) => {
+        [POST_FORM_FAILURE]: (state, action) => {
             return {
-                
+                errorMessage: action.payload.response.data.message
             };
         }
     }, initialState
