@@ -1,21 +1,9 @@
 from rest_framework import serializers
-from .models import Notice, User, Opinion, CardRelic
-
-from .tokens import account_activation_token
-
-from django.contrib.auth import get_user_model
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.contrib.sites.shortcuts import get_current_site
-
-from django.core.mail import EmailMessage
+from .models import Notice, Opinion, CardRelic
 
 import logging
 
 logger = logging.getLogger(__name__)
-
-# Return the currently active user model
-User = get_user_model()
 
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,16 +16,6 @@ class NoticeSerializer(serializers.ModelSerializer):
             'view'
         )
         model = Notice
-
-class UserCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = (
-            'email',
-            'username',
-            'password'
-        )
-        model = User
-
 
 class CardSerializer(serializers.ModelSerializer):
     class Meta:

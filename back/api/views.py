@@ -3,9 +3,9 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.hashers import make_password
-# from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.models import update_last_login
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
@@ -15,9 +15,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
+from django.conf import settings
+
 from .tokens import account_activation_token
 from .models import Notice, User, Opinion, CardRelic
-from .serializers import NoticeSerializer, UserCreateSerializer, OpinionSerializer, CardSerializer, RelicSerializer
+from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer, RelicSerializer
 
 from .active_email import message
 
@@ -28,6 +30,9 @@ from .active_email import message
 import json, logging
 
 User = get_user_model()
+
+JWT_PAYLOAD_HANDLER = settings.JWT_PAYLOAD_HANDLER
+JWT_ENCODE_HANDLER  = settings.JWT_ENCODE_HANDLER
 
 logger = logging.getLogger(__name__)
 
@@ -59,13 +64,13 @@ class CreateUserView(APIView):
             validate_email(data['email'])
 
             if User.objects.filter(email=data['email']).exists():
-                return JsonResponse({'message' : 'EMAIL_EXISTS'}, status=400)
+                return JsonResponse({'message': 'EMAIL_EXISTS'}, status=400)
 
             if User.objects.filter(name=data['username']).exists():
-                return JsonResponse({'message' : 'USERNAME_EXISTS'}, status=400)
+                return JsonResponse({'message': 'USERNAME_EXISTS'}, status=400)
 
             if len(data['password']) < 8:
-                return JsonResponse({'message' : 'TOO_SHORT_PASSWORD'}, status=400)
+                return JsonResponse({'message': 'TOO_SHORT_PASSWORD'}, status=400)
 
             hashed_password = make_password(data['password'])
 
@@ -87,14 +92,14 @@ class CreateUserView(APIView):
             email = EmailMessage(email_title, message_data, to=[to_email])
             email.send(fail_silently=True)
 
-            return JsonResponse({'message' : 'SUCCESS'}, status=200)
+            return JsonResponse({'message': 'SUCCESS'}, status=200)
 
         except KeyError:
-            return JsonResponse({'message' : 'INVALID_KEY'}, status=400)
+            return JsonResponse({'message': 'INVALID_KEY'}, status=400)
         except TypeError:
-            return JsonResponse({'message' : 'INVALID_TYPE'}, status=400)
+            return JsonResponse({'message': 'INVALID_TYPE'}, status=400)
         except ValidationError:
-            return JsonResponse({'message' : 'VALIDATION_ERROR'}, status=400)
+            return JsonResponse({'message': 'VALIDATION_ERROR'}, status=400)
 
 class UserActiveView(APIView):
     def get(self, request, uidb64, token):
@@ -109,6 +114,27 @@ class UserActiveView(APIView):
             return redirect("https://rpspire.gg/login")
         else:
             return HttpResponse(status=400)
+
+class LoginView(APIView):
+    def post(self, request):
+        data = json.loads(request.body)
+        email = data['email']
+        password = data['password']
+        user = authenticate(email=email, password=password)
+
+        if user is None:
+            return JsonResponse({'message': 'FAIL'}, status=200)
+
+        try:
+            payload = JWT_PAYLOAD_HANDLER(user)
+            jwt_token = JWT_ENCODE_HANDLER(payload)
+            update_last_login(None, user)
+        except User.DoesNotExist:
+            raise serializers.ValidationError(
+                'User with given email and password does not exists'
+            )
+
+        return JsonResponse({'success': 'True', 'token': jwt_token}, status=200)
 
 class CharacterView(APIView):
     def get(self, request, obj):
