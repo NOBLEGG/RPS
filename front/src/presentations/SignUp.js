@@ -3,9 +3,23 @@ import { useForm, Controller } from 'react-hook-form';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 const SignUp = ({
-    postForm
+    postForm,
+    errorMessage
 }) => {
     const { handleSubmit, control, errors } = useForm();
+
+	if (errorMessage === "VALIDATION_ERROR")
+		alert("적절한 이메일 주소가 아닙니다, 확인해 주세요.");
+	else if (errorMessage === "EMAIL_EXISTS")
+		alert("이미 등록된 이메일입니다. 다른 이메일으로 시도해 주세요.");
+	else if (errorMessage === "USERNAME_EXISTS")
+		alert("사용중인 이름입니다. 다른 이름으로 시도해 주세요.");
+	else if (errorMessage === "TOO_SHORT_PASSWORD")
+		alert("비밀번호가 너무 짧습니다, 8자 이상으로 입력해 주세요.");
+	else if (errorMessage === "INVALID_KEY")
+		alert("요청 받은 dict의 키가 유효하지 않습니다. 운영자에게 문의해 주세요.");
+	else if (errorMessage === "INVALID_TYPE")
+		alert("요청의 형태가 유효하지 않습니다. 운영자에게 문의해 주세요.");
 
     const submitMessage = () => {
         alert("해당 이메일로 인증 메일을 보냅니다, 확인해 주세요.");

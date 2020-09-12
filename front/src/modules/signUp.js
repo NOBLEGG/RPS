@@ -3,7 +3,6 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function postFormAPI(data) {
-    console.log(data);
     return axios.post('https://rpspire.gg:8000/create/', data);
 }
 
@@ -23,7 +22,7 @@ function* postFormSaga(action) {
 }
 
 const initialState = {
-
+    errorMessage: ""
 };
 
 export function* signUpSaga() {
@@ -36,7 +35,9 @@ export default handleActions(
 	    console.log(action);
         },
 	[POST_FORM_FAILURE]: (state, action) => {
-	    console.log(action);
+	    return {
+	        errorMessage: action.payload.response.data.message
+	    };
 	}
     }, initialState
 );
