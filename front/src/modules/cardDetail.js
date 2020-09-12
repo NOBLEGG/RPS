@@ -3,15 +3,18 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function getDetailAPI(character, card) {
-    return axios.get('http://localhost:8000/card/' + character + '/' + card + '/');
+    return axios.get('http://rpspire.gg:8000/card/' + character + '/' + card + '/');
+    // return axios.get('http://localhost:8000/card/' + character + '/' + card + '/');
 }
 
 function postProUpAPI(character, card, id) {
-    return axios.post('http://localhost:8000/card/' + character + '/' + card + '/' + id + '/pro/');
+    return axios.post('http://rpspire.gg:8000/card/' + character + '/' + card + '/' + id + '/pro/');
+    // return axios.post('http://localhost:8000/card/' + character + '/' + card + '/' + id + '/pro/');
 }
 
 function postConUpAPI(character, card, id) {
-    return axios.post('http://localhost:8000/card/' + character + '/' + card + '/' + id + '/con/');
+    return axios.post('http://rpspire.gg:8000/card/' + character + '/' + card + '/' + id + '/con/');
+    // return axios.post('http://localhost:8000/card/' + character + '/' + card + '/' + id + '/con/');
 }
 
 const GET_DETAIL         = 'cardDetail/GET_DETAIL';

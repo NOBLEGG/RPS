@@ -5,3 +5,4 @@ django-admin-honeypot
 dnspython
 Pillow
 djongo
+djangorestframework-jwt

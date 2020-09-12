@@ -3,11 +3,13 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function getListAPI() {
-    return axios.get('http://localhost:8000/');
+    return axios.get('http://rpspire.gg:8000/');
+    // return axios.get('http://localhost:8000/');
 }
 
 function getDetailAPI(id) {
-    return axios.get('http://localhost:8000/' + id + '/');
+    return axios.get('http://rpspire.gg:8000/' + id + '/');
+    // return axios.get('http://localhost:8000/' + id + '/');
 }
 
 const GET_LIST         = 'home/GET_LIST';

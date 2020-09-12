@@ -1,18 +1,33 @@
+from django.core.mail import EmailMessage
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
+# from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
 
-from rest_framework import generics, serializers
+from rest_framework import generics, serializers, status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 
-from .models import Notice, Opinion, CardRelic
-from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer, RelicSerializer
+from .tokens import account_activation_token
+from .models import Notice, User, Opinion, CardRelic
+from .serializers import NoticeSerializer, UserCreateSerializer, OpinionSerializer, CardSerializer, RelicSerializer
+
+from .active_email import message
 
 # from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 # from rest_auth.registration.views import SocialLoginView
 
 import json, logging
+
+User = get_user_model()
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +51,65 @@ class NoticeDetailView(generics.RetrieveAPIView):
 
         return Notice.objects.filter(id=self.kwargs['pk'])
 
+class CreateUserView(APIView):
+    def post(self, request):
+        data = json.loads(request.body)
+
+        try:
+            validate_email(data['email'])
+
+            if User.objects.filter(email=data['email']).exists():
+                return JsonResponse({'message' : 'EMAIL_EXISTS'}, status=400)
+
+            if User.objects.filter(name=data['username']).exists():
+                return JsonResponse({'message' : 'USERNAME_EXISTS'}, status=400)
+
+            if len(data['password']) < 8:
+                return JsonResponse({'message' : 'TOO_SHORT_PASSWORD'}, status=400)
+
+            hashed_password = make_password(data['password'])
+
+            user = User.objects.create(
+                email = data['email'],
+                name = data['username'],
+                password = hashed_password,
+                is_active = False
+            )
+
+            # current_site = get_current_site(request)
+            domain       = 'rpspire.gg:8000'
+            uidb64       = urlsafe_base64_encode(force_bytes(user.pk))
+            token        = account_activation_token.make_token(user)
+            message_data = message(domain, uidb64, token)
+
+            email_title = "이메일을 인증해 주세요"
+            to_email = data['email']
+            email = EmailMessage(email_title, message_data, to=[to_email])
+            email.send(fail_silently=True)
+
+            return JsonResponse({'message' : 'SUCCESS'}, status=200)
+
+        except KeyError:
+            return JsonResponse({'message' : 'INVALID_KEY'}, status=400)
+        except TypeError:
+            return JsonResponse({'message' : 'INVALID_TYPE'}, status=400)
+        except ValidationError:
+            return JsonResponse({'message' : 'VALIDATION_ERROR'}, status=400)
+
+class UserActiveView(APIView):
+    def get(self, request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            return redirect("https://rpspire.gg/login")
+        else:
+            return HttpResponse(status=400)
+
 class CharacterView(APIView):
     def get(self, request, obj):
         params = request.GET.get('filter', '')
@@ -46,7 +120,6 @@ class CharacterView(APIView):
 
             card = CardRelic.objects.all().filter(subject=obj)
             card_serializer = CardSerializer(card, many=True)
-
             archetype = Opinion.objects.all().filter(subject=obj).filter(archetype=True).order_by('-pro', '-con')[0:3]
             archetype_serializer = OpinionSerializer(archetype, many=True)
 

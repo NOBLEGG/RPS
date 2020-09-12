@@ -6,35 +6,44 @@ function postOpinionFormAPI(character, card, relic, data) {
     if (relic === undefined) {
         if (card === undefined) {
             // 캐릭터에 대한 의견 제출
-            return axios.post('http://localhost:8000/opinion/character/' + character + '/', data);
+	    return axios.post('http://rpspire.gg:8000/opinion/character/' + character + '/', data);
+            // return axios.post('http://localhost:8000/opinion/character/' + character + '/', data);
         }
         else {
             // 카드에 대한 의견 제출
-            return axios.post('http://localhost:8000/opinion/card/'  + character + '/' + card + '/', data);
+	    return axios.post('http://rpspire.gg:8000/opinion/card/'  + character + '/' + card + '/', data);
+            // return axios.post('http://localhost:8000/opinion/card/'  + character + '/' + card + '/', data);
         }
     } else {
-            console.log(data);
             // 유물에 대한 의견 제출
-            return axios.post('http://localhost:8000/opinion/relic/' + relic + '/', data);
+	    return axios.post('http://rpspire.gg:8000/opinion/relic/' + relic + '/', data);
+            // return axios.post('http://localhost:8000/opinion/relic/' + relic + '/', data);
     }
 }
 
 function getOpinionListAPI(character, card, relic) {
     if (relic === undefined) {
-        if (card === undefined)
-            return axios.get('http://localhost:8000/opinion/character/' + character + '/');
-        else
-            return axios.get('http://localhost:8000/opinion/card/'  + character + '/' + card + '/');
-    } else
-            return axios.get('http://localhost:8000/opinion/relic/' + relic + '/');
+        if (card === undefined) {
+	    return axios.get('http://rpspire.gg:8000/opinion/character/' + character + '/');
+	    // return axios.get('http://localhost:8000/opinion/character/' + character + '/');
+	} else {
+            return axios.get('http://rpspire.gg:8000/opinion/card/'  + character + '/' + card + '/');
+	    // return axios.get('http://localhost:8000/opinion/card/'  + character + '/' + card + '/');
+	}
+    } else {
+        return axios.get('http://rpspire.gg:8000/opinion/relic/' + relic + '/');
+        // return axios.get('http://localhost:8000/opinion/relic/' + relic + '/');
+    }
 }
 
 function postProUpAPI(character, card, relic, id) {
-    return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/pro/');
+    return axios.post('http://rpspire.gg:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/pro/');
+    // return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/pro/');
 }
 
 function postConUpAPI(character, card, relic, id) {
-    return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/con/');
+    return axios.post('http://rpspire.gg:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/con/');
+    // return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/con/');
 }
 
 const OPINION_STAR_CLICK        = 'opinion/OPINION_STAR_CLICK';

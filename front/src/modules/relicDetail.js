@@ -3,15 +3,18 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function getDetailAPI(relic) {
-    return axios.get('http://localhost:8000/relic/' + relic + '/');
+    return axios.get('http://rpspire.gg:8000/relic/' + relic + '/');
+    // return axios.get('http://localhost:8000/relic/' + relic + '/');
 }
 
 function postProUpAPI(relic, id) {
-    return axios.post('http://localhost:8000/relic/' + relic + '/' + id + '/pro/');
+    return axios.post('http://rpspire.gg:8000/relic/' + relic + '/' + id + '/pro/');
+    // return axios.post('http://localhost:8000/relic/' + relic + '/' + id + '/pro/');
 }
 
 function postConUpAPI(relic, id) {
-    return axios.post('http://localhost:8000/relic/' + relic + '/' + id + '/con/');
+    return axios.post('http://rpspire.gg:8000/relic/' + relic + '/' + id + '/con/');
+    // return axios.post('http://localhost:8000/relic/' + relic + '/' + id + '/con/');
 }
 
 const GET_DETAIL         = 'relicDetail/GET_DETAIL';

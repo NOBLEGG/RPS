@@ -3,19 +3,23 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function postArchetypeFormAPI(subject, data) {
-    return axios.post('http://localhost:8000/archetype/' + subject + '/', data);
+    return axios.post('http://rpspire.gg:8000/archetype' + subject + '/', data);
+    // return axios.post('http://localhost:8000/archetype/' + subject + '/', data);
 }
 
 function getArchetypeListAPI(subject) {
-    return axios.get('http://localhost:8000/archetype/' + subject + '/');
+    return axios.get('http://rpspire.gg:8000/archetype/' + subject + '/');
+    // return axios.get('http://localhost:8000/archetype/' + subject + '/');
 }
 
 function postProUpAPI(subject, id) {
-    return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/pro/');
+    return axios.post('http://rpspire.gg:8000/character/' + subject + '/' + id + '/pro/');
+    // return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/pro/');
 }
 
 function postConUpAPI(subject, id) {
-    return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/con/');
+    return axios.post('http://rpspire.gg:8000/character/' + subject + '/' + id + '/con/');
+    // return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/con/');
 }
 
 const ARCHETYPE_STAR_CLICK        = 'archetype/ARCHETYPE_STAR_CLICK';

@@ -17,7 +17,7 @@ const NavBar = () => {
                         <NavDropdown.Item href="/relic">Relics</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
-                {/* <Nav.Link href="/rest-auth" inline="true">Login</Nav.Link> */}
+                <Nav.Link href="/login" inline="true">로그인</Nav.Link>
             </Navbar.Collapse>
         </Navbar>
     );

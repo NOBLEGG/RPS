@@ -3,19 +3,23 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function getCharacterAPI(subject) {
-    return axios.get('http://localhost:8000/character/' + subject + '/');
+    return axios.get('https://rpspire.gg:8000/character/' + subject + '/');
+    // return axios.get('http://localhost:8000/character/' + subject + '/');
 }
 
 function postProUpAPI(subject, id) {
-    return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/pro/');
+    return axios.post('https://rpspire.gg:8000/character/' + subject + '/' + id + '/pro/');
+    // return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/pro/');
 }
 
 function postConUpAPI(subject, id) {
-    return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/con/');
+    return axios.post('https://rpspire.gg:8000/character/' + subject + '/' + id + '/con/');
+    // return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/con/');
 }
 
 function changeFilterAPI(subject, filter) {
-    return axios.get('http://localhost:8000/character/' + subject + '/', {
+    return axios.get('https://rpspire.gg:8000/character/' + subject + '/', {
+    // return axios.get('http://localhost:8000/character/' + subject + '/', {
         params: {
             filter: filter
         }
@@ -128,7 +132,6 @@ export default handleActions(
     {
         [GET_CHARACTER_SUCCESS]: (state, action) => {
             const res = action.payload.data;
-            console.log(res);
             return {
                 opinion: res[0],
                 card: res[1],
