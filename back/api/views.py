@@ -15,8 +15,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
-from django.conf import settings
-
 from .tokens import account_activation_token
 from .models import Notice, User, Opinion, CardRelic
 from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer, RelicSerializer
@@ -30,9 +28,6 @@ from .active_email import message
 import json, logging
 
 User = get_user_model()
-
-JWT_PAYLOAD_HANDLER = settings.JWT_PAYLOAD_HANDLER
-JWT_ENCODE_HANDLER  = settings.JWT_ENCODE_HANDLER
 
 logger = logging.getLogger(__name__)
 
@@ -114,25 +109,6 @@ class UserActiveView(APIView):
             return redirect("https://rpspire.gg/login")
         else:
             return HttpResponse(status=400)
-
-class LoginView(APIView):
-    def post(self, request):
-        data = json.loads(request.body)
-        email = data['email']
-        password = data['password']
-        user = authenticate(email=email, password=password)
-
-        if user is None:
-            return JsonResponse({'message': 'NOT_VALID'}, status=200)
-
-        try:
-            payload = JWT_PAYLOAD_HANDLER(user)
-            jwt_token = JWT_ENCODE_HANDLER(payload)
-            update_last_login(None, user)
-        except User.DoesNotExist:
-            return JsonResponse({'message': 'JWT_VALIDATION_ERROR'}, status=400)
-
-        return JsonResponse({'success': 'True', 'token': jwt_token}, status=200)
 
 class CharacterView(APIView):
     def get(self, request, obj):

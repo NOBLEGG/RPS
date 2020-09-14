@@ -3,7 +3,8 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function postFormAPI(data) {
-    return axios.post('https://rpspire.gg:8000/login/', data);
+    console.log(data);
+    return axios.post('https://rpspire.gg:8000/api-auth/', data);
 }
 
 function fbLoginAPI(access_token) {
