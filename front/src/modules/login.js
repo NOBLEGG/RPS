@@ -3,8 +3,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function postFormAPI(data) {
-    console.log(data);
-    return axios.post('https://rpspire.gg:8000/api-auth/', data);
+    return axios.post('https://rpspire.gg:8000/api-auth/', data, { withCredentials: true });
 }
 
 function fbLoginAPI(access_token) {
@@ -85,7 +84,7 @@ export default handleActions(
         },
         [POST_FORM_FAILURE]: (state, action) => {
             return {
-                errorMessage: action.payload.response.data.message
+                errorMessage: action.payload.isAxiosError
             };
         }
     }, initialState
