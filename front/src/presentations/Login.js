@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
@@ -9,12 +9,18 @@ import FacebookLogin from 'react-facebook-login';
 const Login = ({
     postForm,
     errorMessage,
+    isLogin,
     fbLogin
 }) => {
     const { handleSubmit, control, errors } = useForm();
 
     if (errorMessage === true)
         alert("로그인에 실패했습니다. 이메일 주소 또는 비밀번호를 확인해 주세요.");
+
+    if (isLogin === true) {
+        alert("로그인 되었습니다, 홈페이지로 이동합니다.");
+        <Redirect to="/" />
+    }
 
     const fbResponse = (response) => {
         fbLogin(response);

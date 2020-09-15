@@ -28,6 +28,10 @@ const POST_FORM         = 'login/POST_FORM';
 const POST_FORM_SUCCESS = 'login/POST_FORM_SUCCESS';
 const POST_FORM_FAILURE = 'login/POST_FORM_FAILURE';
 
+const LOGIN_SUCCESS         = 'login/LOGIN_SUCCESS';
+const LOGIN_SUCCESS_SUCCESS = 'login/LOGIN_SUCCESS_SUCCESS';
+const LOGIN_SUCCESS_FAILURE = 'login/LOGIN_SUCCESS/FAILURE';
+
 const FB_LOGIN         = 'login/FB_LOGIN';
 const FB_LOGIN_SUCCESS = 'login/FB_LOGIN_SUCCESS';
 const FB_LOGIN_FAILURE = 'login/FB_LOGIN_FAILURE';
@@ -37,6 +41,7 @@ const GOOGLE_LOGIN_SUCCESS = 'login/GOOGLE_LOGIN_SUCCESS';
 const GOOGLE_LOGIN_FAILURE = 'login/GOOGLE_LOGIN_FAILURE';
 
 export const postForm = createAction(POST_FORM);
+export const loginSuccess = createAction(LOGIN_SUCCESS);
 export const fbLogin = createAction(FB_LOGIN);
 export const googleLogin = createAction(GOOGLE_LOGIN);
 
@@ -46,6 +51,15 @@ function* postFormSaga(action) {
         yield put({ type: POST_FORM_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: POST_FORM_FAILURE, payload: e });
+    }
+}
+
+function* loginSuccessSaga(token) {
+    try {
+        const response = yield call(loginSuccessAPI(token));
+        yield put({ type: LOGIN_SUCCESS_SUCCESS, payload: response });
+    } catch (e) {
+        yield put({ type: LOGIN_SUCCESS_FAILURE, payload: e });
     }
 }
 
@@ -68,11 +82,13 @@ function* googleLoginSaga(access_token) {
 }
 
 const initialState = {
+    isLogin: false,
     errorMessage: ""
 };
 
 export function* loginSaga() {
     yield takeEvery('login/POST_FORM', postFormSaga);
+    yield takeEvery('login/LOGIN_SUCCESS', loginSuccessSaga);
     yield takeEvery('login/FB_LOGIN', fbLoginSaga);
     yield takeEvery('login/GOOGLE_LOGIN', googleLoginSaga);
 }
@@ -80,7 +96,9 @@ export function* loginSaga() {
 export default handleActions(
     {
         [POST_FORM_SUCCESS]: (state, action) => {
-            console.log(action);
+            return {
+                isLogin: true
+            };
         },
         [POST_FORM_FAILURE]: (state, action) => {
             return {
