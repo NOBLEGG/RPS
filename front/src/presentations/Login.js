@@ -19,7 +19,9 @@ const Login = ({
 
     if (isLogin === true) {
         alert("로그인 되었습니다, 홈페이지로 이동합니다.");
-        <Redirect to="/" />
+        return (
+            <Redirect to="/" />
+        );
     }
 
     const fbResponse = (response) => {

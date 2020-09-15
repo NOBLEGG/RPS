@@ -1,24 +1,10 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
     
-const NavBar = () => {
-    function getCookie(cookieName) {
-        cookieName += "=";
-        const arr = decodeURIComponent(document.cookie).split(';');
-
-        for (let i = 0; i < arr.length; i++) {
-            let temp = arr[i];
-            while (temp.charAt(0) == ' ') temp = temp.substring(1);
-            if (temp.indexOf(cookieName) == 0)
-                return temp.substring(cookieName.length, temp.length);
-        }
-
-        return "";
-    }
-
-    const token = getCookie('token');
-
-    if (token === "") {
+const NavBar = ({
+    isLogin
+}) => {
+    if (isLogin === true) {
         return (
             <Navbar>
                 <Navbar.Brand href="/">rps.gg</Navbar.Brand>
@@ -34,7 +20,7 @@ const NavBar = () => {
                             <NavDropdown.Item href="/relic">Relics</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    <Nav.Link href="/login" inline="true">로그인</Nav.Link>
+                    {/* <Nav.Link href="/" inline="true">사용자명</Nav.Link> */}
                 </Navbar.Collapse>
             </Navbar>
         );
@@ -54,7 +40,7 @@ const NavBar = () => {
                             <NavDropdown.Item href="/relic">Relics</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    {/* <Nav.Link href="/" inline="true">사용자명</Nav.Link> */}
+                    <Nav.Link href="/login" inline="true">로그인</Nav.Link>
                 </Navbar.Collapse>
             </Navbar>
         );

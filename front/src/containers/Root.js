@@ -10,7 +10,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
-import NavBar from 'presentations/NavBar';
+import NavBarContainer from 'containers/NavBarContainer';
 import LoginContainer from 'containers/LoginContainer';
 import SignUpContainer from 'containers/SignUpContainer';
 import HomeContainer from 'containers/HomeContainer';
@@ -33,7 +33,7 @@ const Root = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <NavBar />
+        <NavBarContainer />
         <Switch>
           <Route exact path="/" component={HomeContainer} />
 
