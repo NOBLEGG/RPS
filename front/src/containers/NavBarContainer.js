@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import NavBar from 'presentations/NavBar';
@@ -6,12 +6,11 @@ import * as loginActions from 'modules/login';
 
 const NavBarContainer = () => {
     const dispatch = useDispatch();
-    const isLogin = useSelector(state => state.navBar.isLogin);
+    const isLogin = useSelector(state => state.login.isLogin);
 
-    const verifyToken = () => {
-        console.log("Requested verify token.");
-        dispatch(loginActions.verifyToken);
-    }
+    useEffect(() => {
+        dispatch(loginActions.verifyToken());
+    }, [dispatch]);
 
     return (
         <NavBar

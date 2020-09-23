@@ -1,11 +1,12 @@
+from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model, authenticate
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import update_last_login
+from django.contrib.auth.hashers import make_password, check_password
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
@@ -14,20 +15,25 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework_jwt.views import JSONWebTokenAPIView
+from rest_framework_jwt.serializers import JSONWebTokenSerializer, VerifyJSONWebTokenSerializer
 
 from .tokens import account_activation_token
 from .models import Notice, User, Opinion, CardRelic
 from .serializers import NoticeSerializer, OpinionSerializer, CardSerializer, RelicSerializer
-
-from .active_email import message
+from .email import active_message, reset_message
 
 # from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 # from rest_auth.registration.views import SocialLoginView
 
+from datetime import datetime
+
 import json, logging
 
 User = get_user_model()
+
+# jwt_response_payload_handler = settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +86,7 @@ class CreateUserView(APIView):
             domain       = 'rpspire.gg:8000'
             uidb64       = urlsafe_base64_encode(force_bytes(user.pk))
             token        = account_activation_token.make_token(user)
-            message_data = message(domain, uidb64, token)
+            message_data = active_message(domain, uidb64, token)
 
             email_title = "이메일을 인증해 주세요"
             to_email = data['email']
@@ -109,6 +115,143 @@ class UserActiveView(APIView):
             return redirect("https://rpspire.gg/login")
         else:
             return HttpResponse(status=400)
+
+class JWTView(JSONWebTokenAPIView):
+    def post(self, request, obj, *args, **kwargs):
+        if obj == 'obtain':
+            serializer = JSONWebTokenSerializer(data=request.data)
+        elif obj == 'verify':
+            serializer = VerifyJSONWebTokenSerializer(data=request.data)
+
+        if serializer.is_valid():
+            user = serializer.object.get('user')
+            token = serializer.object.get('token')
+            response = Response(token)
+            if settings.JWT_AUTH_COOKIE:
+                expiration = (datetime.utcnow() +
+                              settings.JWT_EXPIRATION_DELTA)
+                response.set_cookie(settings.JWT_AUTH_COOKIE,
+                                    token,
+                                    expires=expiration)
+                response.set_cookie('email', user, expires=expiration)
+            return response
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdatePWView(APIView):
+    def put(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+
+        try:
+            validate_email(data['email'])
+
+            if not User.objects.filter(email=data['email']).exists():
+                return JsonResponse({'message': 'EMAIL_NOT_EXISTS'}, status=400)
+
+            user = User.objects.get(email=data['email'])
+
+            if not check_password(data['current'], user.password):
+                return JsonResponse({'message': 'CURRENT_CHECK_FAILED'}, status=400)
+
+            if (data['password'] != data['check']):
+                return JsonResponse({'message': 'CHECK_FAILED'}, status=400)
+
+            if len(data['password']) < 8:
+                return JsonResponse({'message': 'TOO_SHORT_PASSWORD'}, status=400)
+
+            user.set_password(data['password'])
+            user.save()
+
+            return JsonResponse({'message': 'SUCCESS'}, status=200)
+
+        except KeyError:
+            return JsonResponse({'message': 'INVALID_KEY'}, status=400)
+        except TypeError:
+            return JsonResponse({'message': 'INVALID_TYPE'}, status=400)
+        except ValidationError:
+            return JsonResponse({'message': 'VALIDATION_ERROR'}, status=400)
+
+class ResetView(APIView):
+    def post(self, request):
+        data = json.loads(request.body)
+
+        try:
+            validate_email(data['email'])
+
+            if not User.objects.filter(email=data['email']).exists():
+                return JsonResponse({'message': 'EMAIL_NOT_EXISTS'}, status=400)
+
+            user = User.objects.get(email=data['email'])
+
+            domain       = 'rpspire.gg'
+            uidb64       = urlsafe_base64_encode(force_bytes(user.email))
+            token        = account_activation_token.make_token(user)
+            message_data = reset_message(domain, uidb64, token)
+
+            email_title = "비밀번호 변경을 요청하셨습니다"
+            to_email = data['email']
+            email = EmailMessage(email_title, message_data, to=[to_email])
+            email.send(fail_silently=True)
+
+            return JsonResponse({'message': 'SUCCESS'}, status=200)
+
+        except KeyError:
+            return JsonResponse({'message': 'INVALID_KEY'}, status=400)
+        except TypeError:
+            return JsonResponse({'message': 'INVALID_TYPE'}, status=400)
+        except ValidationError:
+            return JsonResponse({'message': 'VALIDATION_ERROR'}, status=400)
+
+class ResetConfirmView(APIView):
+    def put(self, request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(email=uid)
+        except OverflowError:
+            return JsonResponse({'message': 'OVERFLOW'}, status=400)
+        except TypeError:
+            return JsonResponse({'message': 'INVALID_TYPE'}, status=400)
+        except ValueError:
+            return JsonResponse({'message': 'INVALID_VALUE'}, status=400)
+        except User.DoesNotExist:
+            return JsonResponse({'message': 'USER_NOT_EXISTS'}, status=400)
+
+        if account_activation_token.check_token(user, token):
+            data = json.loads(request.body)
+            try:
+                if (data['password'] != data['check']):
+                    return JsonResponse({'message': 'CHECK_FAILED'}, status=400)
+                if len(data['password']) < 8:
+                    return JsonResponse({'message': 'TOO_SHORT_PASSWORD'}, status=400)
+
+                user.set_password(data['password'])
+                user.save()
+                logger.warn("SAVED")
+                return JsonResponse({'message': 'SUCCESS'}, status=200)
+
+            except KeyError:
+                return JsonResponse({'message': 'INVALID_KEY'}, status=400)
+            except TypeError:
+                return JsonResponse({'message': 'INVALID_TYPE'}, status=400)
+            except ValidationError:
+                return JsonResponse({'message': 'VALIDATION_ERROR'}, status=400)
+        else:
+            return HttpResponse(status=400)
+
+class DeleteUserView(APIView):
+    def post(self, request):
+        data = json.loads(request.body)
+
+        if not User.objects.filter(email=data['email']).exists():
+            return JsonResponse({'message': 'EMAIL_NOT_EXISTS'}, status=400)
+
+        user = User.objects.get(email=data['email'])
+
+        if not check_password(data['pw'], user.password):
+            return JsonResponse({'message': 'PW_NOT_CORRECT'}, status=400)
+        user.delete()
+
+        return JsonResponse({'message': 'SUCCESS'}, status=200)
 
 class CharacterView(APIView):
     def get(self, request, obj):

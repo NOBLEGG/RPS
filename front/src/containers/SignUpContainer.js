@@ -13,10 +13,13 @@ const SignUpContainer = () => {
         dispatch(signUpActions.postForm(value));
     }
 
+    const alerted = () => dispatch(signUpActions.alerted());
+
     return (
         <SignUp
             postForm={postForm}
             errorMessage={errorMessage}
+            alerted={alerted}
         />
     );
 }

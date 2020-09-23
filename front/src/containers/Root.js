@@ -1,6 +1,6 @@
 // 가장 기본적인 Redux 연동 작업(스토어 주입)이 있는 컨테이너 컴포넌트
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -12,7 +12,11 @@ import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 import NavBarContainer from 'containers/NavBarContainer';
 import LoginContainer from 'containers/LoginContainer';
+import LogoutContainer from 'containers/LogoutContainer';
 import SignUpContainer from 'containers/SignUpContainer';
+import ResetContainer from 'containers/ResetContainer';
+import UpdatePwContainer from 'containers/UpdatePwContainer';
+import DeleteUserContainer from 'containers/DeleteUserContainer';
 import HomeContainer from 'containers/HomeContainer';
 import HomeDetailContainer from 'containers/HomeDetailContainer';
 import IroncladContainer from 'containers/IroncladContainer';
@@ -30,6 +34,21 @@ const store = createStore(combineReducers, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
 const Root = () => {
+  /*
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'purify.min.js';
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    }
+  }, []);
+  */
+
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -38,7 +57,12 @@ const Root = () => {
           <Route exact path="/" component={HomeContainer} />
 
           <Route exact path="/login" component={LoginContainer} />
+          <Route exact path="/logout" component={LogoutContainer} />
           <Route exact path="/signup" component={SignUpContainer} />
+          <Route exact path="/updatepw" component={UpdatePwContainer} />
+          <Route exact path="/reset" component={ResetContainer} />
+          <Route exact path="/reset/:uid/:token" component={ResetContainer} />
+          <Route exact path="/deleteuser" component={DeleteUserContainer} />
 
           <Route exact path="/notice/:id" component={HomeDetailContainer} />
           <Route exact path="/character/ironclad" component={IroncladContainer} />

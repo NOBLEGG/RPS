@@ -10,7 +10,10 @@ const POST_FORM         = 'signUp/POST_FORM';
 const POST_FORM_SUCCESS = 'signUp/POST_FORM_SUCCESS';
 const POST_FORM_FAILURE = 'signUp/POST_FORM_FAILURE';
 
+const ALERTED = 'signUp/ALERTED'
+
 export const postForm = createAction(POST_FORM);
+export const alerted = createAction(ALERTED);
 
 function* postFormSaga(action) {
     try {
@@ -22,7 +25,7 @@ function* postFormSaga(action) {
 }
 
 const initialState = {
-    errorMessage: ""
+    errorMessage: ''
 };
 
 export function* signUpSaga() {
@@ -32,12 +35,17 @@ export function* signUpSaga() {
 export default handleActions(
     {
         [POST_FORM_SUCCESS]: (state, action) => {
-	    console.log(action);
+	        console.log(action);
         },
-	[POST_FORM_FAILURE]: (state, action) => {
-	    return {
-	        errorMessage: action.payload.response.data.message
-	    };
-	}
+	    [POST_FORM_FAILURE]: (state, action) => {
+	        return {
+	            errorMessage: action.payload.response.data.message
+	        };
+	    },
+        [ALERTED]: (state, action) => {
+            return {
+                errorMessage: ''
+            }
+        }
     }, initialState
 );

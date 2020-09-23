@@ -3,12 +3,12 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function getListAPI() {
-    return axios.get('http://rpspire.gg:8000/relic/');
+    return axios.get('https://rpspire.gg:8000/relic/');
     // return axios.get('http://localhost:8000/relic/');
 }
 
 function changeFilterAPI(filter) {
-    return axios.get('http://rpspire.gg:8000/relic/', {
+    return axios.get('https://rpspire.gg:8000/relic/', {
     // return axios.get('http://localhost:8000/relic/', {
         params: {
             filter: filter

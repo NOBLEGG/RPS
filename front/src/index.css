@@ -37,6 +37,10 @@ nav {
 
 */
 
+.dropdown-menu {
+  left: -2rem;
+}
+
 .container-true {
   background-color: #DDD3B0;
 }

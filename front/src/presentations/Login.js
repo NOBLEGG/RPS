@@ -9,13 +9,16 @@ import FacebookLogin from 'react-facebook-login';
 const Login = ({
     postForm,
     errorMessage,
+    alerted,
     isLogin,
     fbLogin
 }) => {
     const { handleSubmit, control, errors } = useForm();
 
-    if (errorMessage === true)
+    if (errorMessage === true) {
         alert("로그인에 실패했습니다. 이메일 주소 또는 비밀번호를 확인해 주세요.");
+        {alerted()}
+    }
 
     if (isLogin === true) {
         alert("로그인 되었습니다, 홈페이지로 이동합니다.");
@@ -80,9 +83,14 @@ const Login = ({
                                         <Button type="submit">로그인</Button>
                                     </Col>
                                 </Form.Row>
-                                <Form.Row style={{ paddingTop: "1%", paddingBottom: "1%" }}>
+                                <Form.Row style={{ paddingTop: "1%" }}>
                                     <Col style={{ textAlign: 'center' }}>
                                         <Link to="/signup"><Button variant="link">회원이 아니신가요?</Button></Link>
+                                    </Col>
+                                </Form.Row>
+                                <Form.Row style={{ paddingBottom: '1%' }}>
+                                    <Col style={{ textAlign: 'center' }}>
+                                        <Link to="/reset"><Button variant="link">비밀번호 찾기</Button></Link>
                                     </Col>
                                 </Form.Row>
                             </Form>

@@ -1,10 +1,6 @@
 from rest_framework import serializers
 from .models import Notice, Opinion, CardRelic
 
-import logging
-
-logger = logging.getLogger(__name__)
-
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (

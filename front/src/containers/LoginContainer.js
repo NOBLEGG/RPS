@@ -14,6 +14,10 @@ const LoginContainer = () => {
         dispatch(loginActions.postForm(value));
     }
 
+    const alerted = () => {
+        dispatch(loginActions.alerted());
+    }
+
     /*
     const fbLogin = (response) => {
         dispatch(loginActions.fbLogin(response.accessToken));
@@ -29,6 +33,7 @@ const LoginContainer = () => {
             postForm={postForm}
             isLogin={isLogin}
             errorMessage={errorMessage}
+            alerted={alerted}
         />
     );
 }
