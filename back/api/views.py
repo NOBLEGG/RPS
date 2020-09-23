@@ -125,6 +125,7 @@ class JWTView(JSONWebTokenAPIView):
 
         if serializer.is_valid():
             user = serializer.object.get('user')
+            name = User.objects.get(email=user).name
             token = serializer.object.get('token')
             response = Response(token)
             if settings.JWT_AUTH_COOKIE:
@@ -134,6 +135,7 @@ class JWTView(JSONWebTokenAPIView):
                                     token,
                                     expires=expiration)
                 response.set_cookie('email', user, expires=expiration)
+                response.set_cookie('name', name, expires=expiration)
             return response
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
