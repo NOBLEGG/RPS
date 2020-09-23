@@ -27,7 +27,22 @@ const OpinionContainer = ({match}) => {
         dispatch(opinionActions.postConUp([character, card, relic, id]));
     }
 
+    const getName = () => {
+        let value = '';
+        const cookies = document.cookie.split(';');
+        let x, y;
+        for (let i = 0; i < cookies.length; i++) {
+            x = cookies[i].substr(0, cookies[i].indexOf('='));
+            y = cookies[i].substr(cookies[i].indexOf('=') + 1);
+            x = x.replace(/^\s+|\s+$/g, '');
+            if (x === 'name')
+                value = y;
+        }
+        return value;
+    }
+
     const postForm = (value) => {
+        value.writer = getName();
         value.score = rating;
         if (relic === undefined) {
             if (card === undefined) {

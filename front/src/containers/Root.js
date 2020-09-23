@@ -1,6 +1,6 @@
 // 가장 기본적인 Redux 연동 작업(스토어 주입)이 있는 컨테이너 컴포넌트
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -34,21 +34,6 @@ const store = createStore(combineReducers, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
 const Root = () => {
-  /*
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'purify.min.js';
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    }
-  }, []);
-  */
-
   return (
     <Provider store={store}>
       <BrowserRouter>
