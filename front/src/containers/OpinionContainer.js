@@ -38,6 +38,10 @@ const OpinionContainer = ({match}) => {
             if (x === 'name')
                 value = y;
         }
+        if (value === '') {
+            alert('의견 등록은 로그인 후 가능합니다. 로그인 후 이용해 주세요.');
+            throw new Error();
+        }
         return value;
     }
 
