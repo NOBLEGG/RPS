@@ -339,12 +339,29 @@ class CharacterView(APIView):
             return Response(card_serializer.data)
 
 class CharacterProConView(APIView):
-    def post(self, request, character, pk, obj):
+    def post(self, request, character, pk, email, obj):
         target = Opinion.objects.get(id=pk)
+
         if obj == 'pro':
-            target.pro += 1
+            if (len(target.pro_record) == 0):
+                target.pro_record += email + '=1'
+                target.pro += 1
+            else:
+                if (target.pro_record.find(email) == -1):
+                    target.pro_record += ', ' + email + '=1'
+                    target.pro += 1
+                else:
+                    return HttpResponse(status=403)
         else:
-            target.con += 1
+            if (len(target.con_record) == 0):
+                target.con_record += email + '=1'
+                target.con += 1
+            else:
+                if (target.con_record.find(email) == -1):
+                    target.con_record += ', ' + email + '=1'
+                    target.con += 1
+                else:
+                    return HttpResponse(status=403)
         target.save()
         return redirect('/character/' + character + '/')
 
@@ -491,12 +508,29 @@ class CardDetailView(APIView):
         return Response([card_serializer.data, opinion_serializer.data])
 
 class CardProConView(APIView):
-    def post(self, request, character, card, pk, obj):
+    def post(self, request, character, card, pk, email, obj):
         target = Opinion.objects.get(id=pk)
+
         if obj == 'pro':
-            target.pro += 1
+            if (len(target.pro_record) == 0):
+                target.pro_record += email + '=1'
+                target.pro += 1
+            else:
+                if (target.pro_record.find(email) == -1):
+                    target.pro_record += ', ' + email + '=1'
+                    target.pro += 1
+                else:
+                    return HttpResponse(status=403)
         else:
-            target.con += 1
+            if (len(target.con_record) == 0):
+                target.con_record += email + '=1'
+                target.con += 1
+            else:
+                if (target.con_record.find(email) == -1):
+                    target.con_record += ', ' + email + '=1'
+                    target.con += 1
+                else:
+                    return HttpResponse(status=403)
         target.save()
         return redirect('/card/' + character + '/' + card + '/')
 
@@ -607,12 +641,29 @@ class RelicDetailView(APIView):
         return Response([relic_serializer.data, opinion_serializer.data])
 
 class RelicProConView(APIView):
-    def post(self, request, relic, pk, obj):
+    def post(self, request, relic, pk, email, obj):
         target = Opinion.objects.get(id=pk)
+
         if obj == 'pro':
-            target.pro += 1
+            if (len(target.pro_record) == 0):
+                target.pro_record += email + '=1'
+                target.pro += 1
+            else:
+                if (target.pro_record.find(email) == -1):
+                    target.pro_record += ', ' + email + '=1'
+                    target.pro += 1
+                else:
+                    return HttpResponse(status=403)
         else:
-            target.con += 1
+            if (len(target.con_record) == 0):
+                target.con_record += email + '=1'
+                target.con += 1
+            else:
+                if (target.con_record.find(email) == -1):
+                    target.con_record += ', ' + email + '=1'
+                    target.con += 1
+                else:
+                    return HttpResponse(status=403)
         target.save()
         return redirect('/relic/' + relic + '/')
 
@@ -646,12 +697,29 @@ class RelicOpinionView(APIView):
             return HttpResponse(status=404)
 
 class OpinionProConView(APIView):
-    def post(self, request, character, card, relic, pk, obj):
+    def post(self, request, character, card, relic, pk, email, obj):
         target = Opinion.objects.get(id=pk)
+
         if obj == 'pro':
-            target.pro += 1
+            if (len(target.pro_record) == 0):
+                target.pro_record += email + '=1'
+                target.pro += 1
+            else:
+                if (target.pro_record.find(email) == -1):
+                    target.pro_record += ', ' + email + '=1'
+                    target.pro += 1
+                else:
+                    return HttpResponse(status=403)
         else:
-            target.con += 1
+            if (len(target.con_record) == 0):
+                target.con_record += email + '=1'
+                target.con += 1
+            else:
+                if (target.con_record.find(email) == -1):
+                    target.con_record += ', ' + email + '=1'
+                    target.con += 1
+                else:
+                    return HttpResponse(status=403)
         target.save()
 
         if (relic == "undefined"):

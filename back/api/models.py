@@ -135,4 +135,5 @@ class Opinion(models.Model):
     recommend_relic = models.TextField()
     card_character = models.CharField(max_length=50)
     relic = models.BooleanField(default=False)
-    pro_con_record = models.TextField()
+    pro_record = models.TextField()
+    con_record = models.TextField()
