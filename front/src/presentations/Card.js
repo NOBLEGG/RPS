@@ -37,7 +37,7 @@ const Card = ({
         dataField: 'score',
         text: '점수',
         formatter: (row, cell) => {
-            if (cell.score === 0)
+            if (cell.score === 0 || cell.score === '-')
                 cell.score = '-';
             else
                 cell.score = cell.score / cell.opinion_count;
