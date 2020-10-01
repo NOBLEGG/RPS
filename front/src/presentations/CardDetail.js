@@ -75,7 +75,6 @@ const CardDetail = ({
         let img_path = "../../" + card.subject + "/";
         img_path += card.eng_name.toLowerCase();
         img_path += ".jpg";
-        console.log(img_path);
 
         if (opinion.length === 0) {
             return (

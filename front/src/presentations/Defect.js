@@ -160,16 +160,30 @@ const Defect = ({
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'artifact')} />
                                                 <label className="checkbox-label">인공물</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'block')} />
+                                                <label className="checkbox-label">암흑</label>
+                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'dark')} />
                                                 <label className="checkbox-label">방어도</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'dexterity')} />
                                                 <label className="checkbox-label">민첩</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'ethereal')} />
+                                                <label className="checkbox-label">발현</label>
+                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'evoke')} />
                                                 <label className="checkbox-label">휘발성</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'exhaust')} />
+                                                <label className="checkbox-label">밀집</label>
+                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'focus')} />
+                                                <label className="checkbox-label">냉기</label>
+                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'frost')} />
                                                 <label className="checkbox-label">소멸</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'innate')} />
                                                 <label className="checkbox-label">선천성</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'intangible')} />
+                                                <label className="checkbox-label">전기</label>
+                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'lightning')} />
+                                                <label className="checkbox-label">조준</label>
+                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'lockon')} />
+                                                <label className="checkbox-label">플라즈마</label>
+                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'plasma')} />
                                                 <label className="checkbox-label">불가침</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'poison')} />
                                                 <label className="checkbox-label">중독</label>

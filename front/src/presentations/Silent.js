@@ -177,6 +177,8 @@ const Silent = ({
                                                 <label className="checkbox-label">보존</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'scry')} />
                                                 <label className="checkbox-label">예지</label>
+                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'shiv')} />
+                                                <label className="checkbox-label">단도</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'strength')} />
                                                 <label className="checkbox-label">힘</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'unplayable')} />

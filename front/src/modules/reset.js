@@ -7,8 +7,6 @@ function postFormAPI(data) {
 }
 
 function resetConfirmAPI(uid, token, value) {
-    console.log(uid);
-    console.log(token);
     return axios.put('https://rpspire.gg:8000/resetconfirm/' + uid + '/' + token + '/', value);
 }
 

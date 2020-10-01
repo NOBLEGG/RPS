@@ -35,7 +35,6 @@ export function* signUpSaga() {
 export default handleActions(
     {
         [POST_FORM_SUCCESS]: (state, action) => {
-	        console.log(action);
         },
 	    [POST_FORM_FAILURE]: (state, action) => {
 	        return {

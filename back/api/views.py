@@ -263,7 +263,7 @@ class CharacterView(APIView):
             opinion = Opinion.objects.all().filter(subject=obj).filter(archetype=False).order_by('-pro', '-con')[0:3]
             opinion_serializer = OpinionSerializer(opinion, many=True)
 
-            card = CardRelic.objects.all().filter(subject=obj)
+            card = CardRelic.objects.all().filter(card=True).filter(subject=obj)
             card_serializer = CardSerializer(card, many=True)
             archetype = Opinion.objects.all().filter(subject=obj).filter(archetype=True).order_by('-pro', '-con')[0:3]
             archetype_serializer = OpinionSerializer(archetype, many=True)
@@ -272,7 +272,7 @@ class CharacterView(APIView):
         else:
             json_data = json.loads(params)
 
-            card = CardRelic.objects.all().filter(subject=obj)
+            card = CardRelic.objects.all().filter(card=True).filter(subject=obj)
 
             if (json_data['common'] == 1):
                 card = card.filter(rarity__contains='Common')
@@ -307,22 +307,40 @@ class CharacterView(APIView):
                 card = card.filter(keyword__contains='"artifact":1')
             if (json_data['block'] == 1):
                 card = card.filter(keyword__contains='"block":1')
+            if (json_data['channel'] == 1):
+                card = card.filter(keyword__contains='"channel":1')
+            if (json_data['dark'] == 1):
+                card = card.filter(keyword__contains='"dark":1')
             if (json_data['dexterity'] == 1):
                 card = card.filter(keyword__contains='"dexterity":1')
             if (json_data['ethereal'] == 1):
                 card = card.filter(keyword__contains='"ethereal":1')
+            if (json_data['evoke'] == 1):
+                card = card.filter(keyword__contains='"evoke":1')
             if (json_data['exhaust'] == 1):
                 card = card.filter(keyword__contains='"exhaust":1')
+            if (json_data['focus'] == 1):
+                card = card.filter(keyword__contains='"focus":1')
+            if (json_data['frost'] == 1):
+                card = card.filter(keyword__contains='"frost":1')
             if (json_data['innate'] == 1):
                 card = card.filter(keyword__contains='"innate":1')
             if (json_data['intangible'] == 1):
                 card = card.filter(keyword__contains='"intangible":1')
+            if (json_data['lightning'] == 1):
+                card = card.filter(keyword__contains='"lightning":1')
+            if (json_data['lockon'] == 1):
+                card = card.filter(keyword__contains='"lockon":1')
+            if (json_data['plasma'] == 1):
+                card = card.filter(keyword__contains='"plasma":1')
             if (json_data['poison'] == 1):
                 card = card.filter(keyword__contains='"poison":1')
             if (json_data['retain'] == 1):
                 card = card.filter(keyword__contains='"retain":1')
             if (json_data['scry'] == 1):
                 card = card.filter(keyword__contains='"scry":1')
+            if (json_data['shiv'] == 1):
+                card = card.filter(keyword__contains='"shiv":1')
             if (json_data['strength'] == 1):
                 card = card.filter(keyword__contains='"strength":1')
             if (json_data['unplayable'] == 1):
@@ -424,7 +442,7 @@ class CardView(APIView):
         else:
             json_data = json.loads(params)
 
-            card = CardRelic.objects.all().filter(relic=True)
+            card = CardRelic.objects.all().filter(card=True)
 
             if (json_data['ironclad'] == 1):
                 card = card.filter(subject__contains='ironclad')
@@ -466,22 +484,40 @@ class CardView(APIView):
                 card = card.filter(keyword__contains='"artifact":1')
             if (json_data['block'] == 1):
                 card = card.filter(keyword__contains='"block":1')
+            if (json_data['channel'] == 1):
+                card = card.filter(keyword__contains='"channel":1')
+            if (json_data['dark'] == 1):
+                card = card.filter(keyword__contains='"dark":1')
             if (json_data['dexterity'] == 1):
                 card = card.filter(keyword__contains='"dexterity":1')
             if (json_data['ethereal'] == 1):
                 card = card.filter(keyword__contains='"ethereal":1')
+            if (json_data['evoke'] == 1):
+                card = card.filter(keyword__contains='"evoke":1')
             if (json_data['exhaust'] == 1):
                 card = card.filter(keyword__contains='"exhaust":1')
+            if (json_data['focus'] == 1):
+                card = card.filter(keyword__contains='"focus":1')
+            if (json_data['frost'] == 1):
+                card = card.filter(keyword__contains='"frost":1')
             if (json_data['innate'] == 1):
                 card = card.filter(keyword__contains='"innate":1')
             if (json_data['intangible'] == 1):
                 card = card.filter(keyword__contains='"intangible":1')
+            if (json_data['lightning'] == 1):
+                card = card.filter(keyword__contains='"lightning":1')
+            if (json_data['lockon'] == 1):
+                card = card.filter(keyword__contains='"lockon":1')
+            if (json_data['plasma'] == 1):
+                card = card.filter(keyword__contains='"plasma":1')
             if (json_data['poison'] == 1):
                 card = card.filter(keyword__contains='"poison":1')
             if (json_data['retain'] == 1):
                 card = card.filter(keyword__contains='"retain":1')
             if (json_data['scry'] == 1):
                 card = card.filter(keyword__contains='"scry":1')
+            if (json_data['shiv'] == 1):
+                card = card.filter(keyword__contains='"shiv":1')
             if (json_data['strength'] == 1):
                 card = card.filter(keyword__contains='"strength":1')
             if (json_data['unplayable'] == 1):
@@ -599,22 +635,32 @@ class RelicView(APIView):
                 relic = relic.filter(keyword__contains='"artifact":1')
             if (json_data['block'] == 1):
                 relic = relic.filter(keyword__contains='"block":1')
+            if (json_data['channel'] == 1):
+                card = card.filter(keyword__contains='"channel":1')
+            if (json_data['dark'] == 1):
+                card = card.filter(keyword__contains='"dark":1')
             if (json_data['dexterity'] == 1):
                 relic = relic.filter(keyword__contains='"dexterity":1')
             if (json_data['ethereal'] == 1):
                 relic = relic.filter(keyword__contains='"ethereal":1')
             if (json_data['exhaust'] == 1):
                 relic = relic.filter(keyword__contains='"exhaust":1')
+            if (json_data['frost'] == 1):
+                card = card.filter(keyword__contains='"frost":1')
             if (json_data['innate'] == 1):
                 relic = relic.filter(keyword__contains='"innate":1')
             if (json_data['intangible'] == 1):
                 relic = relic.filter(keyword__contains='"intangible":1')
+            if (json_data['lightning'] == 1):
+                card = card.filter(keyword__contains='"lightning":1')
             if (json_data['poison'] == 1):
                 relic = relic.filter(keyword__contains='"poison":1')
             if (json_data['retain'] == 1):
                 relic = relic.filter(keyword__contains='"retain":1')
             if (json_data['scry'] == 1):
                 relic = relic.filter(keyword__contains='"scry":1')
+            if (json_data['shiv'] == 1):
+                card = card.filter(keyword__contains='"shiv":1')
             if (json_data['strength'] == 1):
                 relic = relic.filter(keyword__contains='"strength":1')
             if (json_data['unplayable'] == 1):
