@@ -54,214 +54,252 @@ const Defect = ({
         }
     }];
 
-    if (opinion !== undefined && card !== undefined && archetype !== undefined) {
-        if (opinion.length !== 0 || card.length !== 0 || archetype.length !== 0) {
+    function opinionRow() {
+        if (opinion.length !== 0) {
             return (
-                <div>
-                    <Container fluid="true">
-                        <Row>
-                            <Col></Col>
-                            <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                                <Row>
-                                    <Image id="character-img" src="../defect/defect.jpg" />
-                                </Row>
-                                <br />
-                                <Row>
-                                    <Col>
-                                        <ListGroup as="ul">
-                                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#586983' }}>
-                                                <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Opinions</span>
-                                                <Link to="/opinion/character/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
-                                            </ListGroup.Item>
-                                            {opinion.map((opinion) =>
-                                                <ListGroup.Item key={opinion.id} variant="secondary">
-                                                    <span style={{ fontSize: '1rem' }}>{opinion.writer}</span>
-                                                    <span style={{ float: 'right' }}>{dateFormatter(opinion.created_at)}</span>
-                                                    <p>{opinion.content}</p>
-                                                    <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
-                                                        <StarRatingComponent editing={false} starCount={5} value={opinion.score} />
-                                                    </div>
-                                                    <ButtonGroup style={{ float: 'right', height: '1rem' }}>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, opinion.id)}>
-                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                                                <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
-                                                            </svg>
-                                                        </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.pro}</span>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, opinion.id)}>
-                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                                                <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
-                                                            </svg>
-                                                        </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.con}</span>
-                                                    </ButtonGroup>
-                                                </ListGroup.Item>
-                                            )}
-                                        </ListGroup>
-                                    </Col>
-                                </Row>
-                                <br />
-                                <Row>
-                                    <ListGroup style={{ width: '100%' }}>
-                                        <ListGroup.Item as="div" variant="secondary" style={{ padding: '0', height: '80%' }}>
-                                            <div className="categorize" style={{
-                                                backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8', borderTopLeftRadius: '5px'
-                                            }}>등급</div>
-                                            <div style={{ display: 'flex', height: '100%', alignItems: 'center' }}>
-                                                <input type="radio" name="rarity" value="common" onClick={changeRadio.bind(this, 'rarity', 'common')} />
-                                                <label className="radio-label">일반</label>
-                                                <input type="radio" name="rarity" value="uncommon" onClick={changeRadio.bind(this, 'rarity', 'uncommon')} />
-                                                <label className="radio-label">특별</label>
-                                                <input type="radio" name="rarity" value="rare" onClick={changeRadio.bind(this, 'rarity', 'rare')} />
-                                                <label className="radio-label">희귀</label>
-                                            </div>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
-                                            <div className="categorize" style={{
-                                                backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8'
-                                            }}>종류</div>
-                                            <div style={{ display: 'flex', height: '100%', alignItems: 'center' }}>
-                                                <input type="radio" name="kind" value="attack" onClick={changeRadio.bind(this, 'kind', 'attack')} />
-                                                <label className="radio-label">공격</label>
-                                                <input type="radio" name="kind" value="skill" onClick={changeRadio.bind(this, 'kind', 'skill')} />
-                                                <label className="radio-label">스킬</label>
-                                                <input type="radio" name="kind" value="power" onClick={changeRadio.bind(this, 'kind', 'power')} />
-                                                <label className="radio-label">파워</label>
-                                            </div>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
-                                            <div className="categorize" style={{
-                                                backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8'
-                                            }}>비용</div>
-                                            <div style={{ display: 'flex', height: '100%', alignItems: 'center' }}>
-                                                <input type="radio" name="cost" value="X" onClick={changeRadio.bind(this, 'cost', 'X')} />
-                                                <label className="radio-label">X</label>
-                                                <input type="radio" name="cost" value="0" onClick={changeRadio.bind(this, 'cost', '0')} />
-                                                <label className="radio-label">0</label>
-                                                <input type="radio" name="cost" value="1" onClick={changeRadio.bind(this, 'cost', '1')} />
-                                                <label className="radio-label">1</label>
-                                                <input type="radio" name="cost" value="2" onClick={changeRadio.bind(this, 'cost', '2')} />
-                                                <label className="radio-label">2</label>
-                                                <input type="radio" name="cost" value="3" onClick={changeRadio.bind(this, 'cost', '3')} />
-                                                <label className="radio-label">3</label>
-                                                <input type="radio" name="cost" value="4" onClick={changeRadio.bind(this, 'cost', '4')} />
-                                                <label className="radio-label">4</label>
-                                                <input type="radio" name="cost" value="5" onClick={changeRadio.bind(this, 'cost', '5')} />
-                                                <label className="radio-label">5</label>
-                                            </div>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
-                                            <div className="categorize" style={{
-                                                backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8', borderBottomLeftRadius: '5px'
-                                            }}>키워드</div>
-                                            <div style={{ display: 'flex', height: '100%', alignItems: 'center', whiteSpace: 'nowrap',  overflowX: 'scroll', overflowY: 'hidden' }}>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'artifact')} />
-                                                <label className="checkbox-label">인공물</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'block')} />
-                                                <label className="checkbox-label">방어도</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'dark')} />
-                                                <label className="checkbox-label">암흑</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'dexterity')} />
-                                                <label className="checkbox-label">민첩</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'ethereal')} />
-                                                <label className="checkbox-label">휘발성</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'evoke')} />
-                                                <label className="checkbox-label">발현</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'exhaust')} />
-                                                <label className="checkbox-label">소멸</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'focus')} />
-                                                <label className="checkbox-label">밀집</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'frost')} />
-                                                <label className="checkbox-label">냉기</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'innate')} />
-                                                <label className="checkbox-label">선천성</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'lightning')} />
-                                                <label className="checkbox-label">전기</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'lockon')} />
-                                                <label className="checkbox-label">조준</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'plasma')} />
-                                                <label className="checkbox-label">플라즈마</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'poison')} />
-                                                <label className="checkbox-label">중독</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'strength')} />
-                                                <label className="checkbox-label">힘</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'vulnerable')} />
-                                                <label className="checkbox-label">취약</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'weak')} />
-                                                <label className="checkbox-label">약화</label>
-                                            </div>
-                                        </ListGroup.Item>
-                                    </ListGroup>
-                                    <Button style={{ marginTop: '1%', marginBottom: '1%', marginLeft: 'auto', marginRight: '1%' }} variant="secondary" size="sm" onClick={dispatcher}>검색</Button>
-                                    <Button style={{ marginTop: '1%', marginBottom: '1%', marginRight: 'auto', marginLeft: '1%' }} variant="secondary" size="sm" onClick={reset}>초기화</Button>
-                                </Row>
-                                <Row>
-                                    <BootstrapTable classes='table-borderless' keyField='eng_name' data={card} columns={columns} pagination={paginationFactory()} rowStyle={{ fontSize: '0.8rem' }} />
-                                </Row>
-                                <br />
-                                <Row>
-                                    <Col>
-                                        <ListGroup as="ul">
-                                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#586983' }}>
-                                                <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Archetypes</span>
-                                                <Link to="/archetype/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
-                                            </ListGroup.Item>
-                                            {archetype.map((archetype) =>
-                                                <ListGroup.Item key={archetype.id} variant="secondary">
-                                                    <span style={{ fontSize: '1rem' }}>{archetype.writer}</span>
-                                                    <span style={{ float: 'right' }}>{dateFormatter(archetype.created_at)}</span>
-                                                    <p>{archetype.content}</p>
-                                                    <p>- 핵심 카드 : {archetype.key_card}</p>
-                                                    <p>- 핵심 유물 : {archetype.key_relic}</p>
-                                                    <p>- 권장 카드 : {archetype.recommend_card}</p>
-                                                    <p>- 권장 유물 : {archetype.recommend_relic}</p>
-                                                    <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
-                                                        <StarRatingComponent editing={false} starCount={5} value={archetype.score} />
-                                                    </div>
-                                                    <ButtonGroup style={{ float: 'right', height: '1rem' }}>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, archetype.id)}>
-                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                                                <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
-                                                            </svg>
-                                                        </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.pro}</span>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, archetype.id)}>
-                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                                                <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
-                                                            </svg>
-                                                        </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.con}</span>
-                                                    </ButtonGroup>
-                                                </ListGroup.Item>
-                                            )}
-                                        </ListGroup>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col></Col>
-                        </Row>
-                        <br />
-                        <Row>
-                            <Col>
-                                <footer>
-                                    <p></p>
-                                </footer>
-                            </Col>
-                        </Row>
-                    </Container>
-                </div>
-            );
+                <Row>
+                    <Col>
+                        <ListGroup as="ul">
+                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#586983' }}>
+                                <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Opinions</span>
+                                <Link to="/opinion/character/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
+                            </ListGroup.Item>
+                            {opinion.map((opinion) =>
+                                <ListGroup.Item key={opinion.id} variant="secondary">
+                                    <span style={{ fontSize: '1rem' }}>{opinion.writer}</span>
+                                    <span style={{ float: 'right' }}>{dateFormatter(opinion.created_at)}</span>
+                                    <p>{opinion.content}</p>
+                                    <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
+                                        <StarRatingComponent editing={false} starCount={5} value={opinion.score} />
+                                    </div>
+                                    <ButtonGroup style={{ float: 'right', height: '1rem' }}>
+                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, opinion.id)}>
+                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                                                <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                                            </svg>
+                                        </Button>
+                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.pro}</span>
+                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, opinion.id)}>
+                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                                                <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                                            </svg>
+                                        </Button>
+                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.con}</span>
+                                    </ButtonGroup>
+                                </ListGroup.Item>
+                            )}
+                        </ListGroup>
+                    </Col>
+                </Row>
+            )
         } else {
             return (
-                <div className="spin">
-                    <Spinner animation="border" style={{ position: 'relative', top: '40%' }}></Spinner>
-                </div>
-            );
+                <Row>
+                    <Col>
+                        <ListGroup as="ul">
+                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#586983' }}>
+                                <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Opinions</span>
+                                <Link to="/opinion/character/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
+                            </ListGroup.Item>
+                            <ListGroup.Item variant="secondary" style={{ height: '20rem', textAlign: 'center' }}>
+                                <p style={{ padding: '1em', fontSize: '1rem' }}>바로 윗 줄에 있는 + 버튼을 눌러 첫 의견을 등록해 주세요!</p>
+                            </ListGroup.Item>
+                        </ListGroup>
+                    </Col>
+                </Row>
+            )
         }
+    }
+
+    function archetypeRow() {
+        if (archetype.length !== 0) {
+            <Row>
+                <Col>
+                    <ListGroup as="ul">
+                        <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#586983' }}>
+                            <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Archetypes</span>
+                            <Link to="/archetype/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
+                        </ListGroup.Item>
+                        {archetype.map((archetype) =>
+                            <ListGroup.Item key={archetype.id} variant="secondary">
+                                <span style={{ fontSize: '1rem' }}>{archetype.writer}</span>
+                                <span style={{ float: 'right' }}>{dateFormatter(archetype.created_at)}</span>
+                                <p>{archetype.content}</p>
+                                <p>- 핵심 카드 : {archetype.key_card}</p>
+                                <p>- 핵심 유물 : {archetype.key_relic}</p>
+                                <p>- 권장 카드 : {archetype.recommend_card}</p>
+                                <p>- 권장 유물 : {archetype.recommend_relic}</p>
+                                <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
+                                    <StarRatingComponent editing={false} starCount={5} value={archetype.score} />
+                                </div>
+                                <ButtonGroup style={{ float: 'right', height: '1rem' }}>
+                                    <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, archetype.id)}>
+                                        <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                                            <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                                        </svg>
+                                    </Button>
+                                    <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.pro}</span>
+                                    <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, archetype.id)}>
+                                        <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                                            <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                                        </svg>
+                                    </Button>
+                                    <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.con}</span>
+                                </ButtonGroup>
+                            </ListGroup.Item>
+                        )}
+                    </ListGroup>
+                </Col>
+            </Row>
+        } else {
+            return (
+                <Row>
+                    <Col>
+                        <ListGroup as="ul">
+                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#586983' }}>
+                                <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Archetypes</span>
+                                <Link to="/archetype/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
+                            </ListGroup.Item>
+                            <ListGroup.Item variant="secondary" style={{ height: '20rem', textAlign: 'center' }}>
+                                <p style={{ padding: '1em', fontSize: '1rem' }}>바로 윗 줄에 있는 + 버튼을 눌러 첫 archetype을 등록해 주세요!</p>
+                            </ListGroup.Item>
+                        </ListGroup>
+                    </Col>
+                </Row>
+            )
+        }
+    }
+
+    if (card.length !== 0) {
+        return (
+            <div>
+                <Container fluid="true">
+                    <Row>
+                        <Col></Col>
+                        <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                            <Row>
+                                <Image id="character-img" src="../defect/defect.jpg" />
+                            </Row>
+                            <br />
+                            {opinionRow()}
+                            <br />
+                            <Row>
+                                <ListGroup style={{ width: '100%' }}>
+                                    <ListGroup.Item as="div" variant="secondary" style={{ padding: '0', height: '80%' }}>
+                                        <div className="categorize" style={{
+                                            backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8', borderTopLeftRadius: '5px'
+                                        }}>등급</div>
+                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center' }}>
+                                            <input type="radio" name="rarity" value="common" onClick={changeRadio.bind(this, 'rarity', 'common')} />
+                                            <label className="radio-label">일반</label>
+                                            <input type="radio" name="rarity" value="uncommon" onClick={changeRadio.bind(this, 'rarity', 'uncommon')} />
+                                            <label className="radio-label">특별</label>
+                                            <input type="radio" name="rarity" value="rare" onClick={changeRadio.bind(this, 'rarity', 'rare')} />
+                                            <label className="radio-label">희귀</label>
+                                        </div>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
+                                        <div className="categorize" style={{
+                                            backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8'
+                                        }}>종류</div>
+                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center' }}>
+                                            <input type="radio" name="kind" value="attack" onClick={changeRadio.bind(this, 'kind', 'attack')} />
+                                            <label className="radio-label">공격</label>
+                                            <input type="radio" name="kind" value="skill" onClick={changeRadio.bind(this, 'kind', 'skill')} />
+                                            <label className="radio-label">스킬</label>
+                                            <input type="radio" name="kind" value="power" onClick={changeRadio.bind(this, 'kind', 'power')} />
+                                            <label className="radio-label">파워</label>
+                                        </div>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
+                                        <div className="categorize" style={{
+                                            backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8'
+                                        }}>비용</div>
+                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center' }}>
+                                            <input type="radio" name="cost" value="X" onClick={changeRadio.bind(this, 'cost', 'X')} />
+                                            <label className="radio-label">X</label>
+                                            <input type="radio" name="cost" value="0" onClick={changeRadio.bind(this, 'cost', '0')} />
+                                            <label className="radio-label">0</label>
+                                            <input type="radio" name="cost" value="1" onClick={changeRadio.bind(this, 'cost', '1')} />
+                                            <label className="radio-label">1</label>
+                                            <input type="radio" name="cost" value="2" onClick={changeRadio.bind(this, 'cost', '2')} />
+                                            <label className="radio-label">2</label>
+                                            <input type="radio" name="cost" value="3" onClick={changeRadio.bind(this, 'cost', '3')} />
+                                            <label className="radio-label">3</label>
+                                            <input type="radio" name="cost" value="4" onClick={changeRadio.bind(this, 'cost', '4')} />
+                                            <label className="radio-label">4</label>
+                                            <input type="radio" name="cost" value="5" onClick={changeRadio.bind(this, 'cost', '5')} />
+                                            <label className="radio-label">5</label>
+                                        </div>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
+                                        <div className="categorize" style={{
+                                            backgroundColor: '#586983', fontWeight: '600', color: '#DCE1E8', borderBottomLeftRadius: '5px'
+                                        }}>키워드</div>
+                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', whiteSpace: 'nowrap',  overflowX: 'scroll', overflowY: 'hidden' }}>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'artifact')} />
+                                            <label className="checkbox-label">인공물</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'block')} />
+                                            <label className="checkbox-label">방어도</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'dark')} />
+                                            <label className="checkbox-label">암흑</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'dexterity')} />
+                                            <label className="checkbox-label">민첩</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'ethereal')} />
+                                            <label className="checkbox-label">휘발성</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'evoke')} />
+                                            <label className="checkbox-label">발현</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'exhaust')} />
+                                            <label className="checkbox-label">소멸</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'focus')} />
+                                            <label className="checkbox-label">밀집</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'frost')} />
+                                            <label className="checkbox-label">냉기</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'innate')} />
+                                            <label className="checkbox-label">선천성</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'lightning')} />
+                                            <label className="checkbox-label">전기</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'lockon')} />
+                                            <label className="checkbox-label">조준</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'plasma')} />
+                                            <label className="checkbox-label">플라즈마</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'poison')} />
+                                            <label className="checkbox-label">중독</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'strength')} />
+                                            <label className="checkbox-label">힘</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'vulnerable')} />
+                                            <label className="checkbox-label">취약</label>
+                                            <input type="checkbox" onClick={changeCheckbox.bind(this, 'weak')} />
+                                            <label className="checkbox-label">약화</label>
+                                        </div>
+                                    </ListGroup.Item>
+                                </ListGroup>
+                                <Button style={{ marginTop: '1%', marginBottom: '1%', marginLeft: 'auto', marginRight: '1%' }} variant="secondary" size="sm" onClick={dispatcher}>검색</Button>
+                                <Button style={{ marginTop: '1%', marginBottom: '1%', marginRight: 'auto', marginLeft: '1%' }} variant="secondary" size="sm" onClick={reset}>초기화</Button>
+                            </Row>
+                            <Row>
+                                <BootstrapTable classes='table-borderless' keyField='eng_name' data={card} columns={columns} pagination={paginationFactory()} rowStyle={{ fontSize: '0.8rem' }} />
+                            </Row>
+                            <br />
+                            {archetypeRow()}
+                        </Col>
+                        <Col></Col>
+                    </Row>
+                    <br />
+                    <Row>
+                        <Col>
+                            <footer>
+                                <p></p>
+                            </footer>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+        );
     } else {
         return (
             <div className="spin">
