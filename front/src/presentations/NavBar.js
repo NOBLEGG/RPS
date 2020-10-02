@@ -29,10 +29,10 @@ const NavBar = ({
                     <Nav.Link href="/character/ironclad">Ironclad</Nav.Link>
                     <Nav.Link href="/character/silent">Silent</Nav.Link>
                     <Nav.Link href="/character/defect">Defect</Nav.Link>
-                    <Nav.Link href="/character/watcher">Watcher</Nav.Link>
+                    {/*<Nav.Link href="/character/watcher">Watcher</Nav.Link>*/}
                     <NavDropdown title="General">
                         <NavDropdown.Item href="/card">Cards</NavDropdown.Item>
-                        <NavDropdown.Item href="/relic">Relics</NavDropdown.Item>
+                        {/*<NavDropdown.Item href="/relic">Relics</NavDropdown.Item>*/}
                     </NavDropdown>
                 </Nav>
                 {userMenu(isLogin)}

@@ -7,8 +7,6 @@ import * as homeActions from 'modules/home';
 
 // 렌더링에 필요한 데이터를 fetching
 const HomeDetailContainer = ({location, match}) => {
-    const query = queryString.parse(location.search);
-
     const dispatch = useDispatch();
     const item = useSelector(state => state.home.item);
 
@@ -19,7 +17,6 @@ const HomeDetailContainer = ({location, match}) => {
     return (
         <HomeDetail
             item={item}
-            query={query}
         />
     );
 }

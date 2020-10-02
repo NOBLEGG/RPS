@@ -58,15 +58,13 @@ export function* homeSaga() {
 export default handleActions(
     {
         [GET_LIST_SUCCESS]: (state, action) => {
-            const temp = action.payload.data;
             return {
-                list: temp
+                list: action.payload.data
             };
         },
         [GET_DETAIL_SUCCESS]: (state, action) => {
-            const temp = action.payload.data;
             return {
-                item: temp
+                item: action.payload.data
             };
         }
     }, initialState

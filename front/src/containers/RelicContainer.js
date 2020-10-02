@@ -4,8 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import Relic from 'presentations/Relic';
 import * as relicActions from 'modules/relic';
 
+import { Link } from 'react-router-dom';
+
 // 렌더링에 필요한 데이터를 fetching
 const RelicContainer = () => {
+    /*
     const dispatch = useDispatch();
     const relic = useSelector(state => state.relic.relic);
     const filter = useSelector(state => state.relic.filter);
@@ -58,6 +61,11 @@ const RelicContainer = () => {
             dispatcher={dispatcher}
             reset={reset}
         />
+    );
+    */
+    alert("준비중입니다.");
+    return (
+        <Link to="/"></Link>
     );
 }
 

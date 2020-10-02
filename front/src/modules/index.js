@@ -18,7 +18,7 @@ import relicDetail, { relicDetailSaga } from 'modules/relicDetail';
 import { all } from 'redux-saga/effects';
 
 export function* rootSaga() {
-    yield all([homeSaga(), loginSaga(), signUpSaga(), updatePwSaga(), resetSaga(), deleteUserSaga(), characterSaga(), cardSaga(), cardDetailSaga(), opinionSaga(), archetypeSaga(), relicSaga(), relicDetailSaga()]);
+    yield all([homeSaga(), loginSaga(), signUpSaga(), updatePwSaga(), resetSaga(), deleteUserSaga(), characterSaga(), cardSaga(), cardDetailSaga(), opinionSaga(), archetypeSaga()]);
 }
 
 export default combineReducers({
@@ -32,7 +32,5 @@ export default combineReducers({
     card,
     cardDetail,
     opinion,
-    archetype,
-    relic,
-    relicDetail
+    archetype
 });
