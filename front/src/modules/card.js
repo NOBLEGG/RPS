@@ -111,6 +111,13 @@ export default handleActions(
         },
         [CHANGE_FILTER_SUCCESS]: (state, action) => {
             const card = action.payload.data;
+            if (card.length === 0) {
+                alert('검색 결과가 없습니다.');
+                return {
+                    card: state.card,
+                    filter: state.filter
+                };
+            }
             return {
                 card: card,
                 filter: state.filter

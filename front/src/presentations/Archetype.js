@@ -122,34 +122,6 @@ const Archetype = ({
                             <Form.Row>
                                 <Col>
                                     <Form.Group>
-                                        <Form.Label>핵심 카드</Form.Label>
-                                        <Controller
-                                            as={
-                                                <Form.Control placeholder="입력" />
-                                            }
-                                            name="key_card"
-                                            control={control}
-                                        />
-                                    </Form.Group>
-                                </Col>
-                            </Form.Row>
-                            <Form.Row>
-                                <Col>
-                                    <Form.Group>
-                                        <Form.Label>핵심 유물</Form.Label>
-                                        <Controller
-                                            as={
-                                                <Form.Control placeholder="입력" />
-                                            }
-                                            name="key_relic"
-                                            control={control}
-                                        />
-                                    </Form.Group>
-                                </Col>
-                            </Form.Row>
-                            <Form.Row>
-                                <Col>
-                                    <Form.Group>
                                         <Form.Label>권장 카드</Form.Label>
                                         <Controller
                                             as={
@@ -205,8 +177,6 @@ const Archetype = ({
                                     {showDeleteButton(item)}
                                     <span style={{ float: 'right' }}>{dateFormatter(item.created_at)}</span>
                                     <p>{item.content}</p>
-                                    <p>- 핵심 카드 : {item.key_card}</p>
-                                    <p>- 핵심 유물 : {item.key_relic}</p>
                                     <p>- 권장 카드 : {item.recommend_card}</p>
                                     <p>- 권장 유물 : {item.recommend_relic}</p>
                                     <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>

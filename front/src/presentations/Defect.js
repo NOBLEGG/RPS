@@ -103,7 +103,7 @@ const Defect = ({
                                 <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Opinions</span>
                                 <Link to="/opinion/character/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
                             </ListGroup.Item>
-                            <ListGroup.Item variant="secondary" style={{ height: '20rem', textAlign: 'center' }}>
+                            <ListGroup.Item variant="secondary" style={{ height: '10rem', textAlign: 'center' }}>
                                 <p style={{ padding: '1em', fontSize: '1rem' }}>바로 윗 줄에 있는 + 버튼을 눌러 첫 의견을 등록해 주세요!</p>
                             </ListGroup.Item>
                         </ListGroup>
@@ -166,7 +166,7 @@ const Defect = ({
                                 <span style={{ fontWeight: '600', color: '#DCE1E8' }}>Archetypes</span>
                                 <Link to="/archetype/defect"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
                             </ListGroup.Item>
-                            <ListGroup.Item variant="secondary" style={{ height: '20rem', textAlign: 'center' }}>
+                            <ListGroup.Item variant="secondary" style={{ height: '10rem', textAlign: 'center' }}>
                                 <p style={{ padding: '1em', fontSize: '1rem' }}>바로 윗 줄에 있는 + 버튼을 눌러 첫 archetype을 등록해 주세요!</p>
                             </ListGroup.Item>
                         </ListGroup>

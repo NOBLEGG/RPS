@@ -3,7 +3,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { createAction, handleActions } from 'redux-actions';
 
 function postArchetypeFormAPI(subject, data) {
-    return axios.post('https://rpspire.gg:8000/archetype' + subject + '/', data);
+    return axios.post('https://rpspire.gg:8000/archetype/' + subject + '/', data);
     // return axios.post('http://localhost:8000/archetype/' + subject + '/', data);
 }
 
@@ -48,6 +48,8 @@ function postConUpAPI(subject, id) {
 }
 
 function postDeleteAPI(character, id) {
+    const card = undefined;
+    const relic = undefined;
     return axios.post('https://rpspire.gg:8000/opinion/delete/' + character + '/' + card + '/' + relic + '/' + id + '/1/');
 }
 
@@ -146,19 +148,17 @@ export function* archetypeSaga() {
 export default handleActions(
     {
         [ARCHETYPE_STAR_CLICK]: (state, action) => {
-            const nextValue = action.payload;
             return {
-                rating: nextValue,
+                rating: action.payload,
                 archetype: state.archetype,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             }
         },
         [POST_ARCHETYPE_FORM_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
             return {
                 rating: state.rating,
-                archetype: res,
+                archetype: action.payload.data,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             };
@@ -172,11 +172,31 @@ export default handleActions(
                 currentPage: state.currentPage
             };
         },
+        [POST_PRO_UP_FAILURE]: (state, action) => {
+            if (action.payload.response.status === 403)
+                alert('이미 추천하셨습니다.');
+            return {
+                rating: state.rating,
+                archetype: state.archetype,
+                perPage: state.perPage,
+                currentPage: state.currentPage
+            };
+        },
         [POST_CON_UP_SUCCESS]: (state, action) => {
             const res = action.payload.data;
             return {
                 rating: state.rating,
                 archetype: res[2],
+                perPage: state.perPage,
+                currentPage: state.currentPage
+            };
+        },
+        [POST_CON_UP_FAILURE]: (state, action) => {
+            if (action.payload.response.status === 403)
+                alert('이미 비추천하셨습니다.');
+            return {
+                rating: state.rating,
+                archetype: state.archetype,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             };

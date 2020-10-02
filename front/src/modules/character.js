@@ -215,6 +215,15 @@ export default handleActions(
         },
         [CHANGE_FILTER_SUCCESS]: (state, action) => {
             const res = action.payload.data;
+            if (res.length === 0) {
+                alert('검색 결과가 없습니다.');
+                return {
+                    opinion: state.opinion,
+                    card: state.card,
+                    filter: state.filter,
+                    archetype: state.archetype
+                };
+            }
             return {
                 opinion: state.opinion,
                 card: res,

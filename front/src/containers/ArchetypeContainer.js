@@ -71,7 +71,6 @@ const ArchetypeContainer = ({match}) => {
             reqPro={reqPro}
             reqCon={reqCon}
             reqDel={reqDel}
-            reqDel={reqDel}
             perPage={perPage}
             currentPage={currentPage}
             handleClick={handleClick}
