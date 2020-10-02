@@ -49,7 +49,7 @@ const Card = ({
         if (card.length !== 0) {
             return (
                 <div>
-                    <Container fluid="true">
+                    <Container fluid="true" style={{ height: '100vh' }}>
                         <Row>
                             <Col></Col>
                             <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>

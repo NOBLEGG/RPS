@@ -77,103 +77,134 @@ const Opinion = ({
             return value;
         }
 
-        return (
-            <div>
-                <Container fluid="true">
-                    <Row>
-                        <Col></Col>
-                        <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                            <Form onSubmit={handleSubmit(postForm)} className="form-basis">
-                                <Form.Row style={{ paddingTop: '10px' }}>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>작성자</Form.Label>
-                                            <Form.Control plaintext readOnly defaultValue={getName()} />
-                                        </Form.Group>
-                                    </Col>
-                                </Form.Row>
-                                <Form.Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>설명</Form.Label>
-                                            <Controller
-                                                as={
-                                                    <Form.Control as="textarea" placeholder="입력" rows="2" />
-                                                }
-                                                name="content"
-                                                control={control}
-                                                rules={{ required: true }}
-                                            />
-                                            {errors.content && <p className="error-message">내용을 입력해 주세요!</p>}
-                                        </Form.Group>
-                                    </Col>
-                                </Form.Row>
-                                <Form.Row style={{ marginBottom: '10px' }}>
-                                    <Col sm={10}>
-                                        <Form.Group>
-                                            <Form.Label style={{ display: 'block' }}>점수</Form.Label>
-                                            <Controller
-                                                as={
-                                                    <StarRatingComponent starCount={5} value={rating} onStarClick={opinionStarClick.bind(this)} emptyStarColor={'#6D7F91'} style={{ fontSize: '1.8rem' }} />
-                                                }
-                                                control={control}
-                                                name="score"
-                                            />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col sm={2}>
-                                        <Button variant="primary" type="submit" onClick={submitMessage} style={{ position: 'absolute', right: '10%', bottom: '15%' }}>등록</Button>
-                                    </Col>
-                                </Form.Row>
-                            </Form>
-                            <hr />
-                            <ListGroup as="ul">
-                                <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: bgColor }}>
-                                    <span style={{ fontWeight: '600', color: textColor }}>Opinions</span>
+        function firstRow() {
+            return (
+                <Row>
+                    <Col></Col>
+                    <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                        <Form onSubmit={handleSubmit(postForm)} className="form-basis">
+                            <Form.Row style={{ paddingTop: '10px' }}>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>작성자</Form.Label>
+                                        <Form.Control plaintext readOnly defaultValue={getName()} />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>설명</Form.Label>
+                                        <Controller
+                                            as={
+                                                <Form.Control as="textarea" placeholder="입력" rows="2" />
+                                            }
+                                            name="content"
+                                            control={control}
+                                            rules={{ required: true }}
+                                        />
+                                        {errors.content && <p className="error-message">내용을 입력해 주세요!</p>}
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row style={{ marginBottom: '10px' }}>
+                                <Col sm={10}>
+                                    <Form.Group>
+                                        <Form.Label style={{ display: 'block' }}>점수</Form.Label>
+                                        <Controller
+                                            as={
+                                                <StarRatingComponent starCount={5} value={rating} onStarClick={opinionStarClick.bind(this)} emptyStarColor={'#6D7F91'} style={{ fontSize: '1.8rem' }} />
+                                            }
+                                            control={control}
+                                            name="score"
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={2}>
+                                    <Button variant="primary" type="submit" onClick={submitMessage} style={{ position: 'absolute', right: '10%', bottom: '15%' }}>등록</Button>
+                                </Col>
+                            </Form.Row>
+                        </Form>
+                        <hr />
+                        <ListGroup as="ul">
+                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: bgColor }}>
+                                <span style={{ fontWeight: '600', color: textColor }}>Opinions</span>
+                            </ListGroup.Item>
+                            {currentOpinion.map((item) =>
+                                <ListGroup.Item key={item.id} variant="secondary">
+                                    <span style={{ fontSize: '1rem' }}>{item.writer}</span>
+                                    <span style={{ float: 'right' }}>{dateFormatter(item.created_at)}</span>
+                                    <p>{item.content}</p>
+                                    <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
+                                        <StarRatingComponent editing={false} starCount={5} value={item.score} />
+                                    </div>
+                                    <ButtonGroup style={{ float: 'right', height: '1rem' }}>
+                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, item.id)}>
+                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                                                <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                                            </svg>
+                                        </Button>
+                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{item.pro}</span>
+                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, item.id)}>
+                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                                                <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                                            </svg>
+                                        </Button>
+                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{item.con}</span>
+                                    </ButtonGroup>
                                 </ListGroup.Item>
-                                {currentOpinion.map((item) =>
-                                    <ListGroup.Item key={item.id} variant="secondary">
-                                        <span style={{ fontSize: '1rem' }}>{item.writer}</span>
-                                        <span style={{ float: 'right' }}>{dateFormatter(item.created_at)}</span>
-                                        <p>{item.content}</p>
-                                        <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
-                                            <StarRatingComponent editing={false} starCount={5} value={item.score} />
-                                        </div>
-                                        <ButtonGroup style={{ float: 'right', height: '1rem' }}>
-                                            <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, item.id)}>
-                                                <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                                    <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
-                                                </svg>
-                                            </Button>
-                                            <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{item.pro}</span>
-                                            <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, item.id)}>
-                                                <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                                    <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
-                                                </svg>
-                                            </Button>
-                                            <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{item.con}</span>
-                                        </ButtonGroup>
-                                    </ListGroup.Item>
-                                )}
-                                <br />
-                                {paginationBasic}
-                                <br />
-                            </ListGroup>
-                        </Col>
-                        <Col></Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <footer>
-                                <p></p>
-                            </footer>
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
-        );
+                            )}
+                            <br />
+                            {paginationBasic}
+                            <br />
+                        </ListGroup>
+                    </Col>
+                    <Col></Col>
+                </Row>
+            )
+        }
+
+        if (opinion.length !== 0) {
+            if (opinion.length < 4) {
+                return (
+                    <div>
+                        <Container fluid="true" style={{ height: '100vh' }}>
+                            {firstRow()}
+                            <Row>
+                                <Col>
+                                    <footer>
+                                        <p></p>
+                                    </footer>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <Container fluid="true">
+                            {firstRow()}
+                            <Row>
+                                <Col>
+                                    <footer>
+                                        <p></p>
+                                    </footer>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                );
+            }
+        } else {
+            return (
+                <div className="spin">
+                    <Spinner animation="border" style={{ position: 'relative', top: '40%' }}></Spinner>
+                </div>
+            );
+        }
     } else {
         return (
             <div className="spin">
