@@ -12,6 +12,7 @@ const Archetype = ({
     postForm,
     reqPro,
     reqCon,
+    reqDel,
     perPage,
     currentPage,
     handleClick
@@ -58,172 +59,218 @@ const Archetype = ({
             <Pagination size="sm">{items}</Pagination>
         );
 
-        return (
-            <div>
-                <Container fluid="true">
-                    <Row>
-                        <Col></Col>
-                        <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                            <Form onSubmit={handleSubmit(postForm)} className="form-basis">
-                                <Form.Row style={{ paddingTop: '10px' }}>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>작성자</Form.Label>
-                                            <Controller
-                                                as={
-                                                    <Form.Control placeholder="입력" />
-                                                }
-                                                name="writer"
-                                                control={control}
-                                                rules={{ required: true }}
-                                            />
-                                            {errors.writer && <p className="error-message">작성자명을 입력해 주세요!</p>}
-                                        </Form.Group>
-                                    </Col>
-                                </Form.Row>
-                                <Form.Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>설명</Form.Label>
-                                            <Controller
-                                                as={
-                                                    <Form.Control as="textarea" placeholder="입력" rows="2" />
-                                                }
-                                                name="content"
-                                                control={control}
-                                                rules={{ required: true }}
-                                            />
-                                            {errors.content && <p className="error-message">내용을 입력해 주세요!</p>}
-                                        </Form.Group>
-                                    </Col>
-                                </Form.Row>
-                                <Form.Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>핵심 카드</Form.Label>
-                                            <Controller
-                                                as={
-                                                    <Form.Control placeholder="입력" />
-                                                }
-                                                name="key_card"
-                                                control={control}
-                                            />
-                                        </Form.Group>
-                                    </Col>
-                                </Form.Row>
-                                <Form.Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>핵심 유물</Form.Label>
-                                            <Controller
-                                                as={
-                                                    <Form.Control placeholder="입력" />
-                                                }
-                                                name="key_relic"
-                                                control={control}
-                                            />
-                                        </Form.Group>
-                                    </Col>
-                                </Form.Row>
-                                <Form.Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>권장 카드</Form.Label>
-                                            <Controller
-                                                as={
-                                                    <Form.Control placeholder="입력" />
-                                                }
-                                                name="recommend_card"
-                                                control={control}
-                                            />
-                                        </Form.Group>
-                                    </Col>
-                                </Form.Row>
-                                <Form.Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>권장 유물</Form.Label>
-                                            <Controller
-                                                as={
-                                                    <Form.Control placeholder="입력" />
-                                                }
-                                                name="recommend_relic"
-                                                control={control}
-                                            />
-                                        </Form.Group>
-                                    </Col>
-                                </Form.Row>
-                                <Form.Row style={{ marginBottom: '10px' }}>
-                                    <Col sm={10}>
-                                        <Form.Group>
-                                            <Form.Label style={{ display: 'block' }}>점수</Form.Label>
-                                            <Controller
-                                                as={
-                                                    <StarRatingComponent starCount={5} value={rating} onStarClick={archetypeStarClick.bind(this)} emptyStarColor={'#6D7F91'} style={{ fontSize: '1.8rem' }} />
-                                                }
-                                                control={control}
-                                                name="score"
-                                            />
-                                        </Form.Group>
-                                    </Col>
-                                    <input type="hidden" name="archetype" value="True" ref={register} />
-                                    <Col sm={2}>
-                                        <Button variant="primary" type="submit" onClick={submitMessage} style={{ position: 'absolute', right: '10%', bottom: '15%' }}>등록</Button>
-                                    </Col>
-                                </Form.Row>
-                            </Form>
-                            <hr />
-                            <ListGroup as="ul">
-                                <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: bgColor }}>
-                                    <span style={{ fontWeight: '600', color: textColor }}>Archetypes</span>
+        const getName = () => {
+            let value = '';
+            const cookies = document.cookie.split(';');
+            let x, y;
+            for (let i = 0; i < cookies.length; i++) {
+                x = cookies[i].substr(0, cookies[i].indexOf('='));
+                y = cookies[i].substr(cookies[i].indexOf('=') + 1);
+                x = x.replace(/^\s+|\s+$/g, '');
+                if (x === 'name')
+                    value = y;
+            }
+            if (value === '')
+                value = '의견 등록은 로그인 후 가능합니다. 로그인 후 이용해 주세요.';
+            return value;
+        }
+
+        function showDeleteButton(item) {
+            const name = getName();
+            if (item.writer === name) {
+                return (
+                    <Button variant="link" onClick={reqDel.bind(this, item.id)} style={{ float: 'right', position: 'relative', bottom: '4px', left: '8px', padding: '0' }}>
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </Button>
+                )
+            }
+        }
+
+        function firstRow() {
+            return (
+                <Row>
+                    <Col></Col>
+                    <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                        <Form onSubmit={handleSubmit(postForm)} className="form-basis">
+                            <Form.Row style={{ paddingTop: '10px' }}>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>작성자</Form.Label>
+                                        <Form.Control plaintext readOnly defaultValue={getName()} />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>설명</Form.Label>
+                                        <Controller
+                                            as={
+                                                <Form.Control as="textarea" placeholder="입력" rows="2" />
+                                            }
+                                            name="content"
+                                            control={control}
+                                            rules={{ required: true }}
+                                        />
+                                        {errors.content && <p className="error-message">내용을 입력해 주세요!</p>}
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>핵심 카드</Form.Label>
+                                        <Controller
+                                            as={
+                                                <Form.Control placeholder="입력" />
+                                            }
+                                            name="key_card"
+                                            control={control}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>핵심 유물</Form.Label>
+                                        <Controller
+                                            as={
+                                                <Form.Control placeholder="입력" />
+                                            }
+                                            name="key_relic"
+                                            control={control}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>권장 카드</Form.Label>
+                                        <Controller
+                                            as={
+                                                <Form.Control placeholder="입력" />
+                                            }
+                                            name="recommend_card"
+                                            control={control}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>권장 유물</Form.Label>
+                                        <Controller
+                                            as={
+                                                <Form.Control placeholder="입력" />
+                                            }
+                                            name="recommend_relic"
+                                            control={control}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Form.Row>
+                            <Form.Row style={{ marginBottom: '10px' }}>
+                                <Col sm={10}>
+                                    <Form.Group>
+                                        <Form.Label style={{ display: 'block' }}>점수</Form.Label>
+                                        <Controller
+                                            as={
+                                                <StarRatingComponent starCount={5} value={rating} onStarClick={archetypeStarClick.bind(this)} emptyStarColor={'#6D7F91'} style={{ fontSize: '1.8rem' }} />
+                                            }
+                                            control={control}
+                                            name="score"
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <input type="hidden" name="archetype" value="True" ref={register} />
+                                <Col sm={2}>
+                                    <Button variant="primary" type="submit" onClick={submitMessage} style={{ position: 'absolute', right: '10%', bottom: '15%' }}>등록</Button>
+                                </Col>
+                            </Form.Row>
+                        </Form>
+                        <hr />
+                        <ListGroup as="ul">
+                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: bgColor }}>
+                                <span style={{ fontWeight: '600', color: textColor }}>Archetypes</span>
+                            </ListGroup.Item>
+                            {currentArchetype.map((item) =>
+                                <ListGroup.Item key={item.id} variant="secondary">
+                                    <span style={{ fontSize: '1rem' }}>{item.writer}</span>
+                                    {showDeleteButton(item)}
+                                    <span style={{ float: 'right' }}>{dateFormatter(item.created_at)}</span>
+                                    <p>{item.content}</p>
+                                    <p>- 핵심 카드 : {item.key_card}</p>
+                                    <p>- 핵심 유물 : {item.key_relic}</p>
+                                    <p>- 권장 카드 : {item.recommend_card}</p>
+                                    <p>- 권장 유물 : {item.recommend_relic}</p>
+                                    <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
+                                        <StarRatingComponent editing={false} starCount={5} value={item.score} />
+                                    </div>
+                                    <ButtonGroup style={{ float: 'right', height: '1rem' }}>
+                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, item.id)}>
+                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                                                <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                                            </svg>
+                                        </Button>
+                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{item.pro}</span>
+                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, item.id)}>
+                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                                                <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                                            </svg>
+                                        </Button>
+                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{item.con}</span>
+                                    </ButtonGroup>
                                 </ListGroup.Item>
-                                {currentArchetype.map((item) =>
-                                    <ListGroup.Item key={item.id} variant="secondary">
-                                        <span style={{ fontSize: '1rem' }}>{item.writer}</span>
-                                        <span style={{ float: 'right' }}>{dateFormatter(item.created_at)}</span>
-                                        <p>{item.content}</p>
-                                        <p>- 핵심 카드 : {item.key_card}</p>
-                                        <p>- 핵심 유물 : {item.key_relic}</p>
-                                        <p>- 권장 카드 : {item.recommend_card}</p>
-                                        <p>- 권장 유물 : {item.recommend_relic}</p>
-                                        <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
-                                            <StarRatingComponent editing={false} starCount={5} value={item.score} />
-                                        </div>
-                                        <ButtonGroup style={{ float: 'right', height: '1rem' }}>
-                                            <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, item.id)}>
-                                                <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                                    <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
-                                                </svg>
-                                            </Button>
-                                            <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{item.pro}</span>
-                                            <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, item.id)}>
-                                                <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                                    <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
-                                                </svg>
-                                            </Button>
-                                            <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{item.con}</span>
-                                        </ButtonGroup>
-                                    </ListGroup.Item>
-                                )}
-                                <br />
-                                {paginationBasic}
-                                <br />
-                            </ListGroup>
-                        </Col>
-                        <Col></Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <footer>
-                                <p></p>
-                            </footer>
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
-        );
+                            )}
+                            <br />
+                            {paginationBasic}
+                            <br />
+                        </ListGroup>
+                    </Col>
+                    <Col></Col>
+                </Row>
+            )
+        }
+
+        if (archetype.length === 0) {
+            return (
+                <div>
+                    <Container fluid="true" style={{ height: '100vh' }}>
+                        {firstRow()}
+                        <Row>
+                            <Col>
+                                <footer>
+                                    <p></p>
+                                </footer>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <Container fluid="true">
+                        {firstRow()}
+                        <Row>
+                            <Col>
+                                <footer>
+                                    <p></p>
+                                </footer>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            );
+        }
     } else {
         return (
             <div className="spin">

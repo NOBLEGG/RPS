@@ -115,46 +115,48 @@ const Ironclad = ({
 
     function archetypeRow() {
         if (archetype.length !== 0) {
-            <Row>
-                <Col>
-                    <ListGroup as="ul">
-                        <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#682B3B' }}>
-                            <span style={{ fontWeight: '600', color: '#EACCD4' }}>Archetypes</span>
-                            <Link to="/archetype/ironclad"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
-                        </ListGroup.Item>
-                        {archetype.map((archetype) =>
-                            <ListGroup.Item key={archetype.id} variant="secondary">
-                                <span style={{ fontSize: '1rem' }}>{archetype.writer}</span>
-                                <span style={{ float: 'right' }}>{dateFormatter(archetype.created_at)}</span>
-                                <p>{archetype.content}</p>
-                                <p>- 핵심 카드 : {archetype.key_card}</p>
-                                <p>- 핵심 유물 : {archetype.key_relic}</p>
-                                <p>- 권장 카드 : {archetype.recommend_card}</p>
-                                <p>- 권장 유물 : {archetype.recommend_relic}</p>
-                                <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
-                                    <StarRatingComponent editing={false} starCount={5} value={archetype.score} />
-                                </div>
-                                <ButtonGroup style={{ float: 'right', height: '1rem' }}>
-                                    <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, archetype.id)}>
-                                        <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                            <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
-                                        </svg>
-                                    </Button>
-                                    <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.pro}</span>
-                                    <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, archetype.id)}>
-                                        <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                            <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
-                                        </svg>
-                                    </Button>
-                                    <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.con}</span>
-                                </ButtonGroup>
+            return (
+                <Row>
+                    <Col>
+                        <ListGroup as="ul">
+                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: '#682B3B' }}>
+                                <span style={{ fontWeight: '600', color: '#EACCD4' }}>Archetypes</span>
+                                <Link to="/archetype/ironclad"><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
                             </ListGroup.Item>
-                        )}
-                    </ListGroup>
-                </Col>
-            </Row>
+                            {archetype.map((archetype) =>
+                                <ListGroup.Item key={archetype.id} variant="secondary">
+                                    <span style={{ fontSize: '1rem' }}>{archetype.writer}</span>
+                                    <span style={{ float: 'right' }}>{dateFormatter(archetype.created_at)}</span>
+                                    <p>{archetype.content}</p>
+                                    <p>- 핵심 카드 : {archetype.key_card}</p>
+                                    <p>- 핵심 유물 : {archetype.key_relic}</p>
+                                    <p>- 권장 카드 : {archetype.recommend_card}</p>
+                                    <p>- 권장 유물 : {archetype.recommend_relic}</p>
+                                    <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
+                                        <StarRatingComponent editing={false} starCount={5} value={archetype.score} />
+                                    </div>
+                                    <ButtonGroup style={{ float: 'right', height: '1rem' }}>
+                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, archetype.id)}>
+                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                                                <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                                            </svg>
+                                        </Button>
+                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.pro}</span>
+                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, archetype.id)}>
+                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                                                <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                                            </svg>
+                                        </Button>
+                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{archetype.con}</span>
+                                    </ButtonGroup>
+                                </ListGroup.Item>
+                            )}
+                        </ListGroup>
+                    </Col>
+                </Row>
+            )
         } else {
             return (
                 <Row>

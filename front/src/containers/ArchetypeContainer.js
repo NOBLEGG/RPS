@@ -25,7 +25,30 @@ const ArchetypeContainer = ({match}) => {
         dispatch(archetypeActions.postConUp({ subject: subject, id: id }));
     }
 
+    const reqDel = (id) => {
+        dispatch(archetypeActions.postDelete({ subject: subject, id: id }));
+    }
+
+    const getName = () => {
+        let value = '';
+        const cookies = document.cookie.split(';');
+        let x, y;
+        for (let i = 0; i < cookies.length; i++) {
+            x = cookies[i].substr(0, cookies[i].indexOf('='));
+            y = cookies[i].substr(cookies[i].indexOf('=') + 1);
+            x = x.replace(/^\s+|\s+$/g, '');
+            if (x === 'name')
+                value = y;
+        }
+        if (value === '') {
+            alert('Archetype 등록은 로그인 후 가능합니다. 로그인 후 이용해 주세요.');
+            throw new Error();
+        }
+        return value;
+    }
+
     const postForm = (value) => {
+        value.writer = getName();
         value.score = rating;
         dispatch(archetypeActions.postArchetypeForm([value, subject]));
     }
@@ -47,6 +70,8 @@ const ArchetypeContainer = ({match}) => {
             postForm={postForm}
             reqPro={reqPro}
             reqCon={reqCon}
+            reqDel={reqDel}
+            reqDel={reqDel}
             perPage={perPage}
             currentPage={currentPage}
             handleClick={handleClick}

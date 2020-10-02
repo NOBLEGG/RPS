@@ -407,15 +407,15 @@ class CharacterOpinionView(APIView):
             return HttpResponse(status=404)
 
 class ArchetypeView(APIView):
-    def get(self, request, obj):
-        queryset = Opinion.objects.all().filter(subject=obj).filter(archetype=True)
+    def get(self, request, character):
+        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=True)
         serializer = OpinionSerializer(queryset, many=True)
 
         return Response(serializer.data)
 
-    def post(self, request, obj):
+    def post(self, request, character):
         opinion = Opinion()
-        opinion.subject = obj
+        opinion.subject = character
         opinion.writer = request.data.get('writer')
         opinion.content = request.data.get('content')
         opinion.score = request.data.get('score')
@@ -424,9 +424,12 @@ class ArchetypeView(APIView):
         opinion.recommend_card = request.data.get('recommend_card')
         opinion.recommend_relic = request.data.get('recommend_relic')
 
+        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=True)
+        serializer = OpinionSerializer(queryset, many=True)
+
         try:
             opinion.save()
-            return redirect('/archetype/' + obj + '/')
+            return Response(serializer.data)
         except:
             return HttpResponse(status=404)
 
@@ -780,10 +783,41 @@ class OpinionProConView(APIView):
         else:
             return redirect('/opinion/relic/' + relic + '/')
 
+class ArchetypeProConView(APIView):
+    def post(self, request, character, pk, email, obj):
+        target = Opinion.objects.get(id=pk)
+
+        if obj == 'pro':
+            if (len(target.pro_record) == 0):
+                target.pro_record += email + '=1'
+                target.pro += 1
+            else:
+                if (target.pro_record.find(email) == -1):
+                    target.pro_record += ', ' + email + '=1'
+                    target.pro += 1
+                else:
+                    return HttpResponse(status=403)
+        else:
+            if (len(target.con_record) == 0):
+                target.con_record += email + '=1'
+                target.con += 1
+            else:
+                if (target.con_record.find(email) == -1):
+                    target.con_record += ', ' + email + '=1'
+                    target.con += 1
+                else:
+                    return HttpResponse(status=403)
+        target.save()
+
+        return redirect('/archetype/' + character + '/')
+
 class DeleteOpinionView(APIView):
-    def post(self, request, character, card, relic, pk):
+    def post(self, request, character, card, relic, pk, archetype):
         opinion = Opinion.objects.get(id=pk)
         opinion.delete()
+
+        if (archetype == 1):
+            return redirect('/archetype/' + character + '/')
 
         if (relic == "undefined"):
             if (card == "undefined"):

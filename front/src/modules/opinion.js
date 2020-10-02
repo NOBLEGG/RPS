@@ -72,7 +72,7 @@ function postConUpAPI(character, card, relic, id) {
 }
 
 function postDeleteAPI(character, card, relic, id) {
-    return axios.post('https://rpspire.gg:8000/opinion/delete/' + character + '/' + card + '/' + relic + '/' + id + '/');
+    return axios.post('https://rpspire.gg:8000/opinion/delete/' + character + '/' + card + '/' + relic + '/' + id + '/0/');
 }
 
 const OPINION_STAR_CLICK        = 'opinion/OPINION_STAR_CLICK';

@@ -12,14 +12,43 @@ function getArchetypeListAPI(subject) {
     // return axios.get('http://localhost:8000/archetype/' + subject + '/');
 }
 
+function getEmail() {
+    const cookies = document.cookie.split(';');
+
+    let email = '';
+    let x, y;
+    for (let i = 0; i < cookies.length; i++) {
+        x = cookies[i].substr(0, cookies[i].indexOf('='));
+        y = cookies[i].substr(cookies[i].indexOf('=') + 1);
+        x = x.replace(/^\s+|\s+$/g, '');
+        if (x === 'email')
+            email = y;
+    }
+
+    if (email.length === 0) {
+        alert('추천, 비추천 기능은 로그인 후 이용하실 수 있습니다.');
+        throw new Error();
+    }
+
+    email = email.substr(1);
+    email = email.substr(0, email.length - 1);
+    return email;
+}
+
 function postProUpAPI(subject, id) {
-    return axios.post('https://rpspire.gg:8000/character/' + subject + '/' + id + '/pro/');
+    const email = getEmail();
+    return axios.post('https://rpspire.gg:8000/character/' + subject + '/' + id + '/' + email + '/pro/');
     // return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/pro/');
 }
 
 function postConUpAPI(subject, id) {
-    return axios.post('https://rpspire.gg:8000/character/' + subject + '/' + id + '/con/');
+    const email = getEmail();
+    return axios.post('https://rpspire.gg:8000/character/' + subject + '/' + id + '/' + email + '/con/');
     // return axios.post('http://localhost:8000/character/' + subject + '/' + id + '/con/');
+}
+
+function postDeleteAPI(character, id) {
+    return axios.post('https://rpspire.gg:8000/opinion/delete/' + character + '/' + card + '/' + relic + '/' + id + '/1/');
 }
 
 const ARCHETYPE_STAR_CLICK        = 'archetype/ARCHETYPE_STAR_CLICK';
@@ -40,6 +69,10 @@ const POST_CON_UP         = 'archetype/POST_CON_UP';
 const POST_CON_UP_SUCCESS = 'archetype/POST_CON_UP_SUCCESS';
 const POST_CON_UP_FAILURE = 'archetype/POST_CON_UP_FAILURE';
 
+const POST_DELETE         = 'archetype/POST_DELETE';
+const POST_DELETE_SUCCESS = 'archetype/POST_DELETE_SUCCESS';
+const POST_DELETE_FAILURE = 'archetype/POST_DELETE_FAILURE';
+
 const ARCHETYPE_PAGINATION_CLICK  = 'archetype/ARCHETYPE_PAGINATION_CLICK';
 
 export const archetypeStarClick = createAction(ARCHETYPE_STAR_CLICK);
@@ -47,6 +80,7 @@ export const postArchetypeForm = createAction(POST_ARCHETYPE_FORM);
 export const getArchetypeList = createAction(GET_ARCHETYPE_LIST);
 export const postProUp = createAction(POST_PRO_UP);
 export const postConUp = createAction(POST_CON_UP);
+export const postDelete = createAction(POST_DELETE);
 export const archetypePaginationClick = createAction(ARCHETYPE_PAGINATION_CLICK);
 
 function* postArchetypeFormSaga(action) {
@@ -85,6 +119,15 @@ function* postConUpSaga(action) {
     }
 }
 
+function* postDeleteSaga(action) {
+    try {
+        const response = yield call(postDeleteAPI, action.payload.subject, action.payload.id);
+        yield put({ type: POST_DELETE_SUCCESS, payload: response });
+    } catch (e) {
+        yield put({ type: POST_DELETE_FAILURE, payload: e });
+    }
+}
+
 const initialState = {
     rating: 0,
     archetype: [],
@@ -97,6 +140,7 @@ export function* archetypeSaga() {
     yield takeEvery('archetype/GET_ARCHETYPE_LIST', getArchetypeListSaga);
     yield takeEvery('archetype/POST_PRO_UP', postProUpSaga);
     yield takeEvery('archetype/POST_CON_UP', postConUpSaga);
+    yield takeEvery('archetype/POST_DELETE', postDeleteSaga);
 }
 
 export default handleActions(
@@ -133,6 +177,25 @@ export default handleActions(
             return {
                 rating: state.rating,
                 archetype: res[2],
+                perPage: state.perPage,
+                currentPage: state.currentPage
+            };
+        },
+        [POST_DELETE_SUCCESS]: (state, action) => {
+            alert('삭제되었습니다.');
+            return {
+                rating: state.rating,
+                archetype: action.payload.data,
+                perPage: state.perPage,
+                currentPage: state.currentPage
+            };
+        },
+        [POST_DELETE_FAILURE]: (state, action) => {
+            alert('삭제 요청이 거절되었습니다.');
+            console.log(action);
+            return {
+                rating: state.rating,
+                archetype: state.archetype,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             };
