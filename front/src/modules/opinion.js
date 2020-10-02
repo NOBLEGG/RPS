@@ -71,6 +71,10 @@ function postConUpAPI(character, card, relic, id) {
     // return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/con/');
 }
 
+function postDeleteAPI(id) {
+    return axios.post('https://rpspire.gg:8000/opinion/delete/' + id + '/');
+}
+
 const OPINION_STAR_CLICK        = 'opinion/OPINION_STAR_CLICK';
 
 const POST_OPINION_FORM         = 'opinion/POST_OPINION_FORM';
@@ -89,6 +93,10 @@ const POST_CON_UP         = 'opinion/POST_CON_UP';
 const POST_CON_UP_SUCCESS = 'opinion/POST_CON_UP_SUCCESS';
 const POST_CON_UP_FAILURE = 'opinion/POST_CON_UP_FAILURE';
 
+const POST_DELETE         = 'opinion/POST_DELETE';
+const POST_DELETE_SUCCESS = 'opinion/POST_DELETE_SUCCESS';
+const POST_DELETE_FAILURE = 'opinion/POST_DELETE_FAILURE';
+
 const OPINION_PAGINATION_CLICK  = 'opinion/OPINION_PAGINATION_CLICK';
 
 export const opinionStarClick = createAction(OPINION_STAR_CLICK);
@@ -96,6 +104,7 @@ export const postOpinionForm = createAction(POST_OPINION_FORM);
 export const getOpinionList = createAction(GET_OPINION_LIST);
 export const postProUp = createAction(POST_PRO_UP);
 export const postConUp = createAction(POST_CON_UP);
+export const postDelete = createAction(POST_DELETE);
 export const opinionPaginationClick = createAction(OPINION_PAGINATION_CLICK);
 
 function* postOpinionFormSaga(action) {
@@ -134,6 +143,16 @@ function* postConUpSaga(action) {
     }
 }
 
+function* postDeleteSaga(action) {
+    try {
+        console.log(action.payload);
+        const response = yield call(postDeleteAPI, action.payload);
+        yield put({ type: POST_DELETE_SUCCESS, payload: response });
+    } catch (e) {
+        yield put({ type: POST_DELETE_FAILURE, payload: e });
+    }
+}
+
 const initialState = {
     rating: 0,
     opinion: [],
@@ -146,6 +165,7 @@ export function* opinionSaga() {
     yield takeEvery('opinion/GET_OPINION_LIST', getOpinionListSaga);
     yield takeEvery('opinion/POST_PRO_UP', postProUpSaga);
     yield takeEvery('opinion/POST_CON_UP', postConUpSaga);
+    yield takeEvery('opinion/POST_DELETE', postDeleteSaga);
 }
 
 export default handleActions(
@@ -210,6 +230,25 @@ export default handleActions(
             const resCode = action.payload.response.status;
             if (resCode === 403)
                 alert('이미 비추천하셨습니다.');
+            return {
+                rating: state.rating,
+                opinion: state.opinion,
+                perPage: state.perPage,
+                currentPage: state.currentPage
+            };
+        },
+        [POST_DELETE_SUCCESS]: (state, action) => {
+            alert('삭제되었습니다.');
+            return {
+                rating: state.rating,
+                opinion: state.opinion,
+                perPage: state.perPage,
+                currentPage: state.currentPage
+            };
+        },
+        [POST_DELETE_FAILURE]: (state, action) => {
+            alert('삭제 요청이 거절되었습니다.');
+            console.log(action);
             return {
                 rating: state.rating,
                 opinion: state.opinion,

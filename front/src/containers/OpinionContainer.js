@@ -27,6 +27,10 @@ const OpinionContainer = ({match}) => {
         dispatch(opinionActions.postConUp([character, card, relic, id]));
     }
 
+    const reqDel = (id) => {
+        dispatch(opinionActions.postDelete(id));
+    }
+
     const getName = () => {
         let value = '';
         const cookies = document.cookie.split(';');
@@ -82,6 +86,7 @@ const OpinionContainer = ({match}) => {
             postForm={postForm}
             reqPro={reqPro}
             reqCon={reqCon}
+            reqDel={reqDel}
             perPage={perPage}
             currentPage={currentPage}
             handleClick={handleClick}
