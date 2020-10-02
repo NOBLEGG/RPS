@@ -145,7 +145,6 @@ function* postConUpSaga(action) {
 
 function* postDeleteSaga(action) {
     try {
-        console.log(action.payload);
         const response = yield call(postDeleteAPI, action.payload[0], action.payload[1], action.payload[2], action.payload[3]);
         yield put({ type: POST_DELETE_SUCCESS, payload: response });
     } catch (e) {

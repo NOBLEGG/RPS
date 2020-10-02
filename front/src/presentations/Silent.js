@@ -157,14 +157,10 @@ const Silent = ({
                                                 backgroundColor: '#606C54', fontWeight: '600', color: '#DFE3DB', borderBottomLeftRadius: '5px'
                                             }}>키워드</div>
                                             <div style={{ display: 'flex', height: '100%', alignItems: 'center', whiteSpace: 'nowrap',  overflowX: 'scroll', overflowY: 'hidden' }}>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'artifact')} />
-                                                <label className="checkbox-label">인공물</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'block')} />
                                                 <label className="checkbox-label">방어도</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'dexterity')} />
                                                 <label className="checkbox-label">민첩</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'ethereal')} />
-                                                <label className="checkbox-label">휘발성</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'exhaust')} />
                                                 <label className="checkbox-label">소멸</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'innate')} />
@@ -175,8 +171,6 @@ const Silent = ({
                                                 <label className="checkbox-label">중독</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'retain')} />
                                                 <label className="checkbox-label">보존</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'scry')} />
-                                                <label className="checkbox-label">예지</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'shiv')} />
                                                 <label className="checkbox-label">단도</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'strength')} />
@@ -187,8 +181,6 @@ const Silent = ({
                                                 <label className="checkbox-label">취약</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'weak')} />
                                                 <label className="checkbox-label">약화</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'wound')} />
-                                                <label className="checkbox-label">부상</label>
                                             </div>
                                         </ListGroup.Item>
                                     </ListGroup>

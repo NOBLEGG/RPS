@@ -157,28 +157,16 @@ const Ironclad = ({
                                                 backgroundColor: '#682B3B', fontWeight: '600', color: '#EACCD4', borderBottomLeftRadius: '5px'
                                             }}>키워드</div>
                                             <div style={{ display: 'flex', height: '100%', alignItems: 'center', whiteSpace: 'nowrap',  overflowX: 'scroll', overflowY: 'hidden' }}>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'artifact')} />
-                                                <label className="checkbox-label">인공물</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'block')} />
                                                 <label className="checkbox-label">방어도</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'dexterity')} />
-                                                <label className="checkbox-label">민첩</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'ethereal')} />
                                                 <label className="checkbox-label">휘발성</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'exhaust')} />
                                                 <label className="checkbox-label">소멸</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'innate')} />
                                                 <label className="checkbox-label">선천성</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'intangible')} />
-                                                <label className="checkbox-label">불가침</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'retain')} />
-                                                <label className="checkbox-label">보존</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'scry')} />
-                                                <label className="checkbox-label">예지</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'strength')} />
                                                 <label className="checkbox-label">힘</label>
-                                                <input type="checkbox" onClick={changeCheckbox.bind(this, 'unplayable')} />
-                                                <label className="checkbox-label">사용불가</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'vulnerable')} />
                                                 <label className="checkbox-label">취약</label>
                                                 <input type="checkbox" onClick={changeCheckbox.bind(this, 'weak')} />
