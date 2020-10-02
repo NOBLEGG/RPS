@@ -57,6 +57,8 @@ const initialState = {
         "attack": 0,
         "skill": 0,
         "power": 0,
+        "status": 0,
+        "curse": 0,
         "X": 0,
         "0": 0,
         "1": 0,

@@ -464,6 +464,10 @@ class CardView(APIView):
                 card = card.filter(kind__contains='Skill')
             elif (json_data['power'] == 1):
                 card = card.filter(kind__contains='Power')
+            elif (json_data['status'] == 1):
+                card = card.filter(kind__contains='Status')
+            elif (json_data['curse'] == 1):
+                card = card.filter(kind__contains='Curse')
 
             if (json_data['X'] == 1):
                 card = card.filter(cost__startswith='X')

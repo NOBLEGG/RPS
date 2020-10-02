@@ -92,6 +92,10 @@ const Card = ({
                                                 <label className="radio-label">스킬</label>
                                                 <input type="radio" name="kind" value="power" onClick={changeRadio.bind(this, 'kind', 'power')} />
                                                 <label className="radio-label">파워</label>
+                                                <input type="radio" name="kind" value="status" onClick={changeRadio.bind(this, 'kind', 'status')} />
+                                                <label className="radio-label">상태이상</label>
+                                                <input type="radio" name="kind" value="curse" onClick={changeRadio.bind(this, 'kind', 'curse')} />
+                                                <label className="radio-label">저주</label>
                                             </div>
                                         </ListGroup.Item>
                                         <ListGroup.Item as="div" variant="secondary" style={{ padding: '0' }}>
