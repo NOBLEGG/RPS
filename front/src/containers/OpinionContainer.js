@@ -28,7 +28,7 @@ const OpinionContainer = ({match}) => {
     }
 
     const reqDel = (id) => {
-        dispatch(opinionActions.postDelete(id));
+        dispatch(opinionActions.postDelete([character, card, relic, id]));
     }
 
     const getName = () => {

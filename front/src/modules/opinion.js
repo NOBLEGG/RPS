@@ -71,8 +71,8 @@ function postConUpAPI(character, card, relic, id) {
     // return axios.post('http://localhost:8000/opinion/' + character + '/' + card + '/' + relic + '/' + id + '/con/');
 }
 
-function postDeleteAPI(id) {
-    return axios.post('https://rpspire.gg:8000/opinion/delete/' + id + '/');
+function postDeleteAPI(character, card, relic, id) {
+    return axios.post('https://rpspire.gg:8000/opinion/delete/' + character + '/' + card + '/' + relic + '/' + id + '/');
 }
 
 const OPINION_STAR_CLICK        = 'opinion/OPINION_STAR_CLICK';
@@ -146,7 +146,7 @@ function* postConUpSaga(action) {
 function* postDeleteSaga(action) {
     try {
         console.log(action.payload);
-        const response = yield call(postDeleteAPI, action.payload);
+        const response = yield call(postDeleteAPI, action.payload[0], action.payload[1], action.payload[2], action.payload[3]);
         yield put({ type: POST_DELETE_SUCCESS, payload: response });
     } catch (e) {
         yield put({ type: POST_DELETE_FAILURE, payload: e });
@@ -171,44 +171,39 @@ export function* opinionSaga() {
 export default handleActions(
     {
         [OPINION_STAR_CLICK]: (state, action) => {
-            const nextValue = action.payload;
             return {
-                rating: nextValue,
+                rating: action.payload,
                 opinion: state.opinion,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             }
         },
         [POST_OPINION_FORM_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
             return {
                 rating: state.rating,
-                opinion: res,
+                opinion: action.payload.data,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             };
         },
         [GET_OPINION_LIST_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
             return {
                 rating: state.rating,
-                opinion: res,
+                opinion: action.payload.data,
                 perPage: 10,
                 currentPage: 1
             };
         },
         [POST_PRO_UP_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
             return {
                 rating: state.rating,
-                opinion: res,
+                opinion: action.payload.data,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             };
         },
         [POST_PRO_UP_FAILURE]: (state, action) => {
-            const resCode = action.payload.response.status;
-            if (resCode === 403)
+            if (action.payload.response.status === 403)
                 alert('이미 추천하셨습니다.');
             return {
                 rating: state.rating,
@@ -218,17 +213,15 @@ export default handleActions(
             };
         },
         [POST_CON_UP_SUCCESS]: (state, action) => {
-            const res = action.payload.data;
             return {
                 rating: state.rating,
-                opinion: res,
+                opinion: action.payload.data,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             };
         },
         [POST_CON_UP_FAILURE]: (state, action) => {
-            const resCode = action.payload.response.status;
-            if (resCode === 403)
+            if (action.payload.response.status === 403)
                 alert('이미 비추천하셨습니다.');
             return {
                 rating: state.rating,
@@ -241,7 +234,7 @@ export default handleActions(
             alert('삭제되었습니다.');
             return {
                 rating: state.rating,
-                opinion: state.opinion,
+                opinion: action.payload.data,
                 perPage: state.perPage,
                 currentPage: state.currentPage
             };

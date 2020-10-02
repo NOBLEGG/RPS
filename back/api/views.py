@@ -781,8 +781,14 @@ class OpinionProConView(APIView):
             return redirect('/opinion/relic/' + relic + '/')
 
 class DeleteOpinionView(APIView):
-    def post(self, request, id):
-        opinion = Opinion.objects.get(id=id)
+    def post(self, request, character, card, relic, pk):
+        opinion = Opinion.objects.get(id=pk)
         opinion.delete()
 
-        return JsonResponse({'message': 'SUCCESS'}, status=200)
+        if (relic == "undefined"):
+            if (card == "undefined"):
+                return redirect('/opinion/character/' + character + '/')
+            else:
+                return redirect('/opinion/card/' + character + '/' + card + '/')
+        else:
+            return redirect('/opinion/relic/' + relic + '/')
