@@ -260,12 +260,12 @@ class CharacterView(APIView):
         params = request.GET.get('filter', '')
 
         if params == '':
-            opinion = Opinion.objects.all().filter(subject=obj).filter(archetype=False).order_by('-pro', '-con')[0:3]
+            opinion = Opinion.objects.all().filter(subject=obj).filter(archetype=False).order_by('-pro', 'con')[0:3]
             opinion_serializer = OpinionSerializer(opinion, many=True)
 
             card = CardRelic.objects.all().filter(card=True).filter(subject=obj)
             card_serializer = CardSerializer(card, many=True)
-            archetype = Opinion.objects.all().filter(subject=obj).filter(archetype=True).order_by('-pro', '-con')[0:3]
+            archetype = Opinion.objects.all().filter(subject=obj).filter(archetype=True).order_by('-pro', 'con')[0:3]
             archetype_serializer = OpinionSerializer(archetype, many=True)
 
             return Response([opinion_serializer.data, card_serializer.data, archetype_serializer.data])
@@ -385,7 +385,7 @@ class CharacterProConView(APIView):
 
 class CharacterOpinionView(APIView):
     def get(self, request, character):
-        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=False)
+        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=False).order_by('-pro', 'con')
         serializer = OpinionSerializer(queryset, many=True)
 
         return Response(serializer.data)
@@ -397,7 +397,7 @@ class CharacterOpinionView(APIView):
         opinion.content = request.data.get('content')
         opinion.score = request.data.get('score')
 
-        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=False)
+        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=False).order_by('-pro', 'con')
         serializer = OpinionSerializer(queryset, many=True)
 
         try:
@@ -408,7 +408,7 @@ class CharacterOpinionView(APIView):
 
 class ArchetypeView(APIView):
     def get(self, request, character):
-        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=True)
+        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=True).order_by('-pro', 'con')
         serializer = OpinionSerializer(queryset, many=True)
 
         return Response(serializer.data)
@@ -424,7 +424,7 @@ class ArchetypeView(APIView):
         opinion.recommend_card = request.data.get('recommend_card')
         opinion.recommend_relic = request.data.get('recommend_relic')
 
-        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=True)
+        queryset = Opinion.objects.all().filter(subject=character).filter(archetype=True).order_by('-pro', 'con')
         serializer = OpinionSerializer(queryset, many=True)
 
         try:
@@ -545,7 +545,7 @@ class CardDetailView(APIView):
         card = CardRelic.objects.all().filter(subject=character).get(eng_name=card)
         card_serializer = CardSerializer(card)
 
-        opinion = Opinion.objects.all().filter(card_character=character).filter(subject=card).order_by('-pro', '-con')[0:3]
+        opinion = Opinion.objects.all().filter(card_character=character).filter(subject=card).order_by('-pro', 'con')[0:3]
         opinion_serializer = OpinionSerializer(opinion, many=True)
 
         return Response([card_serializer.data, opinion_serializer.data])
@@ -579,7 +579,7 @@ class CardProConView(APIView):
 
 class CardOpinionView(APIView):
     def get(self, request, character, card):
-        queryset = Opinion.objects.all().filter(card_character=character).filter(subject=card)
+        queryset = Opinion.objects.all().filter(card_character=character).filter(subject=card).order_by('-pro', 'con')
         serializer = OpinionSerializer(queryset, many=True)
 
         return Response(serializer.data)
@@ -596,7 +596,7 @@ class CardOpinionView(APIView):
         target.score += opinion.score
         target.opinion_count += 1
 
-        queryset = Opinion.objects.all().filter(card_character=character).filter(subject=card)
+        queryset = Opinion.objects.all().filter(card_character=character).filter(subject=card).order_by('-pro', 'con')
         serializer = OpinionSerializer(queryset, many=True)
 
         try:
