@@ -68,7 +68,7 @@ const Archetype = ({
                 y = cookies[i].substr(cookies[i].indexOf('=') + 1);
                 x = x.replace(/^\s+|\s+$/g, '');
                 if (x === 'name')
-                    value = y;
+                    value = decodeURI(y);
             }
             if (value === '')
                 value = '의견 등록은 로그인 후 가능합니다. 로그인 후 이용해 주세요.';
@@ -210,7 +210,7 @@ const Archetype = ({
             )
         }
 
-        if (archetype.length === 0) {
+        if (archetype.length <3) {
             return (
                 <div>
                     <Container fluid="true" style={{ height: '100vh' }}>

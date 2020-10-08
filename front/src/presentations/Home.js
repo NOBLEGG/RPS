@@ -12,16 +12,19 @@ const Home = ({
     const columns = [{
         dataField: 'id',
         text: '번호',
+        headerStyle: {width: '15%'},
         style: {textAlign: 'center'}
     }, {
         dataField: 'title',
         text: '제목',
+        style: {overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', textAlign: 'left'},
         formatter: (row, cell) => {
             return <Link to={{pathname: `/notice/${cell.id}`}}>{cell.title}</Link>;
         }
     }, {
         dataField: 'created_at',
         text: '등록일',
+        headerStyle: {width: '25%'},
         style: {textAlign: 'center'},
         formatter: (cell) => {
             const temp = cell.substring(0, 10);
@@ -29,7 +32,8 @@ const Home = ({
         }
     }, {
         dataField: 'view',
-        text: '조회수'
+        text: '조회수',
+        headerStyle: {width: '20%'}
     }];
 
     if (list !== undefined) {

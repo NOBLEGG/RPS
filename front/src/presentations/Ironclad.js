@@ -48,8 +48,11 @@ const Ironclad = ({
         formatter: (row, cell) => {
             if (cell.score === 0 || cell.score === '-')
                 cell.score = '-';
-            else
+            else {
                 cell.score = cell.score / cell.opinion_count;
+                if (Number.isInteger(cell.score) === false)
+                    cell.score = cell.score.toFixed(1);
+            }
             return cell.score;
         }
     }];
@@ -128,8 +131,6 @@ const Ironclad = ({
                                     <span style={{ fontSize: '1rem' }}>{archetype.writer}</span>
                                     <span style={{ float: 'right' }}>{dateFormatter(archetype.created_at)}</span>
                                     <p>{archetype.content}</p>
-                                    <p>- 핵심 카드 : {archetype.key_card}</p>
-                                    <p>- 핵심 유물 : {archetype.key_relic}</p>
                                     <p>- 권장 카드 : {archetype.recommend_card}</p>
                                     <p>- 권장 유물 : {archetype.recommend_relic}</p>
                                     <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>

@@ -39,8 +39,12 @@ const Card = ({
         formatter: (row, cell) => {
             if (cell.score === 0 || cell.score === '-')
                 cell.score = '-';
-            else
+            else {
                 cell.score = cell.score / cell.opinion_count;
+                if (Number.isInteger(cell.score) === false)
+                    cell.score = cell.score.toFixed(1);
+            }
+            return cell.score;
             return cell.score;
         }
     }];

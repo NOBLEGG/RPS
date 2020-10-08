@@ -29,6 +29,8 @@ from .email import active_message, reset_message
 
 from datetime import datetime
 
+from urllib.parse import quote, unquote
+
 import json, logging
 
 User = get_user_model()
@@ -44,7 +46,7 @@ logger = logging.getLogger(__name__)
 #     adapter_class = GoogleOAuth2Adapter
 
 class NoticeListView(generics.ListAPIView):
-    queryset = Notice.objects.all()
+    queryset = Notice.objects.all().order_by('-id')
     serializer_class = NoticeSerializer
 
 class NoticeDetailView(generics.RetrieveAPIView):
@@ -126,6 +128,7 @@ class JWTView(JSONWebTokenAPIView):
         if serializer.is_valid():
             user = serializer.object.get('user')
             name = User.objects.get(email=user).name
+            name = quote(name)
             token = serializer.object.get('token')
             response = Response(token)
             if settings.JWT_AUTH_COOKIE:
@@ -393,7 +396,7 @@ class CharacterOpinionView(APIView):
     def post(self, request, character):
         opinion = Opinion()
         opinion.subject = character
-        opinion.writer = request.data.get('writer')
+        opinion.writer = unquote(request.data.get('writer'))
         opinion.content = request.data.get('content')
         opinion.score = request.data.get('score')
 
@@ -416,7 +419,7 @@ class ArchetypeView(APIView):
     def post(self, request, character):
         opinion = Opinion()
         opinion.subject = character
-        opinion.writer = request.data.get('writer')
+        opinion.writer = unquote(request.data.get('writer'))
         opinion.content = request.data.get('content')
         opinion.score = request.data.get('score')
         opinion.archetype = request.data.get('archetype')
@@ -587,7 +590,7 @@ class CardOpinionView(APIView):
     def post(self, request, character, card):
         opinion = Opinion()
         opinion.subject = card
-        opinion.writer = request.data.get('writer')
+        opinion.writer = unquote(request.data.get('writer'))
         opinion.content = request.data.get('content')
         opinion.score = request.data.get('score')
         opinion.card_character = request.data.get('card_character')

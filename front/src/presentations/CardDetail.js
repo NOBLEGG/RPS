@@ -12,8 +12,11 @@ const CardDetail = ({
 }) => {
     let score = 0;
 
-    if (card.score !== 0)
+    if (card.score !== 0) {
         score = card.score / card.opinion_count;
+        if (Number.isInteger(score) === false)
+            score = score.toFixed(1);
+    }
 
     function dateFormatter(str) {
         return str.substring(0, 10);
@@ -51,6 +54,47 @@ const CardDetail = ({
                                 <span style={{ position: 'relative', bottom: '0.6rem', fontSize: '0.6rem' }}>({score})</span>
                             </div>
                         </ListGroup.Item>
+                    </ListGroup>
+                </Col>
+            </Row>
+        )
+    }
+
+    function thirdRow() {
+        return (
+            <Row>
+                <Col>
+                    <ListGroup as="ul">
+                        <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: bgColor }}>
+                            <span style={{ fontWeight: '600', color: textColor }}>Opinions</span>
+                            <Link to={{pathname: `/opinion/card/${card.subject}/${card.eng_name}`}}><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
+                        </ListGroup.Item>
+                        {opinion.map((opinion) =>
+                            <ListGroup.Item key={opinion.id} variant="secondary">
+                                <span style={{ fontSize: '1rem' }}>{opinion.writer}</span>
+                                <span style={{ float: 'right' }}>{dateFormatter(opinion.created_at)}</span>
+                                <p>{opinion.content}</p>
+                                <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
+                                    <StarRatingComponent editing={false} starCount={5} value={opinion.score} />
+                                </div>
+                                <ButtonGroup style={{ float: 'right', height: '1rem' }}>
+                                    <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, opinion.id)}>
+                                        <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                                            <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                                        </svg>
+                                    </Button>
+                                    <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.pro}</span>
+                                    <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, opinion.id)}>
+                                        <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                                            <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                                        </svg>
+                                    </Button>
+                                    <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.con}</span>
+                                </ButtonGroup>
+                            </ListGroup.Item>
+                        )}
                     </ListGroup>
                 </Col>
             </Row>
@@ -117,68 +161,63 @@ const CardDetail = ({
                 </div>
             )
         } else {
-            return (
-                <div>
-                    <Container fluid="true">
-                        <Row>
-                            <Col></Col>
-                            <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                                <Row>
-                                    <Image src={img_path} style={{ margin: 'auto' }} />
-                                </Row>
-                                <br />
-                                {secondRow()}
-                                <br />
-                                <Row>
-                                    <Col>
-                                        <ListGroup as="ul">
-                                            <ListGroup.Item style={{ height: '3em', padding: '.5rem 1.25rem', backgroundColor: bgColor }}>
-                                                <span style={{ fontWeight: '600', color: textColor }}>Opinions</span>
-                                                <Link to={{pathname: `/opinion/card/${card.subject}/${card.eng_name}`}}><Button variant="link" style={{ position: 'absolute', top: '0px', right: '0px', padding: '.225rem .75rem .375rem .75rem' }}>+</Button></Link>
-                                            </ListGroup.Item>
-                                            {opinion.map((opinion) =>
-                                                <ListGroup.Item key={opinion.id} variant="secondary">
-                                                    <span style={{ fontSize: '1rem' }}>{opinion.writer}</span>
-                                                    <span style={{ float: 'right' }}>{dateFormatter(opinion.created_at)}</span>
-                                                    <p>{opinion.content}</p>
-                                                    <div style={{ margin: '0px', textAlign: 'right', fontSize: '1rem' }}>
-                                                        <StarRatingComponent editing={false} starCount={5} value={opinion.score} />
-                                                    </div>
-                                                    <ButtonGroup style={{ float: 'right', height: '1rem' }}>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqPro.bind(this, opinion.id)}>
-                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fillRule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                                                <path fillRule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
-                                                            </svg>
-                                                        </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.pro}</span>
-                                                        <Button variant="link" style={{ position: 'relative', bottom: '-2.5px', padding: '0 0.1rem' }} onClick={reqCon.bind(this, opinion.id)}>
-                                                            <svg width="1em" height="1em" style={{ position: "relative", bottom: "0.5rem" }} viewBox="0 0 16 16" className="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fillRule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                                                <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
-                                                            </svg>
-                                                        </Button>
-                                                        <span style={{ position: 'relative', bottom: '0px', padding: '0 0.5rem' }}>{opinion.con}</span>
-                                                    </ButtonGroup>
-                                                </ListGroup.Item>
-                                            )}
-                                        </ListGroup>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col></Col>
-                        </Row>
-                        <br />
-                        <Row>
-                            <Col>
-                                <footer>
-                                    <p></p>
-                                </footer>
-                            </Col>
-                        </Row>
-                    </Container>
-                </div>
-            );
+            if (opinion.length < 3) {
+                return (
+                    <div>
+                        <Container fluid="true" style={{ height: '100vh' }}>
+                            <Row>
+                                <Col></Col>
+                                <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                                    <Row>
+                                        <Image src={img_path} style={{ margin: 'auto' }} />
+                                    </Row>
+                                    <br />
+                                    {secondRow()}
+                                    <br />
+                                    {thirdRow()}
+                                </Col>
+                                <Col></Col>
+                            </Row>
+                            <br />
+                            <Row>
+                                <Col>
+                                    <footer>
+                                        <p></p>
+                                    </footer>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <Container fluid="true">
+                            <Row>
+                                <Col></Col>
+                                <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                                    <Row>
+                                        <Image src={img_path} style={{ margin: 'auto' }} />
+                                    </Row>
+                                    <br />
+                                    {secondRow()}
+                                    <br />
+                                    {thirdRow()}
+                                </Col>
+                                <Col></Col>
+                            </Row>
+                            <br />
+                            <Row>
+                                <Col>
+                                    <footer>
+                                        <p></p>
+                                    </footer>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                );
+            }
         }
     } else {
         return (
@@ -190,3 +229,4 @@ const CardDetail = ({
 };
 
 export default CardDetail;
+
