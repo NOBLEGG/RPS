@@ -8,6 +8,7 @@ import * as homeActions from 'modules/home';
 const HomeContainer = () => {
     const dispatch = useDispatch();
     const list = useSelector(state => state.home.list);
+    const isStaff = useSelector(state => state.home.isStaff);
 
     useEffect(() => {
         dispatch(homeActions.getList());
@@ -16,6 +17,7 @@ const HomeContainer = () => {
     return (
         <Home
             list={list}
+            isStaff={isStaff}
         />
     );
 }

@@ -3,6 +3,7 @@
 
 import { combineReducers } from 'redux';
 import home, { homeSaga } from 'modules/home';
+import noticeAdd, { noticeAddSaga } from 'modules/noticeAdd';
 import login, { loginSaga } from 'modules/login';
 import signUp, { signUpSaga } from 'modules/signUp';
 import updatePw, { updatePwSaga } from 'modules/updatePw';
@@ -18,11 +19,12 @@ import relicDetail, { relicDetailSaga } from 'modules/relicDetail';
 import { all } from 'redux-saga/effects';
 
 export function* rootSaga() {
-    yield all([homeSaga(), loginSaga(), signUpSaga(), updatePwSaga(), resetSaga(), deleteUserSaga(), characterSaga(), cardSaga(), cardDetailSaga(), opinionSaga(), archetypeSaga()]);
+    yield all([homeSaga(), noticeAddSaga(), loginSaga(), signUpSaga(), updatePwSaga(), resetSaga(), deleteUserSaga(), characterSaga(), cardSaga(), cardDetailSaga(), opinionSaga(), archetypeSaga()]);
 }
 
 export default combineReducers({
     home,
+    noticeAdd,
     login,
     signUp,
     updatePw,

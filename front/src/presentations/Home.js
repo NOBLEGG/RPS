@@ -2,12 +2,13 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
 const Home = ({
-    list
+    list,
+    isStaff
 }) => {
     const columns = [{
         dataField: 'id',
@@ -19,7 +20,7 @@ const Home = ({
         text: '제목',
         style: {overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', textAlign: 'left'},
         formatter: (row, cell) => {
-            return <Link to={{pathname: `/notice/${cell.id}`}}>{cell.title}</Link>;
+            return <Link to={{pathname: `/notice/detail/${cell.id}`}}>{cell.title}</Link>;
         }
     }, {
         dataField: 'created_at',
@@ -46,13 +47,6 @@ const Home = ({
                             <BootstrapTable classes='table-borderless' keyField='id' data={list} columns={columns} pagination={paginationFactory()} />
                         </Col>
                         <Col></Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <footer>
-                                <p></p>
-                            </footer>
-                        </Col>
                     </Row>
                 </Container>
             </div>

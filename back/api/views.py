@@ -7,6 +7,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.models import update_last_login
 from django.contrib.auth.hashers import make_password, check_password
+
+from django.utils import timezone
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
@@ -58,6 +60,18 @@ class NoticeDetailView(generics.RetrieveAPIView):
         add_view.save()
 
         return Notice.objects.filter(id=self.kwargs['pk'])
+
+class NoticeAddView(APIView):
+    def post(self, request):
+        notice = Notice()
+        notice.title = request.data.get('title')
+        notice.content = request.data.get('content')
+
+        try:
+            notice.save()
+            return HttpResponse(status=200)
+        except:
+            return HttpResponse(status=404)
 
 class CreateUserView(APIView):
     def post(self, request):
@@ -131,7 +145,9 @@ class JWTView(JSONWebTokenAPIView):
             name = quote(name)
             token = serializer.object.get('token')
             response = Response(token)
-            if settings.JWT_AUTH_COOKIE:
+            if settings.JWT_AUTH_COOKIE and obj == 'obtain':
+                user.last_login = timezone.now()
+                user.save(update_fields=['last_login'])
                 expiration = (datetime.utcnow() +
                               settings.JWT_EXPIRATION_DELTA)
                 response.set_cookie(settings.JWT_AUTH_COOKIE,
@@ -139,6 +155,8 @@ class JWTView(JSONWebTokenAPIView):
                                     expires=expiration)
                 response.set_cookie('email', user, expires=expiration)
                 response.set_cookie('name', name, expires=expiration)
+            if user.is_staff == True and obj == 'obtain':
+                response.set_cookie('staff', True, expires=expiration)
             return response
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

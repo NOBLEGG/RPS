@@ -19,6 +19,7 @@ import UpdatePwContainer from 'containers/UpdatePwContainer';
 import DeleteUserContainer from 'containers/DeleteUserContainer';
 import HomeContainer from 'containers/HomeContainer';
 import HomeDetailContainer from 'containers/HomeDetailContainer';
+import NoticeAddContainer from 'containers/NoticeAddContainer';
 import IroncladContainer from 'containers/IroncladContainer';
 import SilentContainer from 'containers/SilentContainer';
 import DefectContainer from 'containers/DefectContainer';
@@ -50,7 +51,8 @@ const Root = () => {
           <Route exact path="/reset/:uid/:token" component={ResetContainer} />
           <Route exact path="/deleteuser" component={DeleteUserContainer} />
 
-          <Route exact path="/notice/:id" component={HomeDetailContainer} />
+          <Route exact path="/notice/add" component={NoticeAddContainer} />
+          <Route exact path="/notice/detail/:id" component={HomeDetailContainer} />
           <Route exact path="/character/ironclad" component={IroncladContainer} />
           <Route exact path="/character/silent" component={SilentContainer} />
           <Route exact path="/character/defect" component={DefectContainer} />
