@@ -9,6 +9,7 @@ const CardContainer = () => {
     const dispatch = useDispatch();
     const card = useSelector(state => state.card.card);
     const filter = useSelector(state => state.card.filter);
+    const currentPage = useSelector(state => state.card.currentPage);
 
     const changeRadio = (name, target) => {
         const names = document.getElementsByName(name);
@@ -46,6 +47,10 @@ const CardContainer = () => {
         dispatch(cardActions.changeFilter({ filter: filter }));
     }
 
+    const handlePage = (page) => {
+        dispatch(cardActions.paginationClick(page));
+    }
+
     useEffect(() => {
         dispatch(cardActions.getList());
     }, [dispatch]);
@@ -57,6 +62,8 @@ const CardContainer = () => {
             changeCheckbox={changeCheckbox}
             dispatcher={dispatcher}
             reset={reset}
+            currentPage={currentPage}
+            handlePage={handlePage}
         />
     );
 }

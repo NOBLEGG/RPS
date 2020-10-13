@@ -67,10 +67,13 @@ const CHANGE_FILTER         = 'character/CHANGE_FILTER';
 const CHANGE_FILTER_SUCCESS = 'character/CHANGE_FILTER_SUCCESS';
 const CHANGE_FILTER_FAILURE = 'character/CHANGE_FILTER_FAILURE';
 
+const PAGINATION_CLICK  = 'character/PAGINATION_CLICK';
+
 export const getCharacter = createAction(GET_CHARACTER);
 export const postProUp = createAction(POST_PRO_UP);
 export const postConUp = createAction(POST_CON_UP);
 export const changeFilter = createAction(CHANGE_FILTER);
+export const paginationClick = createAction(PAGINATION_CLICK);
 
 function* getCharacterSaga(action) {
     try {
@@ -150,7 +153,8 @@ const initialState = {
         "weak": 0,
         "wound": 0
     },
-    archetype: []
+    archetype: [],
+    currentPage: 1
 };
 
 export function* characterSaga() {
@@ -170,7 +174,8 @@ export default handleActions(
                 opinion: res[0],
                 card: res[1],
                 filter: state.filter,
-                archetype: res[2]
+                archetype: res[2],
+                currentPage: state.currentPage
             };
         },
         [POST_PRO_UP_SUCCESS]: (state, action) => {
@@ -179,7 +184,8 @@ export default handleActions(
                 opinion: res[0],
                 card: res[1],
                 filter: state.filter,
-                archetype: res[2]
+                archetype: res[2],
+                currentPage: state.currentPage
             };
         },
         [POST_PRO_UP_FAILURE]: (state, action) => {
@@ -190,7 +196,8 @@ export default handleActions(
                 opinion: state.opinion,
                 card: state.card,
                 filter: state.filter,
-                archetype: state.archetype
+                archetype: state.archetype,
+                currentPage: state.currentPage
             };
         },
         [POST_CON_UP_SUCCESS]: (state, action) => {
@@ -199,7 +206,8 @@ export default handleActions(
                 opinion: res[0],
                 card: res[1],
                 filter: state.filter,
-                archetype: res[2]
+                archetype: res[2],
+                currentPage: state.currentPage
             };
         },
         [POST_CON_UP_FAILURE]: (state, action) => {
@@ -210,7 +218,8 @@ export default handleActions(
                 opinion: state.opinion,
                 card: state.card,
                 filter: state.filter,
-                archetype: state.archetype
+                archetype: state.archetype,
+                currentPage: state.currentPage
             };
         },
         [CHANGE_FILTER_SUCCESS]: (state, action) => {
@@ -221,15 +230,27 @@ export default handleActions(
                     opinion: state.opinion,
                     card: state.card,
                     filter: state.filter,
-                    archetype: state.archetype
+                    archetype: state.archetype,
+                    currentPage: state.currentPage
                 };
             }
             return {
                 opinion: state.opinion,
                 card: res,
                 filter: state.filter,
-                archetype: state.archetype
+                archetype: state.archetype,
+                currentPage: state.currentPage
             };
+        },
+        [PAGINATION_CLICK]: (state, action) => {
+            const page = action.payload;
+            return {
+                opinion: state.opinion,
+                card: state.card,
+                filter: state.filter,
+                archetype: state.archetype,
+                currentPage: page
+            }
         }
     }, initialState
 );

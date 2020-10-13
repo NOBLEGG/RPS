@@ -24,8 +24,11 @@ const CHANGE_FILTER         = 'card/CHANGE_FILTER';
 const CHANGE_FILTER_SUCCESS = 'card/CHANGE_FILTER_SUCCESS';
 const CHANGE_FILTER_FAILURE = 'card/CHANGE_FILTER_FAILURE';
 
+const PAGINATION_CLICK  = 'card/PAGINATION_CLICK';
+
 export const getList = createAction(GET_LIST);
 export const changeFilter = createAction(CHANGE_FILTER);
+export const paginationClick = createAction(PAGINATION_CLICK);
 
 function* getListSaga() {
     try {
@@ -91,7 +94,8 @@ const initialState = {
         "weak": 0,
         "wound": 0
     },
-    specificCard: {}
+    specificCard: {},
+    currentPage: 1
 };
 
 export function* cardSaga() {
@@ -106,7 +110,8 @@ export default handleActions(
             const card = action.payload.data;
             return {
                 card: card,
-                filter: state.filter
+                filter: state.filter,
+                currentPage: state.currentPage
             };
         },
         [CHANGE_FILTER_SUCCESS]: (state, action) => {
@@ -115,13 +120,23 @@ export default handleActions(
                 alert('검색 결과가 없습니다.');
                 return {
                     card: state.card,
-                    filter: state.filter
+                    filter: state.filter,
+                    currentPage: state.currentPage
                 };
             }
             return {
                 card: card,
-                filter: state.filter
+                filter: state.filter,
+                currentPage: state.currentPage
             };
+        },
+        [PAGINATION_CLICK]: (state, action) => {
+            const page = action.payload;
+            return {
+                card: state.card,
+                filter: state.filter,
+                currentPage: page
+            }
         }
     }, initialState
 );

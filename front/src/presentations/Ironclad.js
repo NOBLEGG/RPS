@@ -15,7 +15,9 @@ const Ironclad = ({
     changeRadio,
     changeCheckbox,
     dispatcher,
-    reset
+    reset,
+    currentPage,
+    handlePage
 }) => {
     function dateFormatter(str) {
         return str.substring(0, 10);
@@ -267,7 +269,7 @@ const Ironclad = ({
                                 <Button style={{ marginTop: '1%', marginBottom: '1%', marginRight: 'auto', marginLeft: '1%' }} variant="secondary" size="sm" onClick={reset}>초기화</Button>
                             </Row>
                             <Row>
-                                <BootstrapTable classes='table-borderless' keyField='eng_name' data={card} columns={columns} pagination={paginationFactory()} rowStyle={{ fontSize: '0.8rem' }} />
+                                <BootstrapTable classes='table-borderless' keyField='eng_name' data={card} columns={columns} pagination={paginationFactory({ page: currentPage, onPageChange: handlePage })} rowStyle={{ fontSize: '0.8rem' }} />
                             </Row>
                             <br />
                             {archetypeRow()}

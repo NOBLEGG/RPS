@@ -11,6 +11,7 @@ const IroncladContainer = () => {
     const card = useSelector(state => state.character.card);
     const filter = useSelector(state => state.character.filter);
     const archetype = useSelector(state => state.character.archetype);
+    const currentPage = useSelector(state => state.character.currentPage);
 
     const reqPro = (id) => {
         dispatch(characterActions.postProUp({ subject: 'ironclad', id: id }));
@@ -56,6 +57,10 @@ const IroncladContainer = () => {
         dispatch(characterActions.changeFilter({ subject: 'ironclad', filter: filter }));
     }
 
+    const handlePage = (page) => {
+        dispatch(characterActions.paginationClick(page));
+    }
+
     useEffect(() => {
         dispatch(characterActions.getCharacter({ subject: 'ironclad' }));
     }, [dispatch]);
@@ -71,6 +76,8 @@ const IroncladContainer = () => {
             changeCheckbox={changeCheckbox}
             dispatcher={dispatcher}
             reset={reset}
+            currentPage={currentPage}
+            handlePage={handlePage}
         />
     );
 }

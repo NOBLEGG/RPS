@@ -9,7 +9,9 @@ const Card = ({
     changeRadio,
     changeCheckbox,
     dispatcher,
-    reset
+    reset,
+    currentPage,
+    handlePage
 }) => {
     const columns = [{
         dataField: 'name',
@@ -183,7 +185,7 @@ const Card = ({
                                     <Button style={{ marginTop: '1%', marginBottom: '1%', marginRight: 'auto', marginLeft: '1%' }} variant="secondary" size="sm" onClick={reset}>초기화</Button>
                                 </Row>
                                 <Row>
-                                    <BootstrapTable classes='table-borderless' keyField='id' data={card} columns={columns} pagination={paginationFactory()} rowStyle={{ fontSize: '0.8rem' }} />
+                                    <BootstrapTable classes='table-borderless' keyField='id' data={card} columns={columns} pagination={paginationFactory({ page: currentPage, onPageChange: handlePage })} rowStyle={{ fontSize: '0.8rem' }} />
                                 </Row>
                             </Col>
                             <Col></Col>
