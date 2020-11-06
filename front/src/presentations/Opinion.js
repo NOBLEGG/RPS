@@ -96,7 +96,7 @@ const Opinion = ({
             return (
                 <Row>
                     <Col></Col>
-                    <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                    <Col id="main-layout" xs={12} xl={8} sm={8} md={8} lg={8}>
                         <Form onSubmit={handleSubmit(postForm)} className="form-basis">
                             <Form.Row style={{ paddingTop: '10px' }}>
                                 <Col>
@@ -185,7 +185,7 @@ const Opinion = ({
         if (opinion.length < 5) {
             return (
                 <div>
-                    <Container fluid="true" style={{ height: '100vh' }}>
+                    <Container id='full-height-need-container' fluid="true">
                         {firstRow()}
                         <Row>
                             <Col>

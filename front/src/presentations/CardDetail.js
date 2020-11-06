@@ -126,7 +126,7 @@ const CardDetail = ({
                     <Container fluid="true">
                         <Row>
                             <Col></Col>
-                            <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                            <Col id="main-layout" xs={12} xl={8} sm={8} md={8} lg={8}>
                                 <Row>
                                     <Image src={img_path} style={{ margin: 'auto' }} />
                                 </Row>
@@ -161,13 +161,13 @@ const CardDetail = ({
                 </div>
             )
         } else {
-            if (opinion.length < 3) {
+            if (opinion.length < 4) {
                 return (
                     <div>
-                        <Container fluid="true" style={{ height: '100vh' }}>
+                        <Container id='full-height-need-container' fluid="true">
                             <Row>
                                 <Col></Col>
-                                <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                                <Col id="main-layout" xs={12} xl={8} sm={8} md={8} lg={8}>
                                     <Row>
                                         <Image src={img_path} style={{ margin: 'auto' }} />
                                     </Row>
@@ -195,7 +195,7 @@ const CardDetail = ({
                         <Container fluid="true">
                             <Row>
                                 <Col></Col>
-                                <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                                <Col id="main-layout" xs={12} xl={8} sm={8} md={8} lg={8}>
                                     <Row>
                                         <Image src={img_path} style={{ margin: 'auto' }} />
                                     </Row>

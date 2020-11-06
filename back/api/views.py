@@ -4,7 +4,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model, authenticate, get_user
 from django.contrib.auth.models import update_last_login
 from django.contrib.auth.hashers import make_password, check_password
 
@@ -275,6 +275,12 @@ class DeleteUserView(APIView):
         user.delete()
 
         return JsonResponse({'message': 'SUCCESS'}, status=200)
+
+class CurrentUserView(APIView):
+    def get(self, request):
+        user = get_user(request)
+        logger.warn(user)
+        return Response(request.user.email)
 
 class CharacterView(APIView):
     def get(self, request, obj):

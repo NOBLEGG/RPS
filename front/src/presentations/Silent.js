@@ -185,7 +185,7 @@ const Silent = ({
                 <Container fluid="true">
                     <Row>
                         <Col></Col>
-                        <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                        <Col id="main-layout" xs={12} sm={8} md={8} lg={8} xl={8}>
                             <Row>
                                 <Image id="character-img" src="../silent/silent.jpg" />
                             </Row>

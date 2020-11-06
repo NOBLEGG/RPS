@@ -20,11 +20,20 @@ function postFormAPI(data) {
         alert('ERROR');
 }
 
+function getCurrentUsersAPI() {
+    return axios.get('https://rpspire.gg:8000/current/');
+}
+
 const POST_FORM         = 'noticeAdd/POST_FORM';
 const POST_FORM_SUCCESS = 'noticeAdd/POST_FORM_SUCCESS';
 const POST_FORM_FAILURE = 'noticeAdd/POST_FORM_FAILURE';
 
+const GET_CURRENT_USERS         = 'noticeAdd/GET_CURRENT_USERS';
+const GET_CURRENT_USERS_SUCCESS = 'noticeAdd/GET_CURRENT_USERS_SUCCESS';
+const GET_CURRENT_USERS_FAILURE = 'noticeAdd/GET_CURRENT_USERS_FAILURE';
+
 export const postForm = createAction(POST_FORM);
+export const getCurrentUsers = createAction(GET_CURRENT_USERS);
 
 function* postFormSaga(action) {
     try {
@@ -35,18 +44,32 @@ function* postFormSaga(action) {
     }
 }
 
+function* getCurrentUsersSaga() {
+    try {
+        const response = yield call(getCurrentUsersAPI);
+        yield put({ type: GET_CURRENT_USERS_SUCCESS, payload: response });
+    } catch (e) {
+        yield put({ type: GET_CURRENT_USERS_FAILURE, payload: e });
+    }
+}
+
 const initialState = {
 
 }
 
 export function* noticeAddSaga() {
     yield takeEvery('noticeAdd/POST_FORM', postFormSaga);
+    yield takeEvery('noticeAdd/GET_CURRENT_USERS', getCurrentUsersSaga);
 }
 
 export default handleActions(
     {
         [POST_FORM_SUCCESS]: (state, action) => {
             console.log("SUCCESS");
+        },
+        [GET_CURRENT_USERS_SUCCESS]: (state, action) => {
+            console.log(action.payload);
+            alert(action.payload);
         }
     }, initialState
 );

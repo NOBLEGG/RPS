@@ -41,6 +41,10 @@ nav {
   left: -2rem;
 }
 
+#full-height-need-container {
+  height: 100vh;
+}
+
 .container-true {
   background-color: #DDD3B0;
 }
@@ -119,6 +123,10 @@ nav {
   align-self: center;
 }
 
+.react-bootstrap-table-pagination {
+  width: 100%;
+}
+
 .categorize {
   float: left;
 
@@ -176,4 +184,24 @@ footer {
   height: 100vh;
 
   text-align: center;
+}
+
+@media (max-width: 575px) {
+  html {
+    width: 185%;
+  }
+
+  #full-height-need-container {
+    height: 185vh;
+  }
+
+  /*
+  #left-layout {
+    min-width: 10%;
+  }
+
+  #right-layout {
+    min-width: 10%;
+  }
+  */
 }

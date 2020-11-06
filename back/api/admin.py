@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Notice, CardRelic
+from .models import User, Notice, CardRelic
 
+admin.site.register(User)
 admin.site.register(Notice)
 
 @admin.register(CardRelic)

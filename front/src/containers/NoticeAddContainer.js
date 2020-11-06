@@ -10,6 +10,7 @@ const NoticeAddContainer = () => {
 
     const postForm = (value) => {
         dispatch(noticeAddActions.postForm(value));
+        dispatch(noticeAddActions.getCurrentUsers());
     }
 
     return (

@@ -11,24 +11,17 @@ const HomeDetail = ({
 
         return (
             <div>
-                <Container fluid="true" style={{ height: '100vh' }}>
+                <Container id='full-height-need-container' fluid='true'>
                     <Row>
-                        <Col></Col>
-                        <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
+                        <Col id='left-layout'></Col>
+                        <Col id='main-layout' xs={10} xl={8} sm={8} md={8} lg={8}>
                             <article>
                                 <h2>{item.title}</h2>
                                 <hr></hr>
                                 {getHtml()}
                             </article>
                         </Col>
-                        <Col></Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <footer>
-                                <p></p>
-                            </footer>
-                        </Col>
+                        <Col id='right-layout'></Col>
                     </Row>
                 </Container>
             </div>

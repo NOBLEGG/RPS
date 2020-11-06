@@ -38,15 +38,19 @@ const Home = ({
     }];
 
     if (list !== undefined) {
+        const pagination = paginationFactory({
+            sizePerPage: 25
+        });
+
         return (
             <div>
-                <Container fluid="true" style={{ height: '100vh' }}>
+                <Container id='full-height-need-container' fluid='true'>
                     <Row>
-                        <Col></Col>
-                        <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>
-                            <BootstrapTable classes='table-borderless' keyField='id' data={list} columns={columns} pagination={paginationFactory()} />
+                        <Col id='left-layout'></Col>
+                        <Col id='main-layout' xs={12} xl={8} sm={8} md={8} lg={8}>
+                            <BootstrapTable classes='table-borderless' keyField='id' data={list} columns={columns} pagination={pagination} />
                         </Col>
-                        <Col></Col>
+                        <Col id='right-layout'></Col>
                     </Row>
                 </Container>
             </div>
