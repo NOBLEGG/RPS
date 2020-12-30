@@ -3,7 +3,8 @@ https://rpspire.gg
 # RPS ; Resting Place Spire
 > Slay the Spire 게임을 주제로 하는 커뮤니티 사이트입니다.
 
-Slay the Spire의 여러 항목을 대상으로 사용자들은 각자 의견과 평가를 남기고, 타인의 의견과 평가에 대해서 추천, 반대가 가능합니다.
+Slay the Spire의 여러 항목을 대상으로 사용자들은 각자 의견과 평가를 남기고, <br>
+타인의 의견과 평가에 대해서 추천, 반대가 가능합니다.
 
 
 ## 사용기술
