@@ -841,6 +841,11 @@ class ArchetypeProConView(APIView):
 class DeleteOpinionView(APIView):
     def post(self, request, character, card, relic, pk, archetype):
         opinion = Opinion.objects.get(id=pk)
+        if (card != 'undefined'):
+            card_obj = CardRelic.objects.get(eng_name=card)
+            card_obj.score -= opinion.score
+            card_obj.opinion_count -= 1
+            card_obj.save()
         opinion.delete()
 
         if (archetype == 1):
