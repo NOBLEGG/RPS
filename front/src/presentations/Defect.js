@@ -26,6 +26,7 @@ const Defect = ({
     const columns = [{
         dataField: 'name',
         text: '카드명',
+        sort: true,
         style: {textAlign: 'center'},
         formatter: (row, cell) => {
             const imgSrc = "../defect/";
@@ -36,26 +37,37 @@ const Defect = ({
     }, {
         dataField: 'rarity',
         text: '등급',
+        sort: true,
         style: {textAlign: 'center'}
     }, {
         dataField: 'kind',
         text: '종류',
+        sort: true,
         style: {textAlign: 'center'}
     }, {
         dataField: 'cost',
-        text: '비용'
+        text: '비용',
+        sort: true
     }, {
         dataField: 'score',
         text: '점수',
+        sort: true,
+        sortFunc: (a, b, order, dataField, rowA, rowB) => {
+            a = rowA.score / rowA.opinion_count;
+            b = rowB.score / rowB.opinion_count;
+            if (order === 'asc') return a - b;
+            else return b - a;
+        },
         formatter: (row, cell) => {
+            let calculated;
             if (cell.score === 0 || cell.score === '-')
-                cell.score = '-';
+                calculated = '-';
             else {
-                cell.score = cell.score / cell.opinion_count;
-                if (Number.isInteger(cell.score) === false)
-                    cell.score = cell.score.toFixed(1);
+                calculated = cell.score / cell.opinion_count;
+                if (Number.isInteger(calculated) === false)
+                    calculated = calculated.toFixed(1);
             }
-            return cell.score;
+            return calculated;
         }
     }];
 
