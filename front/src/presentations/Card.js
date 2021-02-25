@@ -66,7 +66,7 @@ const Card = ({
         if (card.length !== 0) {
             return (
                 <div>
-                    <Container id='full-height-need-container' fluid="true">
+                    <Container fluid="true">
                         <Row>
                             <Col></Col>
                             <Col id="main-layout" xs={12} xl={8} sm={8} md={8} lg={8}>

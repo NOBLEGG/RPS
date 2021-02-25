@@ -185,7 +185,7 @@ const Opinion = ({
         if (opinion.length < 5) {
             return (
                 <div>
-                    <Container id='full-height-need-container' fluid="true">
+                    <Container fluid="true">
                         {firstRow()}
                         <Row>
                             <Col>

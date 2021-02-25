@@ -22,7 +22,7 @@ const SignUp = ({
 	else if (errorMessage === "INVALID_TYPE")
 		alert("요청의 형태가 유효하지 않습니다. 운영자에게 문의해 주세요.");
 
-    {alerted()}
+    alerted();
 
     const submitMessage = () => {
         alert("해당 이메일로 인증 메일을 보냅니다, 확인해 주세요.");
@@ -30,7 +30,7 @@ const SignUp = ({
 
     return (
         <div>
-            <Container fluid="true" style={{ height: '100vh' }}>
+            <Container fluid="true" style={{ height: '105vh' }}>
                     <Row>
                         <Col></Col>
                         <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>

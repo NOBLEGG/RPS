@@ -37,7 +37,7 @@ const Login = ({
 
     return (
         <div>
-            <Container fluid="true" style={{ height: '100vh' }}>
+            <Container fluid="true" style={{ height: '105vh' }}>
                     <Row>
                         <Col></Col>
                         <Col id="main-layout" xs={8} xl={8} sm={8} md={8} lg={8}>

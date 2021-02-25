@@ -44,7 +44,7 @@ const Home = ({
 
         return (
             <div>
-                <Container id='full-height-need-container' fluid='true'>
+                <Container fluid='true'>
                     <Row>
                         <Col id='left-layout'></Col>
                         <Col id='main-layout' xs={12} xl={8} sm={8} md={8} lg={8}>

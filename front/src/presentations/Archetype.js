@@ -213,7 +213,7 @@ const Archetype = ({
         if (archetype.length <3) {
             return (
                 <div>
-                    <Container id='full-height-need-container' fluid="true">
+                    <Container fluid="true">
                         {firstRow()}
                         <Row>
                             <Col>

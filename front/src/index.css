@@ -1,3 +1,8 @@
+html {
+  height: 100vh;
+  background-color: #DDD3B0;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -39,10 +44,6 @@ nav {
 
 .dropdown-menu {
   left: -2rem;
-}
-
-#full-height-need-container {
-  height: 100vh;
 }
 
 .container-true {
