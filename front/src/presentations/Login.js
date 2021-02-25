@@ -3,8 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
-import GoogleLogin from 'react-google-login';
-import FacebookLogin from 'react-facebook-login';
+// import GoogleLogin from 'react-google-login';
+// import FacebookLogin from 'react-facebook-login';
 
 const Login = ({
     postForm,
@@ -17,7 +17,7 @@ const Login = ({
 
     if (errorMessage === true) {
         alert("로그인에 실패했습니다. 이메일 주소 또는 비밀번호를 확인해 주세요.");
-        {alerted()}
+        alerted();
     }
 
     if (isLogin === true) {
@@ -27,6 +27,7 @@ const Login = ({
         );
     }
 
+    /*
     const fbResponse = (response) => {
         fbLogin(response);
     }
@@ -34,6 +35,7 @@ const Login = ({
     const googleResponse = (response) => {
         console.log(response);
     }
+    */
 
     return (
         <div>

@@ -5,10 +5,9 @@ import { createAction, handleActions } from 'redux-actions';
 function postFormAPI(data) {
     let checker = false;
     const cookies = document.cookie.split(';');
-    let x, y;
+    let x;
     for (let i = 0; i < cookies.length; i++) {
         x = cookies[i].substr(0, cookies[i].indexOf('='));
-        y = cookies[i].substr(cookies[i].indexOf('=') + 1);
         x = x.replace(/^\s+|\s+$/g, '');
         if (x === 'staff')
             checker = true;

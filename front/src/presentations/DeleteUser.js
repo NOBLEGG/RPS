@@ -15,7 +15,7 @@ const DeleteUser = ({
     else if (errorMessage === "PW_NOT_CORRECT")
         alert("잘못된 비밀번호를 입력하셨습니다.");
 
-    {alerted()}
+    alerted();
 
     if (isSuccess === true) {
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';

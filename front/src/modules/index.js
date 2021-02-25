@@ -14,8 +14,8 @@ import card, { cardSaga } from 'modules/card';
 import cardDetail, { cardDetailSaga } from 'modules/cardDetail';
 import opinion, { opinionSaga } from 'modules/opinion';
 import archetype, { archetypeSaga } from 'modules/archetype';
-import relic, { relicSaga } from 'modules/relic';
-import relicDetail, { relicDetailSaga } from 'modules/relicDetail';
+// import relic, { relicSaga } from 'modules/relic';
+// import relicDetail, { relicDetailSaga } from 'modules/relicDetail';
 import { all } from 'redux-saga/effects';
 
 export function* rootSaga() {

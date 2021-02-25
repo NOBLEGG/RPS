@@ -27,7 +27,7 @@ const Reset = ({
 	else if (errorMessage === "INVALID_TYPE")
 		alert("요청의 형태가 유효하지 않습니다. 운영자에게 문의해 주세요.");
 
-    {alerted()}
+    alerted();
 
     if (isSuccess === true) {
         alert("비밀번호 요청이 완료되었습니다, 다시 로그인 해 주세요.");

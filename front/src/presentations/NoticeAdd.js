@@ -5,7 +5,7 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 const NoticeAdd = ({
     postForm
 }) => {
-    const { handleSubmit, control, errors } = useForm();
+    const { handleSubmit, control } = useForm();
 
     return (
         <div>

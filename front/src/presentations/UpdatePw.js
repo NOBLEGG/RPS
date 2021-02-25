@@ -26,7 +26,7 @@ const UpdatePw = ({
     else if (errorMessage === "VALIDATION_ERROR")
         alert("비정상적인 접근입니다. 로그인 상태를 확인해 주세요.");
 
-    {alerted()}
+    alerted();
 
     if (isSuccess === true) {
         alert("비밀번호 요청이 완료되었습니다, 다시 로그인 해 주세요.");
