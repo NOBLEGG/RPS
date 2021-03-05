@@ -82,7 +82,7 @@ const SignUp = ({
                                             <Form.Label>비밀번호</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control placeholder="입력" />
+                                                    <Form.Control placeholder="입력" type="password" />
                                                 }
                                                 name="password"
                                                 control={control}

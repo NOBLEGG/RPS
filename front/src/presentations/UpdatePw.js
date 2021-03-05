@@ -59,7 +59,7 @@ const UpdatePw = ({
                                             <Form.Label>현재 비밀번호</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control placeholder="입력" />
+                                                    <Form.Control placeholder="입력" type="password" />
                                                 }
                                                 name="current"
                                                 control={control}
@@ -76,7 +76,7 @@ const UpdatePw = ({
                                             <Form.Label>변경할 비밀번호</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control placeholder="입력" />
+                                                    <Form.Control placeholder="입력" type="password" />
                                                 }
                                                 name="password"
                                                 control={control}
@@ -93,7 +93,7 @@ const UpdatePw = ({
                                             <Form.Label>비밀번호 확인</Form.Label>
                                             <Controller
                                                 as={
-                                                    <Form.Control placeholder="입력" />
+                                                    <Form.Control placeholder="입력" type="password" />
                                                 }
                                                 name="check"
                                                 control={control}
